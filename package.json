@@ -12,7 +12,8 @@
     "worker:dev": "npm --prefix worker run dev",
     "worker:deploy": "npm --prefix worker run deploy",
     "extract:questions": "node scripts/extract-questions.mjs",
-    "extract:images": "node scripts/extract-images.mjs"
+    "extract:images": "node scripts/extract-images.mjs",
+    "verify:question-images": "node scripts/verify-question-images.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.45.4",

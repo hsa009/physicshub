@@ -464,6 +464,137 @@ body::after {
   }
 }
 
+/* ─── QUESTION IMAGE + LIGHTBOX (M5.6) ─── */
+
+.question-image {
+  position: relative;
+  border: 1px solid var(--border-mid);
+  border-left: 2px solid var(--gold);
+  background: var(--bg-subtle);
+  padding: 1.25rem 1.25rem 1.75rem;
+  cursor: zoom-in;
+  animation: questionImageFadeIn 360ms ease-out both;
+}
+
+.question-image img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+.question-image-hint {
+  position: absolute;
+  bottom: 0.4rem;
+  right: 0.75rem;
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-label);
+  pointer-events: none;
+}
+
+@keyframes questionImageFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .question-image {
+    animation: none;
+  }
+}
+
+/* Lightbox uses the native <dialog> element. We center the frame and
+   dim the backdrop via ::backdrop. */
+.image-lightbox {
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text-primary);
+  overflow: hidden;
+}
+
+.image-lightbox::backdrop {
+  background: rgba(0, 0, 0, 0.88);
+  backdrop-filter: blur(4px);
+}
+
+.image-lightbox-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1.5rem;
+  animation: lightboxFadeIn 220ms ease-out;
+}
+
+.image-lightbox-img {
+  max-width: min(92vw, 1100px);
+  max-height: 78vh;
+  object-fit: contain;
+  border: 1px solid var(--border-mid);
+  background: var(--bg-card);
+  box-shadow: 0 12px 60px rgba(0, 0, 0, 0.7);
+}
+
+.image-lightbox-caption {
+  margin-top: 1rem;
+  max-width: min(92vw, 900px);
+  font-size: 0.78rem;
+  line-height: 1.6;
+  text-align: center;
+  color: var(--text-body);
+}
+
+.image-lightbox-close {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 200ms, color 200ms;
+}
+
+.image-lightbox-close:hover {
+  background: var(--gold);
+  color: var(--bg);
+}
+
+@keyframes lightboxFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .image-lightbox-frame {
+    animation: none;
+  }
+}
+
 /* ─── FOCUS RING ─── */
 *:focus-visible {
   outline: 1px solid var(--gold);

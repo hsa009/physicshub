@@ -2,8 +2,10 @@ import { useState, type FormEvent } from "react";
 import type { Answer, Question, Verdict } from "../types";
 import { api, isWorkerConfigured } from "../lib/api";
 import { useSaveAnswer, latestFor } from "../hooks/useAnswers";
+import { getQuestionImage } from "../data/lessons";
 import Spinner from "./Spinner";
 import ChatThread from "./ChatThread";
+import ImageLightbox from "./ImageLightbox";
 
 interface QuestionCardProps {
   question: Question;
@@ -36,7 +38,9 @@ export default function QuestionCard({
   const [current, setCurrent] = useState<Answer | undefined>(prior);
   const [error, setError] = useState<string | null>(null);
   const [chatOpen, setChatOpen] = useState(false);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
   const saveAnswer = useSaveAnswer();
+  const image = getQuestionImage(question.id);
 
   const onCheck = async (e: FormEvent) => {
     e.preventDefault();
@@ -84,6 +88,25 @@ export default function QuestionCard({
       <p className="mt-5 font-serif text-[1.1rem] leading-[1.55] text-text-primary md:text-[1.2rem]">
         {question.prompt}
       </p>
+
+      {image && (
+        <button
+          type="button"
+          onClick={() => setLightboxOpen(true)}
+          className="question-image mt-5 block w-full text-left transition-opacity duration-300 hover:opacity-90 focus:outline-none focus:ring-1 focus:ring-gold"
+          aria-label={`Enlarge diagram for Q${question.number}`}
+        >
+          <img
+            src={image.src}
+            alt={image.alt}
+            loading="lazy"
+            className="block w-full"
+          />
+          <span className="question-image-hint" aria-hidden>
+            Click to enlarge
+          </span>
+        </button>
+      )}
 
       {!current && (
         <form onSubmit={onCheck} className="mt-7 flex flex-col gap-4">
@@ -158,6 +181,16 @@ export default function QuestionCard({
             "linear-gradient(to right, transparent, var(--gold), transparent)",
         }}
       />
+
+      {image && (
+        <ImageLightbox
+          src={image.src}
+          alt={image.alt}
+          caption={question.prompt}
+          open={lightboxOpen}
+          onClose={() => setLightboxOpen(false)}
+        />
+      )}
     </article>
   );
 }
