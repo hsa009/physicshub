@@ -92,6 +92,30 @@ body::after {
     @apply text-[0.9rem] leading-[1.9] text-text-body;
   }
 
+  /* ─── SLIDE (M5.3) ─── */
+
+  .slide-title {
+    @apply font-serif font-light leading-[1.08] text-text-primary;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+  }
+
+  .slide-body {
+    @apply text-[1.0625rem] leading-[1.75] text-text-body;
+  }
+
+  .slide-body strong {
+    @apply font-medium text-text-primary;
+  }
+
+  .formula-card {
+    @apply border-l-2 border-gold bg-bg-card px-6 py-5;
+  }
+
+  .formula-expression {
+    @apply font-serif text-[1.3rem] leading-[1.4] text-text-primary;
+    word-spacing: 0.15em;
+  }
+
   /* ─── BUTTONS ─── */
   .btn-primary {
     @apply relative inline-flex items-center justify-center gap-3 overflow-hidden border-2 border-gold bg-transparent px-12 py-4 font-sans text-[0.72rem] uppercase tracking-btn text-gold cursor-pointer transition-all duration-300;
@@ -260,6 +284,31 @@ body::after {
 
 .slow-rotate {
   animation: slowRotate 20s linear infinite;
+}
+
+/* ─── SLIDE FADE-IN (M5.3) ─── */
+.slide-fade-in {
+  animation: slideFadeIn 0.5s ease-out;
+}
+
+@keyframes slideFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide-fade-in,
+  .slow-rotate,
+  .btn-primary:not(:disabled),
+  .fade-up-stagger > * {
+    animation: none !important;
+  }
 }
 
 /* ─── FOCUS RING ─── */

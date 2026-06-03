@@ -22,10 +22,9 @@ function renderTitle(name: string) {
   );
 }
 
-function encodeLessonPath(lesson: Lesson): string {
-  return `/lesson/${encodeURIComponent(lesson.module)}/${encodeURIComponent(
-    lesson.name
-  )}`;
+function encodeLessonPath(lesson: { id: string } | Lesson): string {
+  const id = "id" in lesson ? lesson.id : `${lesson.module}::${lesson.name}`;
+  return `/lesson/${encodeURIComponent(id)}`;
 }
 
 export default function LessonCard({ lesson, answeredCount }: LessonCardProps) {

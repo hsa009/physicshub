@@ -14,7 +14,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<RequireStudent><Home /></RequireStudent>} />
           <Route
-            path="/lesson/:module/:name"
+            path="/lesson/:lessonId"
             element={<RequireStudent><LessonView /></RequireStudent>}
           />
           <Route
