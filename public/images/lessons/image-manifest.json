@@ -1,0 +1,792 @@
+{
+  "extracted_at": "2026-06-03T17:47:54.248Z",
+  "source": "Grade11_Physics_Final_Revision.docx",
+  "total": 78,
+  "total_original_bytes": 14086882,
+  "total_compressed_bytes": 5098102,
+  "images": [
+    {
+      "filename": "image76.jpg",
+      "format": "jpeg",
+      "width": 900,
+      "height": 420,
+      "original_bytes": 46364,
+      "compressed_bytes": 28572,
+      "savings_pct": 38.4,
+      "resized": false
+    },
+    {
+      "filename": "image1.png",
+      "format": "png",
+      "width": 336,
+      "height": 87,
+      "original_bytes": 24747,
+      "compressed_bytes": 10498,
+      "savings_pct": 57.6,
+      "resized": false
+    },
+    {
+      "filename": "image2.png",
+      "format": "png",
+      "width": 1075,
+      "height": 130,
+      "original_bytes": 47273,
+      "compressed_bytes": 15231,
+      "savings_pct": 67.8,
+      "resized": false
+    },
+    {
+      "filename": "image3.png",
+      "format": "png",
+      "width": 1200,
+      "height": 900,
+      "original_bytes": 266743,
+      "compressed_bytes": 108190,
+      "savings_pct": 59.4,
+      "resized": false
+    },
+    {
+      "filename": "image4.png",
+      "format": "png",
+      "width": 1200,
+      "height": 900,
+      "original_bytes": 733029,
+      "compressed_bytes": 125544,
+      "savings_pct": 82.9,
+      "resized": true
+    },
+    {
+      "filename": "image5.svg",
+      "format": "svg",
+      "width": null,
+      "height": null,
+      "original_bytes": 512031,
+      "compressed_bytes": 512031,
+      "savings_pct": 0,
+      "resized": false
+    },
+    {
+      "filename": "image6.png",
+      "format": "png",
+      "width": 1200,
+      "height": 900,
+      "original_bytes": 591969,
+      "compressed_bytes": 152001,
+      "savings_pct": 74.3,
+      "resized": true
+    },
+    {
+      "filename": "image7.svg",
+      "format": "svg",
+      "width": null,
+      "height": null,
+      "original_bytes": 445827,
+      "compressed_bytes": 445827,
+      "savings_pct": 0,
+      "resized": false
+    },
+    {
+      "filename": "image8.png",
+      "format": "png",
+      "width": 1200,
+      "height": 900,
+      "original_bytes": 190051,
+      "compressed_bytes": 102909,
+      "savings_pct": 45.9,
+      "resized": false
+    },
+    {
+      "filename": "image9.png",
+      "format": "png",
+      "width": 260,
+      "height": 194,
+      "original_bytes": 5236,
+      "compressed_bytes": 5010,
+      "savings_pct": 4.3,
+      "resized": false
+    },
+    {
+      "filename": "image10.jpg",
+      "format": "jpeg",
+      "width": 292,
+      "height": 173,
+      "original_bytes": 3806,
+      "compressed_bytes": 3813,
+      "savings_pct": -0.2,
+      "resized": false
+    },
+    {
+      "filename": "image11.jpg",
+      "format": "jpeg",
+      "width": 900,
+      "height": 420,
+      "original_bytes": 57309,
+      "compressed_bytes": 34986,
+      "savings_pct": 39,
+      "resized": false
+    },
+    {
+      "filename": "image12.jpg",
+      "format": "jpeg",
+      "width": 900,
+      "height": 420,
+      "original_bytes": 41409,
+      "compressed_bytes": 27477,
+      "savings_pct": 33.6,
+      "resized": false
+    },
+    {
+      "filename": "image13.jpg",
+      "format": "jpeg",
+      "width": 900,
+      "height": 420,
+      "original_bytes": 52465,
+      "compressed_bytes": 35618,
+      "savings_pct": 32.1,
+      "resized": false
+    },
+    {
+      "filename": "image14.jpg",
+      "format": "jpeg",
+      "width": 900,
+      "height": 420,
+      "original_bytes": 95779,
+      "compressed_bytes": 57067,
+      "savings_pct": 40.4,
+      "resized": false
+    },
+    {
+      "filename": "image15.png",
+      "format": "png",
+      "width": 571,
+      "height": 405,
+      "original_bytes": 30399,
+      "compressed_bytes": 11476,
+      "savings_pct": 62.2,
+      "resized": false
+    },
+    {
+      "filename": "image16.png",
+      "format": "png",
+      "width": 690,
+      "height": 360,
+      "original_bytes": 39139,
+      "compressed_bytes": 12467,
+      "savings_pct": 68.1,
+      "resized": false
+    },
+    {
+      "filename": "image17.jpg",
+      "format": "jpeg",
+      "width": 265,
+      "height": 190,
+      "original_bytes": 4530,
+      "compressed_bytes": 4502,
+      "savings_pct": 0.6,
+      "resized": false
+    },
+    {
+      "filename": "image18.jpg",
+      "format": "jpeg",
+      "width": 225,
+      "height": 225,
+      "original_bytes": 3969,
+      "compressed_bytes": 3689,
+      "savings_pct": 7.1,
+      "resized": false
+    },
+    {
+      "filename": "image19.png",
+      "format": "png",
+      "width": 259,
+      "height": 194,
+      "original_bytes": 2629,
+      "compressed_bytes": 2399,
+      "savings_pct": 8.7,
+      "resized": false
+    },
+    {
+      "filename": "image20.jpg",
+      "format": "jpeg",
+      "width": 312,
+      "height": 162,
+      "original_bytes": 8702,
+      "compressed_bytes": 7548,
+      "savings_pct": 13.3,
+      "resized": false
+    },
+    {
+      "filename": "image21.png",
+      "format": "png",
+      "width": 270,
+      "height": 146,
+      "original_bytes": 1381,
+      "compressed_bytes": 1219,
+      "savings_pct": 11.7,
+      "resized": false
+    },
+    {
+      "filename": "image22.jpg",
+      "format": "jpeg",
+      "width": 900,
+      "height": 420,
+      "original_bytes": 106242,
+      "compressed_bytes": 71689,
+      "savings_pct": 32.5,
+      "resized": false
+    },
+    {
+      "filename": "image23.png",
+      "format": "png",
+      "width": 250,
+      "height": 201,
+      "original_bytes": 75658,
+      "compressed_bytes": 29971,
+      "savings_pct": 60.4,
+      "resized": false
+    },
+    {
+      "filename": "image24.jpg",
+      "format": "jpeg",
+      "width": 225,
+      "height": 225,
+      "original_bytes": 8823,
+      "compressed_bytes": 9113,
+      "savings_pct": -3.3,
+      "resized": false
+    },
+    {
+      "filename": "image25.png",
+      "format": "png",
+      "width": 1200,
+      "height": 522,
+      "original_bytes": 30067,
+      "compressed_bytes": 52698,
+      "savings_pct": -75.3,
+      "resized": true
+    },
+    {
+      "filename": "image26.png",
+      "format": "png",
+      "width": 1200,
+      "height": 900,
+      "original_bytes": 27965,
+      "compressed_bytes": 24810,
+      "savings_pct": 11.3,
+      "resized": false
+    },
+    {
+      "filename": "image27.png",
+      "format": "png",
+      "width": 1200,
+      "height": 900,
+      "original_bytes": 160457,
+      "compressed_bytes": 67770,
+      "savings_pct": 57.8,
+      "resized": false
+    },
+    {
+      "filename": "image28.png",
+      "format": "png",
+      "width": 1200,
+      "height": 900,
+      "original_bytes": 187515,
+      "compressed_bytes": 75641,
+      "savings_pct": 59.7,
+      "resized": false
+    },
+    {
+      "filename": "image29.png",
+      "format": "png",
+      "width": 1200,
+      "height": 900,
+      "original_bytes": 63343,
+      "compressed_bytes": 31382,
+      "savings_pct": 50.5,
+      "resized": false
+    },
+    {
+      "filename": "image30.png",
+      "format": "png",
+      "width": 444,
+      "height": 222,
+      "original_bytes": 9521,
+      "compressed_bytes": 9237,
+      "savings_pct": 3,
+      "resized": false
+    },
+    {
+      "filename": "image31.jpg",
+      "format": "jpeg",
+      "width": 259,
+      "height": 194,
+      "original_bytes": 6203,
+      "compressed_bytes": 6493,
+      "savings_pct": -4.7,
+      "resized": false
+    },
+    {
+      "filename": "image32.jpg",
+      "format": "jpeg",
+      "width": 900,
+      "height": 420,
+      "original_bytes": 43951,
+      "compressed_bytes": 28921,
+      "savings_pct": 34.2,
+      "resized": false
+    },
+    {
+      "filename": "image33.jpg",
+      "format": "jpeg",
+      "width": 225,
+      "height": 225,
+      "original_bytes": 9054,
+      "compressed_bytes": 10032,
+      "savings_pct": -10.8,
+      "resized": false
+    },
+    {
+      "filename": "image34.jpg",
+      "format": "jpeg",
+      "width": 347,
+      "height": 280,
+      "original_bytes": 20192,
+      "compressed_bytes": 12536,
+      "savings_pct": 37.9,
+      "resized": false
+    },
+    {
+      "filename": "image35.png",
+      "format": "png",
+      "width": 187,
+      "height": 169,
+      "original_bytes": 2661,
+      "compressed_bytes": 2371,
+      "savings_pct": 10.9,
+      "resized": false
+    },
+    {
+      "filename": "image36.jpg",
+      "format": "jpeg",
+      "width": 180,
+      "height": 168,
+      "original_bytes": 11495,
+      "compressed_bytes": 11168,
+      "savings_pct": 2.8,
+      "resized": false
+    },
+    {
+      "filename": "image37.png",
+      "format": "png",
+      "width": 1200,
+      "height": 900,
+      "original_bytes": 304575,
+      "compressed_bytes": 94455,
+      "savings_pct": 69,
+      "resized": true
+    },
+    {
+      "filename": "image38.svg",
+      "format": "svg",
+      "width": null,
+      "height": null,
+      "original_bytes": 51187,
+      "compressed_bytes": 51187,
+      "savings_pct": 0,
+      "resized": false
+    },
+    {
+      "filename": "image39.png",
+      "format": "png",
+      "width": 1200,
+      "height": 900,
+      "original_bytes": 141898,
+      "compressed_bytes": 63622,
+      "savings_pct": 55.2,
+      "resized": false
+    },
+    {
+      "filename": "image40.png",
+      "format": "png",
+      "width": 1200,
+      "height": 900,
+      "original_bytes": 80143,
+      "compressed_bytes": 40024,
+      "savings_pct": 50.1,
+      "resized": false
+    },
+    {
+      "filename": "image41.png",
+      "format": "png",
+      "width": 1200,
+      "height": 900,
+      "original_bytes": 65030,
+      "compressed_bytes": 32342,
+      "savings_pct": 50.3,
+      "resized": false
+    },
+    {
+      "filename": "image42.png",
+      "format": "png",
+      "width": 573,
+      "height": 520,
+      "original_bytes": 62050,
+      "compressed_bytes": 20061,
+      "savings_pct": 67.7,
+      "resized": false
+    },
+    {
+      "filename": "image43.png",
+      "format": "png",
+      "width": 1200,
+      "height": 883,
+      "original_bytes": 172729,
+      "compressed_bytes": 80323,
+      "savings_pct": 53.5,
+      "resized": true
+    },
+    {
+      "filename": "image44.png",
+      "format": "png",
+      "width": 309,
+      "height": 280,
+      "original_bytes": 29891,
+      "compressed_bytes": 10603,
+      "savings_pct": 64.5,
+      "resized": false
+    },
+    {
+      "filename": "image45.png",
+      "format": "png",
+      "width": 309,
+      "height": 163,
+      "original_bytes": 3242,
+      "compressed_bytes": 3110,
+      "savings_pct": 4.1,
+      "resized": false
+    },
+    {
+      "filename": "image46.png",
+      "format": "png",
+      "width": 228,
+      "height": 221,
+      "original_bytes": 4299,
+      "compressed_bytes": 4116,
+      "savings_pct": 4.3,
+      "resized": false
+    },
+    {
+      "filename": "image47.png",
+      "format": "png",
+      "width": 307,
+      "height": 164,
+      "original_bytes": 3213,
+      "compressed_bytes": 3015,
+      "savings_pct": 6.2,
+      "resized": false
+    },
+    {
+      "filename": "image48.png",
+      "format": "png",
+      "width": 1200,
+      "height": 675,
+      "original_bytes": 1401254,
+      "compressed_bytes": 127575,
+      "savings_pct": 90.9,
+      "resized": true
+    },
+    {
+      "filename": "image49.svg",
+      "format": "svg",
+      "width": null,
+      "height": null,
+      "original_bytes": 136502,
+      "compressed_bytes": 136502,
+      "savings_pct": 0,
+      "resized": false
+    },
+    {
+      "filename": "image50.png",
+      "format": "png",
+      "width": 1200,
+      "height": 675,
+      "original_bytes": 141877,
+      "compressed_bytes": 64269,
+      "savings_pct": 54.7,
+      "resized": true
+    },
+    {
+      "filename": "image51.svg",
+      "format": "svg",
+      "width": null,
+      "height": null,
+      "original_bytes": 16128,
+      "compressed_bytes": 16128,
+      "savings_pct": 0,
+      "resized": false
+    },
+    {
+      "filename": "image52.jpg",
+      "format": "jpeg",
+      "width": 900,
+      "height": 420,
+      "original_bytes": 102886,
+      "compressed_bytes": 69578,
+      "savings_pct": 32.4,
+      "resized": false
+    },
+    {
+      "filename": "image53.jpg",
+      "format": "jpeg",
+      "width": 900,
+      "height": 420,
+      "original_bytes": 32621,
+      "compressed_bytes": 17488,
+      "savings_pct": 46.4,
+      "resized": false
+    },
+    {
+      "filename": "image54.jpg",
+      "format": "jpeg",
+      "width": 900,
+      "height": 420,
+      "original_bytes": 32504,
+      "compressed_bytes": 17542,
+      "savings_pct": 46,
+      "resized": false
+    },
+    {
+      "filename": "image55.png",
+      "format": "png",
+      "width": 281,
+      "height": 179,
+      "original_bytes": 108079,
+      "compressed_bytes": 38476,
+      "savings_pct": 64.4,
+      "resized": false
+    },
+    {
+      "filename": "image56.jpg",
+      "format": "jpeg",
+      "width": 1200,
+      "height": 625,
+      "original_bytes": 123971,
+      "compressed_bytes": 72433,
+      "savings_pct": 41.6,
+      "resized": true
+    },
+    {
+      "filename": "image57.png",
+      "format": "png",
+      "width": 1200,
+      "height": 675,
+      "original_bytes": 1129321,
+      "compressed_bytes": 151355,
+      "savings_pct": 86.6,
+      "resized": true
+    },
+    {
+      "filename": "image58.svg",
+      "format": "svg",
+      "width": null,
+      "height": null,
+      "original_bytes": 141566,
+      "compressed_bytes": 141566,
+      "savings_pct": 0,
+      "resized": false
+    },
+    {
+      "filename": "image59.png",
+      "format": "png",
+      "width": 1200,
+      "height": 675,
+      "original_bytes": 597245,
+      "compressed_bytes": 113409,
+      "savings_pct": 81,
+      "resized": true
+    },
+    {
+      "filename": "image60.svg",
+      "format": "svg",
+      "width": null,
+      "height": null,
+      "original_bytes": 580897,
+      "compressed_bytes": 580897,
+      "savings_pct": 0,
+      "resized": false
+    },
+    {
+      "filename": "image61.png",
+      "format": "png",
+      "width": 655,
+      "height": 256,
+      "original_bytes": 50885,
+      "compressed_bytes": 24411,
+      "savings_pct": 52,
+      "resized": false
+    },
+    {
+      "filename": "image62.png",
+      "format": "png",
+      "width": 259,
+      "height": 194,
+      "original_bytes": 96748,
+      "compressed_bytes": 34982,
+      "savings_pct": 63.8,
+      "resized": false
+    },
+    {
+      "filename": "image63.jpg",
+      "format": "jpeg",
+      "width": 275,
+      "height": 183,
+      "original_bytes": 11237,
+      "compressed_bytes": 12599,
+      "savings_pct": -12.1,
+      "resized": false
+    },
+    {
+      "filename": "image65.svg",
+      "format": "svg",
+      "width": null,
+      "height": null,
+      "original_bytes": 333284,
+      "compressed_bytes": 333284,
+      "savings_pct": 0,
+      "resized": false
+    },
+    {
+      "filename": "image66.png",
+      "format": "png",
+      "width": 1200,
+      "height": 675,
+      "original_bytes": 1258093,
+      "compressed_bytes": 99245,
+      "savings_pct": 92.1,
+      "resized": true
+    },
+    {
+      "filename": "image67.svg",
+      "format": "svg",
+      "width": null,
+      "height": null,
+      "original_bytes": 170832,
+      "compressed_bytes": 170832,
+      "savings_pct": 0,
+      "resized": false
+    },
+    {
+      "filename": "image68.png",
+      "format": "png",
+      "width": 303,
+      "height": 166,
+      "original_bytes": 6314,
+      "compressed_bytes": 6181,
+      "savings_pct": 2.1,
+      "resized": false
+    },
+    {
+      "filename": "image69.jpg",
+      "format": "jpeg",
+      "width": 900,
+      "height": 420,
+      "original_bytes": 28307,
+      "compressed_bytes": 16104,
+      "savings_pct": 43.1,
+      "resized": false
+    },
+    {
+      "filename": "image70.jpg",
+      "format": "jpeg",
+      "width": 1200,
+      "height": 628,
+      "original_bytes": 193400,
+      "compressed_bytes": 40018,
+      "savings_pct": 79.3,
+      "resized": false
+    },
+    {
+      "filename": "image71.jpg",
+      "format": "jpeg",
+      "width": 225,
+      "height": 225,
+      "original_bytes": 4860,
+      "compressed_bytes": 4729,
+      "savings_pct": 2.7,
+      "resized": false
+    },
+    {
+      "filename": "image72.jpg",
+      "format": "jpeg",
+      "width": 335,
+      "height": 150,
+      "original_bytes": 7531,
+      "compressed_bytes": 7415,
+      "savings_pct": 1.5,
+      "resized": false
+    },
+    {
+      "filename": "image73.jpg",
+      "format": "jpeg",
+      "width": 900,
+      "height": 420,
+      "original_bytes": 37287,
+      "compressed_bytes": 23059,
+      "savings_pct": 38.2,
+      "resized": false
+    },
+    {
+      "filename": "image74.jpg",
+      "format": "jpeg",
+      "width": 268,
+      "height": 188,
+      "original_bytes": 4334,
+      "compressed_bytes": 4284,
+      "savings_pct": 1.2,
+      "resized": false
+    },
+    {
+      "filename": "image75.jpg",
+      "format": "jpeg",
+      "width": 900,
+      "height": 420,
+      "original_bytes": 32317,
+      "compressed_bytes": 17015,
+      "savings_pct": 47.3,
+      "resized": false
+    },
+    {
+      "filename": "image64.png",
+      "format": "png",
+      "width": 1200,
+      "height": 675,
+      "original_bytes": 2353984,
+      "compressed_bytes": 161322,
+      "savings_pct": 93.1,
+      "resized": true
+    },
+    {
+      "filename": "image77.jpg",
+      "format": "jpeg",
+      "width": 900,
+      "height": 420,
+      "original_bytes": 36648,
+      "compressed_bytes": 22744,
+      "savings_pct": 37.9,
+      "resized": false
+    },
+    {
+      "filename": "image78.jpg",
+      "format": "jpeg",
+      "width": 900,
+      "height": 420,
+      "original_bytes": 29779,
+      "compressed_bytes": 17896,
+      "savings_pct": 39.9,
+      "resized": false
+    }
+  ],
+  "total_savings_pct": 63.8,
+  "failed": 0,
+  "skipped": 0
+}
