@@ -1,0 +1,323 @@
+# PhysicsHub — Full Project Blueprint
+### Grade 11 Physics Interactive Revision Platform
+
+---
+
+## 1. Project Goal
+
+Build a free, school-wide web platform where Grade 11 students can:
+- Search and browse lessons from the revision sheet
+- Read AI-generated explanations for each lesson
+- Answer the 60 questions from the sheet
+- Get instant AI feedback on their answers with further explanation on demand
+- Track their own progress across sessions and devices using their ESIS number
+
+The teacher gets an admin dashboard to monitor all student answers and progress.
+
+---
+
+## 2. The Content (from the Docx)
+
+All 60 questions are organized across 5 modules and 8 lessons:
+
+| Module | Lesson(s) | Questions |
+|--------|-----------|-----------|
+| Module 6 — Motion in Two Dimensions | Projectile Motion | Q8–13 |
+| Module 6 — Motion in Two Dimensions | Relative Velocity | Q14–18 |
+| Module 7 — Gravitation | Universal Gravitation | Q1–7 |
+| Module 8 — Rotational Motion | Describing Rotational Motion | Q19–25 |
+| Module 8 — Rotational Motion | Rotational Dynamics | Q26–32 |
+| Module 9 — Momentum and Its Conservation | Impulse and Momentum | Q33–40 |
+| Module 9 — Momentum and Its Conservation | Conservation of Momentum | Q41–46 |
+| Module 10 — Energy and Its Conservation | Work and Energy | Q47–53 |
+| Module 10 — Energy and Its Conservation | Many Forms + Conservation of Energy | Q54–60 |
+
+Question types are a mix of:
+- **Conceptual** — explain a law, describe a phenomenon, compare two ideas
+- **Numerical** — calculate using formulas, show steps and units
+
+The full question set will be stored as a structured JSON file embedded in the app (no CMS needed).
+
+---
+
+## 3. Student Identity — ESIS Number System
+
+### How it works
+- On first visit, the student is prompted to enter their **ESIS number** (their school-issued student ID)
+- The app checks Supabase for an existing record with that ESIS number
+  - **Found:** loads all saved progress from the database and resumes from where they left off — on any device, any browser
+  - **Not found:** creates a new student record in the database with that ESIS number and starts fresh
+- The ESIS number is also saved in `localStorage` so returning to the same device skips the prompt
+- If `localStorage` is cleared (or a new device), the student just re-enters their ESIS number and everything comes back
+
+### What is stored per student
+| Field | Description |
+|-------|-------------|
+| `esis` | The student's ESIS number (primary key) |
+| `first_seen` | Timestamp of first visit |
+| `last_active` | Timestamp of most recent activity |
+
+### What is stored per answered question
+| Field | Description |
+|-------|-------------|
+| `esis` | Links to the student |
+| `question_id` | e.g. `"q11"` |
+| `lesson` | e.g. `"Projectile Motion"` |
+| `module` | e.g. `"Module 6"` |
+| `student_answer` | The full text the student typed |
+| `ai_verdict` | `"correct"` / `"partial"` / `"incorrect"` |
+| `ai_feedback` | The AI's explanation returned to the student |
+| `submitted_at` | Timestamp |
+
+### Privacy note
+No name, no email, no password is ever collected. ESIS is a number the student already knows and is already school-issued. The teacher can cross-reference ESIS numbers with the school roster offline.
+
+---
+
+## 4. Tech Stack — 100% Free
+
+### Frontend & Hosting: Cloudflare Pages
+- Free forever, unlimited bandwidth, no student caps
+- Fast CDN with good performance in the UAE
+- Deploy by pushing to a GitHub repository — automatic
+
+### Backend: None (pure frontend app)
+- All AI calls go through a lightweight Cloudflare Worker (free proxy)
+- All database calls go directly to Supabase from the browser using their JS SDK
+- No server to maintain, no hosting bill
+
+### API Key Proxy: Cloudflare Workers
+- Free tier: 100,000 requests/day
+- The student's browser calls the Worker; the Worker calls Gemini with the real API key
+- Students never see the API key
+- The Worker also handles key rotation between multiple Gemini accounts
+
+### Database: Supabase
+- Free tier: 500MB storage, 50,000 monthly active users
+- Direct browser SDK — no backend needed for reads/writes
+- Row-level security: students can only read/write their own ESIS row; admin can read everything
+- 1,000 students × 60 answers × ~500 bytes each ≈ 30MB total — well within free tier
+
+### AI — Primary: Google Gemini API (Gemini 1.5 Flash)
+- Free tier: **1,500 requests/day** and **15 requests/minute** per API key
+- Register 3–5 Google accounts = 4,500–7,500 free requests/day
+- The Worker rotates through keys automatically when one hits its rate limit
+- Gemini 1.5 Flash is fast, accurate on physics, and handles both conceptual and numerical answers well
+
+### AI — Fallback: Groq API (Llama 3.1)
+- Free tier: **14,400 requests/day** per key, extremely fast response times
+- Used automatically when all Gemini keys are exhausted
+- Same quality for physics checking — Llama 3.1 70B handles NGSS curriculum comfortably
+- Register 2–3 Groq accounts for extra headroom
+
+### Key Rotation Logic (inside the Cloudflare Worker)
+```
+Try Gemini Key 1 → if rate-limited → Try Gemini Key 2 → ... → if all exhausted → Try Groq Key 1 → ...
+```
+This is transparent to the student — they just see the AI response.
+
+---
+
+## 5. Full Architecture Diagram
+
+```
+Student Browser (Cloudflare Pages)
+        │
+        ├── [Read/Write progress]──► Supabase Database
+        │                                (students table, answers table)
+        │
+        └── [AI requests]──► Cloudflare Worker (free proxy)
+                                      │
+                              Key Rotation Logic
+                                      │
+                    ┌─────────────────┼─────────────────┐
+                    ▼                 ▼                 ▼
+             Gemini Key 1      Gemini Key 2–5      Groq Fallback
+```
+
+---
+
+## 6. Application Pages & Features
+
+### Page 1 — Welcome / ESIS Entry
+- Shown only when no ESIS is found in localStorage
+- Clean input: "Enter your ESIS number to begin"
+- On submit: checks Supabase → loads or creates student record → saves to localStorage
+- No password, no email, no personal info
+
+### Page 2 — Home / Lesson Browser
+- Search bar at the top: search by lesson name, module, or keyword (e.g. "momentum", "gravity")
+- Lesson cards below: one card per lesson (8 total)
+- Each card shows: lesson name, module, number of questions, student's completion (e.g. "5/6 answered")
+- Click a card → go to Lesson View
+
+### Page 3 — Lesson View
+- Header: lesson name + module
+- **AI Explanation Panel** (loaded on page open):
+  - Key concepts for this lesson
+  - All relevant formulas with variable definitions
+  - A real-life example
+  - Generated fresh by Gemini each time (or cached per session)
+- **Questions List** below the explanation:
+  - Each question shown in a card
+  - Questions the student already answered show their previous verdict (✅ / ⚠️ / ❌) and are collapsible
+  - Unanswered questions have a text area input
+
+### Page 4 — Answer Checking (inline, not a separate page)
+- Student types answer in the text area under a question
+- Clicks "Check My Answer"
+- A loading spinner appears while the AI processes
+- The AI response appears below in a styled feedback box:
+  - **Verdict badge**: ✅ Correct / ⚠️ Partially Correct / ❌ Incorrect
+  - **Feedback text**: what was right, what was wrong, the correct approach
+  - **"Explain More" button**: opens a mini chat box under that question where the student can ask follow-up questions about that specific topic
+- The result is saved to Supabase immediately
+
+### Page 5 — My Progress (student-facing)
+- Accessed from a nav bar icon
+- Shows:
+  - Overall: X/60 questions answered, X correct, X partial, X incorrect
+  - Progress ring or bar per module
+  - A list of all answered questions with their verdict — click any to review
+
+### Page 6 — Admin Dashboard (`/admin`)
+- Protected by a password (hardcoded, stored in Cloudflare environment variables — never in source code)
+- **Overview stats**: total unique students, total answers submitted today/this week, average score
+- **Question Analysis**: for each question, how many students answered it and what % got it correct — quickly shows which questions students struggle with most
+- **Student View**: search by ESIS number, see all answers and AI feedback for that student
+- **Answer Browser**: filter by lesson → see all student answers for any question side by side
+- **Export**: download any view as a CSV file for offline record-keeping
+
+---
+
+## 7. AI Prompt Design
+
+The AI is given structured context for every check, not just the raw question. This ensures accuracy and consistency.
+
+### For answer checking, the prompt structure is:
+```
+You are a physics teacher assistant for Grade 11 NGSS / McGrawHill Physics.
+Curriculum: Semester 2 — Modules 6 to 10.
+Lesson: [lesson name]
+Topic: [topic name]
+
+Question: [full question text]
+Student's Answer: [student's typed answer]
+
+Check if the student's answer is correct. 
+Respond in this format:
+- Verdict: correct / partial / incorrect
+- Feedback: [2-4 sentences explaining what is right or wrong, and the correct approach if needed]
+Be encouraging but accurate. Show the correct formula or calculation if the student made an error.
+```
+
+### For "Explain More" follow-up chat:
+```
+You are a physics tutor. The student is studying [lesson] in Grade 11 Physics.
+The question was: [question]
+The student's answer was: [answer]
+Your previous feedback was: [feedback]
+
+The student now asks: [follow-up question]
+
+Answer clearly and at a Grade 11 level. Use examples if helpful.
+```
+
+---
+
+## 8. Database Schema (Supabase)
+
+### Table: `students`
+| Column | Type | Notes |
+|--------|------|-------|
+| `esis` | text | Primary key |
+| `first_seen` | timestamp | Auto-set on insert |
+| `last_active` | timestamp | Updated on every interaction |
+
+### Table: `answers`
+| Column | Type | Notes |
+|--------|------|-------|
+| `id` | uuid | Auto-generated primary key |
+| `esis` | text | Foreign key → students.esis |
+| `question_id` | text | e.g. "q11" |
+| `lesson` | text | e.g. "Projectile Motion" |
+| `module` | text | e.g. "Module 6" |
+| `student_answer` | text | Full text of student's answer |
+| `ai_verdict` | text | "correct" / "partial" / "incorrect" |
+| `ai_feedback` | text | AI's explanation |
+| `submitted_at` | timestamp | Auto-set on insert |
+
+### Row-Level Security Rules
+- `students` table: anyone can insert a row with their own ESIS; anyone can read/update their own row
+- `answers` table: anyone can insert rows with their own ESIS; anyone can read rows matching their own ESIS
+- Admin reads all rows — authenticated via a Supabase service key stored only in the Cloudflare Worker, never in the browser
+
+---
+
+## 9. Milestones
+
+### Milestone 1 — Project Setup (Day 1)
+- [ ] Create GitHub repo
+- [ ] Connect to Cloudflare Pages (free deploy pipeline)
+- [ ] Create Supabase project, set up both tables, enable row-level security
+- [ ] Create Cloudflare Worker project
+- [ ] Register 3 Google accounts for Gemini API keys + 2 Groq accounts
+- [ ] Store all keys as Cloudflare environment variables
+
+### Milestone 2 — Content & Data Layer (Day 2)
+- [ ] Structure all 60 questions as a JSON file (question_id, module, lesson, question_text, type: conceptual/numerical)
+- [ ] Set up Supabase JS SDK in the frontend
+- [ ] Build ESIS entry flow: check DB → create or load → save to localStorage
+- [ ] Test cross-device: enter ESIS on phone, same ESIS on laptop → same data appears
+
+### Milestone 3 — Core Student Flow (Day 3–5)
+- [ ] Home page with lesson cards and search
+- [ ] Lesson view page with AI explanation panel
+- [ ] Question list with answer input boxes
+- [ ] Cloudflare Worker with Gemini integration + key rotation + Groq fallback
+- [ ] Answer checking: send to Worker → get verdict + feedback → display in UI
+- [ ] Save answer to Supabase on every submission
+
+### Milestone 4 — Progress & "Explain More" (Day 6–7)
+- [ ] Student progress page (per-module bars, full answered list)
+- [ ] Load previously answered questions and show verdicts when student revisits a lesson
+- [ ] "Explain More" mini chat per question (follow-up AI conversation, context-aware)
+
+### Milestone 5 — Admin Dashboard (Day 8–9)
+- [ ] Password gate for /admin route
+- [ ] Overview stats (students, answers, success rate)
+- [ ] Per-question analysis table (% correct per question)
+- [ ] Student lookup by ESIS
+- [ ] CSV export
+
+### Milestone 6 — Polish & Launch (Day 10)
+- [ ] Mobile-responsive design (students will use phones)
+- [ ] Loading states and error messages (e.g. "AI is busy, try again in a moment")
+- [ ] Test with 10+ simultaneous requests to verify key rotation works
+- [ ] Share link with school
+
+---
+
+## 10. Handling Scale — 500 to 1,000 Students
+
+| Concern | Solution |
+|---------|----------|
+| AI rate limits | 3–5 Gemini keys (4,500–7,500 req/day) + 2 Groq keys (28,800 req/day fallback) |
+| Simultaneous requests | Cloudflare Worker queues requests; Groq handles overflow instantly |
+| Database load | Supabase free tier handles 500MB and thousands of concurrent reads easily |
+| Hosting load | Cloudflare Pages is a CDN — no load issue for a static site at any student count |
+| Cost | $0 across all services at this usage level |
+
+---
+
+## 11. What Is NOT in Scope (Deliberate Decisions)
+
+- **No user accounts or passwords** — ESIS is enough for identity and progress
+- **No real-time leaderboard** — adds complexity, not in the teacher's requirements
+- **No teacher answer key embedded** — the AI checks answers from its own physics knowledge (more flexible, handles varied wording)
+- **No mobile app** — the web app will be mobile-responsive, no app store needed
+- **No offline mode** — requires internet for AI; not feasible without it anyway
+
+---
+
+*Blueprint version 1.0 — Ready for implementation*

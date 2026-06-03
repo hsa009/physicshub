@@ -1,0 +1,239 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── CSS VARIABLES: DARK MODE (default) ─── */
+:root {
+  --bg: #0d0d0d;
+  --bg-card: #111111;
+  --bg-subtle: #161616;
+  --border: #1e1e1e;
+  --border-mid: #2a2a2a;
+  --gold: #c9a96e;
+  --gold-light: #e2c896;
+  --gold-dim: rgba(201, 169, 110, 0.15);
+  --text-primary: #f0e6c8;
+  --text-body: rgba(240, 230, 200, 0.55);
+  --text-label: rgba(240, 230, 200, 0.35);
+  --nav-bg: rgba(13, 13, 13, 0.92);
+  --shadow: 0 8px 60px rgba(0, 0, 0, 0.6);
+  --shadow-card: 0 4px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* ─── LIGHT MODE ─── */
+[data-mode="light"] {
+  --bg: #f5f0e8;
+  --bg-card: #faf6ef;
+  --bg-subtle: #ede8df;
+  --border: #ddd5c4;
+  --border-mid: #ccc0a8;
+  --gold: #8a5e2a;
+  --gold-light: #6b4720;
+  --gold-dim: rgba(138, 94, 42, 0.1);
+  --text-primary: #1a140a;
+  --text-body: rgba(26, 20, 10, 0.6);
+  --text-label: rgba(26, 20, 10, 0.38);
+  --nav-bg: rgba(245, 240, 232, 0.93);
+  --shadow: 0 8px 60px rgba(100, 80, 40, 0.15);
+  --shadow-card: 0 4px 30px rgba(100, 80, 40, 0.12);
+}
+
+/* ─── RESET & BASE ─── */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: "Outfit", sans-serif;
+  font-weight: 300;
+  transition: background 0.5s ease, color 0.5s ease;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ─── GRAIN OVERLAY ─── */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+/* ─── REUSABLE COMPONENTS ─── */
+@layer components {
+  .eyebrow {
+    @apply text-[0.6rem] font-sans uppercase tracking-eyebrow text-gold;
+  }
+
+  .section-title {
+    @apply font-serif font-light leading-[1.1] text-text-primary;
+    font-size: clamp(2rem, 3.5vw, 3.5rem);
+  }
+
+  .section-title em {
+    @apply italic text-gold;
+  }
+
+  .body-text {
+    @apply text-[0.9rem] leading-[1.9] text-text-body;
+  }
+
+  .btn-primary {
+    @apply relative overflow-hidden border border-gold bg-transparent px-10 py-3.5 font-sans text-[0.65rem] uppercase tracking-btn text-gold cursor-pointer transition-all duration-300;
+  }
+
+  .btn-primary::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--gold);
+    transform: translateX(-101%);
+    transition: transform 0.3s ease;
+  }
+
+  .btn-primary:hover::before {
+    transform: translateX(0);
+  }
+
+  .btn-primary span {
+    position: relative;
+    z-index: 1;
+    transition: color 0.3s ease;
+  }
+
+  .btn-primary:hover span {
+    color: var(--bg);
+  }
+
+  .btn-ghost {
+    @apply flex items-center gap-2.5 bg-transparent border-0 font-sans text-[0.65rem] uppercase tracking-btn text-text-label cursor-pointer transition-colors duration-300;
+  }
+
+  .btn-ghost::after {
+    content: "→";
+    transition: transform 0.3s ease;
+  }
+
+  .btn-ghost:hover {
+    @apply text-gold;
+  }
+
+  .btn-ghost:hover::after {
+    transform: translateX(4px);
+  }
+
+  .gold-line {
+    @apply h-px w-full max-w-[50px] bg-gold opacity-40;
+  }
+
+  /* Section divider with gold ✦ mark */
+  .divider {
+    @apply mx-auto my-16 grid max-w-6xl items-center gap-8 px-0 md:my-20;
+    grid-template-columns: 1fr auto 1fr;
+  }
+
+  .divider .rule {
+    @apply h-px bg-border-mid transition-colors duration-500;
+  }
+
+  .divider .mark {
+    @apply font-serif text-[1.2rem] italic text-gold transition-colors duration-500;
+  }
+
+  /* Theme toggle */
+  .toggle-track {
+    @apply relative h-[26px] w-[52px] cursor-pointer rounded-[13px] border border-border-mid;
+    background: var(--toggle-bg, #1a1a1a);
+    transition: background 0.4s ease, border-color 0.4s ease;
+  }
+
+  .toggle-thumb {
+    @apply absolute top-[3px] left-[3px] flex h-[18px] w-[18px] items-center justify-center rounded-full bg-gold text-[10px];
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+      background 0.4s ease;
+  }
+
+  [data-mode="light"] .toggle-thumb {
+    transform: translateX(26px);
+  }
+
+  .toggle-label {
+    @apply min-w-[40px] text-[0.6rem] uppercase tracking-nav text-text-label transition-colors duration-500;
+  }
+
+  /* Subtle scroll-fade entrance (used on list items on Home) */
+  .fade-up-stagger > * {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.6s ease forwards;
+  }
+
+  .fade-up-stagger > *:nth-child(1) { animation-delay: 0.05s; }
+  .fade-up-stagger > *:nth-child(2) { animation-delay: 0.10s; }
+  .fade-up-stagger > *:nth-child(3) { animation-delay: 0.15s; }
+  .fade-up-stagger > *:nth-child(4) { animation-delay: 0.20s; }
+  .fade-up-stagger > *:nth-child(5) { animation-delay: 0.25s; }
+  .fade-up-stagger > *:nth-child(6) { animation-delay: 0.30s; }
+  .fade-up-stagger > *:nth-child(7) { animation-delay: 0.35s; }
+  .fade-up-stagger > *:nth-child(8) { animation-delay: 0.40s; }
+  .fade-up-stagger > *:nth-child(9) { animation-delay: 0.45s; }
+
+  @keyframes fadeUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* ─── SCROLL ANIMATIONS ─── */
+.fade-up {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.fade-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── SLOW ROTATION (ornament) ─── */
+@keyframes slowRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.slow-rotate {
+  animation: slowRotate 20s linear infinite;
+}
+
+/* ─── FOCUS RING ─── */
+*:focus-visible {
+  outline: 1px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* ─── SELECTION ─── */
+::selection {
+  background: var(--gold-dim);
+  color: var(--text-primary);
+}

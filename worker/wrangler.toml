@@ -1,0 +1,18 @@
+name = "physicshub-worker"
+main = "src/index.ts"
+compatibility_date = "2024-09-01"
+compatibility_flags = ["nodejs_compat"]
+
+# ─── Placeholder env vars ───
+# Copy `.env.example` to `.env` and fill these in via `wrangler secret put NAME`.
+# The keys listed here are non-secret defaults you can set with `wrangler vars`.
+
+[vars]
+ENVIRONMENT = "development"
+
+# Secrets (set with `wrangler secret put` — do NOT put real keys in this file):
+#   ADMIN_PASSWORD
+#   SUPABASE_URL
+#   SUPABASE_SERVICE_KEY
+#   GEMINI_KEY_1, GEMINI_KEY_2, ..., GEMINI_KEY_5
+#   GROQ_KEY_1, GROQ_KEY_2

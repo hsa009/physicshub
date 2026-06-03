@@ -1,0 +1,609 @@
+{
+  "questions": [
+    {
+      "id": "q1",
+      "number": 1,
+      "module": "Module 7",
+      "lesson": "Universal Gravitation",
+      "type": "conceptual",
+      "prompt": "Explain Newton's law of universal gravitation using Earth and a satellite as the real-life example. Include the formula and the meaning of each variable."
+    },
+    {
+      "id": "q2",
+      "number": 2,
+      "module": "Module 7",
+      "lesson": "Universal Gravitation",
+      "type": "numerical",
+      "prompt": "Two parked cars have masses of 1500 kg and 1200 kg. The distance between their centers is 2.0 m. Calculate the gravitational force between them. Use G = 6.67 × 10⁻¹¹ N·m²/kg²."
+    },
+    {
+      "id": "q3",
+      "number": 3,
+      "module": "Module 7",
+      "lesson": "Universal Gravitation",
+      "type": "conceptual",
+      "prompt": "A spacecraft moves from 1.0 × 10⁷ m to 2.0 × 10⁷ m from Earth's center. Explain how the gravitational force changes."
+    },
+    {
+      "id": "q4",
+      "number": 4,
+      "module": "Module 7",
+      "lesson": "Universal Gravitation",
+      "type": "numerical",
+      "prompt": "A satellite orbits Earth at a radius of 7.0 × 10⁶ m from Earth's center. Calculate its orbital speed using v = √(GM/r), G = 6.67 × 10⁻¹¹ N·m²/kg², and M = 5.97 × 10²⁴ kg."
+    },
+    {
+      "id": "q5",
+      "number": 5,
+      "module": "Module 7",
+      "lesson": "Universal Gravitation",
+      "type": "conceptual",
+      "prompt": "A planet moves in an elliptical orbit around the Sun. Explain why the planet moves faster when it is close to the Sun and slower when it is farther away."
+    },
+    {
+      "id": "q6",
+      "number": 6,
+      "module": "Module 7",
+      "lesson": "Universal Gravitation",
+      "type": "conceptual",
+      "prompt": "The picture shows arrows around Earth. Explain what the arrows represent and why they point toward Earth's center."
+    },
+    {
+      "id": "q7",
+      "number": 7,
+      "module": "Module 7",
+      "lesson": "Universal Gravitation",
+      "type": "conceptual",
+      "prompt": "Massive objects can bend the path of light. Explain this idea in a simple way using Einstein's general theory of relativity."
+    },
+    {
+      "id": "q8",
+      "number": 8,
+      "module": "Module 6",
+      "lesson": "Projectile Motion",
+      "type": "conceptual",
+      "prompt": "A student throws a basketball toward a hoop. Explain why the basketball is called a projectile and describe its trajectory."
+    },
+    {
+      "id": "q9",
+      "number": 9,
+      "module": "Module 6",
+      "lesson": "Projectile Motion",
+      "type": "numerical",
+      "prompt": "A ball is dropped from a height of 20 m. Calculate the time it takes to reach the ground and its speed just before impact. Ignore air resistance and use g = 9.8 m/s²."
+    },
+    {
+      "id": "q10",
+      "number": 10,
+      "module": "Module 6",
+      "lesson": "Projectile Motion",
+      "type": "numerical",
+      "prompt": "A ball rolls horizontally off a 45 m high building with a horizontal speed of 12 m/s. Calculate the time of flight and the horizontal range. Ignore air resistance."
+    },
+    {
+      "id": "q11",
+      "number": 11,
+      "module": "Module 6",
+      "lesson": "Projectile Motion",
+      "type": "numerical",
+      "prompt": "A ball is launched at 20 m/s at an angle of 30° above the horizontal. Calculate vₓ, vᵧ, time of flight, maximum height, and range. Use g = 9.8 m/s²."
+    },
+    {
+      "id": "q12",
+      "number": 12,
+      "module": "Module 6",
+      "lesson": "Projectile Motion",
+      "type": "conceptual",
+      "prompt": "Three balls are launched with the same speed at 30°, 45°, and 60°. Explain which angle gives the greatest range when air resistance is ignored."
+    },
+    {
+      "id": "q13",
+      "number": 13,
+      "module": "Module 6",
+      "lesson": "Projectile Motion",
+      "type": "conceptual",
+      "prompt": "Explain why the horizontal velocity of a projectile stays constant while the vertical velocity changes."
+    },
+    {
+      "id": "q14",
+      "number": 14,
+      "module": "Module 6",
+      "lesson": "Relative Velocity",
+      "type": "numerical",
+      "prompt": "A bus travels at 6 m/s in the positive direction. A student walks toward the front of the bus at 2 m/s relative to the bus. Calculate the student's velocity relative to the road."
+    },
+    {
+      "id": "q15",
+      "number": 15,
+      "module": "Module 6",
+      "lesson": "Relative Velocity",
+      "type": "numerical",
+      "prompt": "A boat moves at 15 m/s in still water. A passenger walks from the front of the boat toward the back at 3 m/s relative to the boat. Calculate the passenger's speed relative to the water."
+    },
+    {
+      "id": "q16",
+      "number": 16,
+      "module": "Module 6",
+      "lesson": "Relative Velocity",
+      "type": "numerical",
+      "prompt": "A train moves at 40 m/s. A student walks toward the back of the train at 2 m/s relative to the train. Calculate the student's speed relative to the tracks."
+    },
+    {
+      "id": "q17",
+      "number": 17,
+      "module": "Module 6",
+      "lesson": "Relative Velocity",
+      "type": "numerical",
+      "prompt": "A boat is rowed upriver at 3 m/s relative to the water. An observer on shore sees the boat moving upriver at 0.5 m/s. Calculate the river speed and state its direction."
+    },
+    {
+      "id": "q18",
+      "number": 18,
+      "module": "Module 6",
+      "lesson": "Relative Velocity",
+      "type": "numerical",
+      "prompt": "Motorcycle A moves east at 24 m/s. Car B moves east at 18 m/s. Calculate the velocity of Car A relative to Car B. Then calculate the relative speed if Car B moves west at 18 m/s."
+    },
+    {
+      "id": "q19",
+      "number": 19,
+      "module": "Module 8",
+      "lesson": "Describing Rotational Motion",
+      "type": "conceptual",
+      "prompt": "Explain the meaning of one radian using arc length and radius. Then state the angle in radians for one full revolution."
+    },
+    {
+      "id": "q20",
+      "number": 20,
+      "module": "Module 8",
+      "lesson": "Describing Rotational Motion",
+      "type": "numerical",
+      "prompt": "Convert 90° and 270° into radians."
+    },
+    {
+      "id": "q21",
+      "number": 21,
+      "module": "Module 8",
+      "lesson": "Describing Rotational Motion",
+      "type": "numerical",
+      "prompt": "A point on the edge of a CD has radius 6.0 cm. The CD rotates with angular velocity 5.0 rad/s for 2.0 s. Calculate the linear displacement of the point."
+    },
+    {
+      "id": "q22",
+      "number": 22,
+      "module": "Module 8",
+      "lesson": "Describing Rotational Motion",
+      "type": "numerical",
+      "prompt": "A fan changes its angular velocity from 4 rad/s to 16 rad/s in 3 s. Calculate the angular acceleration."
+    },
+    {
+      "id": "q23",
+      "number": 23,
+      "module": "Module 8",
+      "lesson": "Describing Rotational Motion",
+      "type": "numerical",
+      "prompt": "A has a radius of 0.35 m and rotates at 12 rad/s. Calculate the linear speed of a point on the outer edge. _"
+    },
+    {
+      "id": "q24",
+      "number": 24,
+      "module": "Module 8",
+      "lesson": "Describing Rotational Motion",
+      "type": "conceptual",
+      "prompt": "Two points are on the same rotating wheel. One point is near the center and the other is on the outer edge. Explain which point has greater linear speed and why."
+    },
+    {
+      "id": "q25",
+      "number": 25,
+      "module": "Module 8",
+      "lesson": "Describing Rotational Motion",
+      "type": "numerical",
+      "prompt": "A wheel completes 120 revolutions in 60 s. Calculate its angular velocity in revolutions per second and in radians per second."
+    },
+    {
+      "id": "q26",
+      "number": 26,
+      "module": "Module 8",
+      "lesson": "Rotational Dynamics",
+      "type": "conceptual",
+      "prompt": "Use a door as a real-life example to explain torque and lever arm."
+    },
+    {
+      "id": "q27",
+      "number": 27,
+      "module": "Module 8",
+      "lesson": "Rotational Dynamics",
+      "type": "numerical",
+      "prompt": "A door is 0.90 m wide. A student pushes perpendicular to the door with a force of 2.0 N at the edge. Calculate the torque on the door."
+    },
+    {
+      "id": "q28",
+      "number": 28,
+      "module": "Module 8",
+      "lesson": "Rotational Dynamics",
+      "type": "numerical",
+      "prompt": "A student uses a 0.25 m wrench and applies a 30 N force. Calculate the torque when the force is at 90°, and then calculate it when the force is at 30°. Compare the two results."
+    },
+    {
+      "id": "q29",
+      "number": 29,
+      "module": "Module 8",
+      "lesson": "Rotational Dynamics",
+      "type": "conceptual",
+      "prompt": "Explain why pushing on a door at the hinge, or pushing parallel to the door, produces little or no rotation."
+    },
+    {
+      "id": "q30",
+      "number": 30,
+      "module": "Module 8",
+      "lesson": "Rotational Dynamics",
+      "type": "conceptual",
+      "prompt": "Explain moment of inertia. Why is a long rod harder to rotate than a compact disk of the same mass?"
+    },
+    {
+      "id": "q31",
+      "number": 31,
+      "module": "Module 8",
+      "lesson": "Rotational Dynamics",
+      "type": "numerical",
+      "prompt": "A rotating object has moment of inertia 2.5 kg·m² and angular acceleration 3.2 rad/s². Calculate the net torque."
+    },
+    {
+      "id": "q32",
+      "number": 32,
+      "module": "Module 8",
+      "lesson": "Rotational Dynamics",
+      "type": "conceptual",
+      "prompt": "An ice skater spins with arms extended and then pulls the arms inward. Explain what happens to angular speed and why."
+    },
+    {
+      "id": "q33",
+      "number": 33,
+      "module": "Module 9",
+      "lesson": "Impulse and Momentum",
+      "type": "numerical",
+      "prompt": "A 60 kg runner moves at 5 m/s. Calculate the runner's momentum."
+    },
+    {
+      "id": "q34",
+      "number": 34,
+      "module": "Module 9",
+      "lesson": "Impulse and Momentum",
+      "type": "numerical",
+      "prompt": "A 0.15 kg ball moving at 30 m/s hits a wall and rebounds at 20 m/s in the opposite direction. Calculate the change in momentum and the impulse on the ball."
+    },
+    {
+      "id": "q35",
+      "number": 35,
+      "module": "Module 9",
+      "lesson": "Impulse and Momentum",
+      "type": "numerical",
+      "prompt": "A force of 120 N acts on an object for 0.15 s. Calculate the impulse."
+    },
+    {
+      "id": "q36",
+      "number": 36,
+      "module": "Module 9",
+      "lesson": "Impulse and Momentum",
+      "type": "numerical",
+      "prompt": "A 0.43 kg soccer ball starts from rest and is kicked to a speed of 25 m/s. The contact time is 0.050 s. Calculate the impulse and the average force."
+    },
+    {
+      "id": "q37",
+      "number": 37,
+      "module": "Module 9",
+      "lesson": "Impulse and Momentum",
+      "type": "conceptual",
+      "prompt": "Explain how an airbag reduces injuries during a car collision using impulse and time."
+    },
+    {
+      "id": "q38",
+      "number": 38,
+      "module": "Module 9",
+      "lesson": "Impulse and Momentum",
+      "type": "numerical",
+      "prompt": "A force-time graph for a baseball hit has a clear peak. Explain how to identify the maximum force and how to find the impulse from the graph."
+    },
+    {
+      "id": "q39",
+      "number": 39,
+      "module": "Module 9",
+      "lesson": "Impulse and Momentum",
+      "type": "conceptual",
+      "prompt": "The same impulse is delivered once in 0.01 s and once in 0.10 s. Explain which case has the smaller average force."
+    },
+    {
+      "id": "q40",
+      "number": 40,
+      "module": "Module 9",
+      "lesson": "Impulse and Momentum",
+      "type": "conceptual",
+      "prompt": "A 1 kg ball and a 100 kg ball collide. Explain how the forces exerted on each other compare during the collision, and explain how their accelerations compare."
+    },
+    {
+      "id": "q41",
+      "number": 41,
+      "module": "Module 9",
+      "lesson": "Conservation of Momentum",
+      "type": "conceptual",
+      "prompt": "Explain the condition needed for total momentum to be conserved in a system."
+    },
+    {
+      "id": "q42",
+      "number": 42,
+      "module": "Module 9",
+      "lesson": "Conservation of Momentum",
+      "type": "conceptual",
+      "prompt": "Explain the difference between a closed system and an isolated system."
+    },
+    {
+      "id": "q43",
+      "number": 43,
+      "module": "Module 9",
+      "lesson": "Conservation of Momentum",
+      "type": "numerical",
+      "prompt": "A 3 kg cart moves at 4 m/s. A 2 kg cart moves in the opposite direction at 3 m/s. They stick together after the collision. Calculate their final velocity."
+    },
+    {
+      "id": "q44",
+      "number": 44,
+      "module": "Module 9",
+      "lesson": "Conservation of Momentum",
+      "type": "numerical",
+      "prompt": "A 5 kg cart moving at 2 m/s collides with a stationary 3 kg cart. The carts stick together. Calculate their final velocity."
+    },
+    {
+      "id": "q45",
+      "number": 45,
+      "module": "Module 9",
+      "lesson": "Conservation of Momentum",
+      "type": "numerical",
+      "prompt": "A 0.020 kg bullet is fired at 400 m/s from a 4.0 kg rifle initially at rest. Calculate the recoil velocity of the rifle."
+    },
+    {
+      "id": "q46",
+      "number": 46,
+      "module": "Module 9",
+      "lesson": "Conservation of Momentum",
+      "type": "conceptual",
+      "prompt": "Compare elastic and inelastic collisions using momentum and kinetic energy. Give one real-life example for each. ‘"
+    },
+    {
+      "id": "q47",
+      "number": 47,
+      "module": "Module 10",
+      "lesson": "Work and Energy",
+      "type": "conceptual",
+      "prompt": "Explain the meaning of work in physics. Include the formula and explain when work is positive, negative, or zero."
+    },
+    {
+      "id": "q48",
+      "number": 48,
+      "module": "Module 10",
+      "lesson": "Work and Energy",
+      "type": "numerical",
+      "prompt": "A worker lifts a 10 kg box upward by 1.5 m at constant speed. Calculate the work done against gravity and the increase in gravitational potential energy. Use g = 9.8 m/s²."
+    },
+    {
+      "id": "q49",
+      "number": 49,
+      "module": "Module 10",
+      "lesson": "Work and Energy",
+      "type": "numerical",
+      "prompt": "A student pushes a cart with a 20 N force for 4 m in the direction of motion. Calculate the work done on the cart."
+    },
+    {
+      "id": "q50",
+      "number": 50,
+      "module": "Module 10",
+      "lesson": "Work and Energy",
+      "type": "conceptual",
+      "prompt": "A student carries a bag horizontally at a constant height. Explain the work done by the upward force of the hand."
+    },
+    {
+      "id": "q51",
+      "number": 51,
+      "module": "Module 10",
+      "lesson": "Work and Energy",
+      "type": "numerical",
+      "prompt": "A 1000 kg motorcycle increases speed from 10 m/s to 20 m/s. Calculate the initial kinetic energy, final kinetic energy, and change in kinetic energy. Explain how the kinetic energy changes."
+    },
+    {
+      "id": "q52",
+      "number": 52,
+      "module": "Module 10",
+      "lesson": "Work and Energy",
+      "type": "numerical",
+      "prompt": "A student lifts a box and does 400 J of work in 4 s. Calculate the power. Then calculate the power if the same work is done in 2 s."
+    },
+    {
+      "id": "q53",
+      "number": 53,
+      "module": "Module 10",
+      "lesson": "Work and Energy",
+      "type": "conceptual",
+      "prompt": "A student walks 5 m while carrying an object, but the object is only lifted vertically by 2 m. Explain why the vertical displacement, not the total walking distance, is used for gravitational work."
+    },
+    {
+      "id": "q54",
+      "number": 54,
+      "module": "Module 10",
+      "lesson": "Energy Forms and Conservation",
+      "type": "conceptual",
+      "prompt": "A roller coaster starts from the top of a hill and moves to the bottom. Where is gravitational potential energy greatest? Where is kinetic energy greatest? Explain."
+    },
+    {
+      "id": "q55",
+      "number": 55,
+      "module": "Module 10",
+      "lesson": "Energy Forms and Conservation",
+      "type": "numerical",
+      "prompt": "A 0.50 kg ball is held 12 m above the ground and released from rest. Calculate the initial gravitational potential energy, the kinetic energy just before hitting the ground, and the speed just before impact. Ignore air resistance."
+    },
+    {
+      "id": "q56",
+      "number": 56,
+      "module": "Module 10",
+      "lesson": "Energy Forms and Conservation",
+      "type": "conceptual",
+      "prompt": "A pendulum swings from one side to the lowest point and then to the other side. Explain how energy changes during the motion."
+    },
+    {
+      "id": "q57",
+      "number": 57,
+      "module": "Module 10",
+      "lesson": "Energy Forms and Conservation",
+      "type": "conceptual",
+      "prompt": "A solar panel is used to power lights. Identify the input energy, useful output energy, and one reason some energy is lost."
+    },
+    {
+      "id": "q58",
+      "number": 58,
+      "module": "Module 10",
+      "lesson": "Energy Forms and Conservation",
+      "type": "conceptual",
+      "prompt": "A hydroelectric dam generates electricity from stored water. Describe the energy conversions from the water in the reservoir to the electricity produced."
+    },
+    {
+      "id": "q59",
+      "number": 59,
+      "module": "Module 10",
+      "lesson": "Energy Forms and Conservation",
+      "type": "numerical",
+      "prompt": "A 2.0 kg cart starts from rest at a height of 5.0 m and rolls down a frictionless track. Calculate its speed at the bottom using conservation of mechanical energy."
+    },
+    {
+      "id": "q60",
+      "number": 60,
+      "module": "Module 10",
+      "lesson": "Energy Forms and Conservation",
+      "type": "conceptual",
+      "prompt": "Design one simple device that converts one form of energy into another efficiently. State the input energy, useful output energy, and one way to reduce wasted energy."
+    }
+  ],
+  "lessons": [
+    {
+      "module": "Module 6",
+      "name": "Projectile Motion",
+      "questionCount": 6,
+      "questionIds": [
+        "q8",
+        "q9",
+        "q10",
+        "q11",
+        "q12",
+        "q13"
+      ]
+    },
+    {
+      "module": "Module 6",
+      "name": "Relative Velocity",
+      "questionCount": 5,
+      "questionIds": [
+        "q14",
+        "q15",
+        "q16",
+        "q17",
+        "q18"
+      ]
+    },
+    {
+      "module": "Module 7",
+      "name": "Universal Gravitation",
+      "questionCount": 7,
+      "questionIds": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5",
+        "q6",
+        "q7"
+      ]
+    },
+    {
+      "module": "Module 8",
+      "name": "Describing Rotational Motion",
+      "questionCount": 7,
+      "questionIds": [
+        "q19",
+        "q20",
+        "q21",
+        "q22",
+        "q23",
+        "q24",
+        "q25"
+      ]
+    },
+    {
+      "module": "Module 8",
+      "name": "Rotational Dynamics",
+      "questionCount": 7,
+      "questionIds": [
+        "q26",
+        "q27",
+        "q28",
+        "q29",
+        "q30",
+        "q31",
+        "q32"
+      ]
+    },
+    {
+      "module": "Module 9",
+      "name": "Impulse and Momentum",
+      "questionCount": 8,
+      "questionIds": [
+        "q33",
+        "q34",
+        "q35",
+        "q36",
+        "q37",
+        "q38",
+        "q39",
+        "q40"
+      ]
+    },
+    {
+      "module": "Module 9",
+      "name": "Conservation of Momentum",
+      "questionCount": 6,
+      "questionIds": [
+        "q41",
+        "q42",
+        "q43",
+        "q44",
+        "q45",
+        "q46"
+      ]
+    },
+    {
+      "module": "Module 10",
+      "name": "Work and Energy",
+      "questionCount": 7,
+      "questionIds": [
+        "q47",
+        "q48",
+        "q49",
+        "q50",
+        "q51",
+        "q52",
+        "q53"
+      ]
+    },
+    {
+      "module": "Module 10",
+      "name": "Energy Forms and Conservation",
+      "questionCount": 7,
+      "questionIds": [
+        "q54",
+        "q55",
+        "q56",
+        "q57",
+        "q58",
+        "q59",
+        "q60"
+      ]
+    }
+  ]
+}
