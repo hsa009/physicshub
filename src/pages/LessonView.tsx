@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
   getLessonById,
@@ -10,7 +10,10 @@ import Nav from "../components/Nav";
 import QuestionCard from "../components/QuestionCard";
 import Spinner from "../components/Spinner";
 import LessonPager from "../components/LessonPager";
+import AskDrawer from "../components/AskDrawer";
+import AskToggleButton from "../components/AskToggleButton";
 import { renderAccentTitle } from "../lib/format";
+import type { Slide as SlideType } from "../types";
 
 export default function LessonView() {
   const { lessonId = "" } = useParams<{ lessonId: string }>();
@@ -28,6 +31,9 @@ export default function LessonView() {
   );
 
   const questionsRef = useRef<HTMLElement>(null);
+  const [currentSlide, setCurrentSlide] = useState<SlideType>(lesson.slides[0]);
+  const [askOpen, setAskOpen] = useState(false);
+
   const scrollToQuestions = () => {
     questionsRef.current?.scrollIntoView({
       behavior: "smooth",
@@ -92,6 +98,7 @@ export default function LessonView() {
             lesson={lesson}
             onComplete={scrollToQuestions}
             onPractice={handlePractice}
+            onSlideChange={setCurrentSlide}
           />
         </section>
 
@@ -132,6 +139,18 @@ export default function LessonView() {
           </div>
         </section>
       </main>
+
+      <AskToggleButton
+        open={askOpen}
+        onClick={() => setAskOpen((v) => !v)}
+        hasMessages={false}
+      />
+      <AskDrawer
+        lesson={lesson}
+        currentSlide={currentSlide}
+        open={askOpen}
+        onClose={() => setAskOpen(false)}
+      />
     </>
   );
 }

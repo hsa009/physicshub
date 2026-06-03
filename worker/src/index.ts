@@ -6,6 +6,7 @@
  *   POST /check        — check a student answer (Groq → OpenRouter rotation)
  *   POST /explain      — generate / fetch cached lesson explanation
  *   POST /chat         — "Explain More" follow-up (used in M4)
+ *   POST /ask          — slide-aware "Ask Anything" chat (M5.4)
  *
  * Env vars (set via `wrangler secret put`):
  *   ADMIN_PASSWORD
@@ -15,7 +16,7 @@
  */
 
 import { callWithRotation, hasAnyKey, type KeyProvider } from "./rotation";
-import { checkPrompt, explainPrompt, chatPrompt } from "./prompts";
+import { checkPrompt, explainPrompt, chatPrompt, askSlidePrompt } from "./prompts";
 import { parseCheckResponse, parseExplainResponse } from "./parse";
 import { mockCheck, mockExplain } from "./mock";
 import type { Verdict } from "./parse";
@@ -89,6 +90,9 @@ export default {
       }
       if (path === "/chat" && method === "POST") {
         return await handleChat(request, env);
+      }
+      if (path === "/ask" && method === "POST") {
+        return await handleAsk(request, env);
       }
       return notFound();
     } catch (err) {
@@ -199,6 +203,52 @@ async function handleChat(request: Request, env: Env): Promise<Response> {
         previousFeedback: body.previousFeedback,
         history: body.history ?? [],
         followup: body.followup,
+      }),
+      env
+    );
+    reply = text.trim();
+  }
+
+  return json({ reply });
+}
+
+interface AskBody {
+  lessonName: string;
+  moduleName: string;
+  slide: {
+    title: string;
+    body: string;
+    formula?: { label: string; expression: string };
+  };
+  history?: { role: "student" | "tutor"; content: string }[];
+  question: string;
+}
+
+async function handleAsk(request: Request, env: Env): Promise<Response> {
+  const body = await readJson<AskBody>(request);
+  if (!body.lessonName || !body.question || !body.slide?.title) {
+    return badRequest(
+      "Missing lessonName, question, or slide.title.",
+    );
+  }
+
+  let reply: string;
+  if (!hasAnyKey(env)) {
+    reply =
+      "(Mock) AI tutor is offline until Worker secrets are configured. " +
+      "See docs/SETUP.md. The slide you were reading: " +
+      `"${body.slide.title}".`;
+  } else {
+    const text = await callWithRotation(
+      askSlidePrompt({
+        lessonName: body.lessonName,
+        moduleName: body.moduleName,
+        slide: body.slide,
+        history: (body.history ?? []).map((m) => ({
+          role: m.role,
+          content: m.content,
+        })),
+        question: body.question,
       }),
       env
     );

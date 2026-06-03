@@ -9,6 +9,8 @@ interface LessonPagerProps {
   onComplete: () => void;
   /** Called when the student clicks "Practice Mode" on the last slide. */
   onPractice: () => void;
+  /** Called whenever the active slide changes. Used by AskDrawer (M5.4). */
+  onSlideChange?: (slide: LessonWithSlides["slides"][number]) => void;
 }
 
 /**
@@ -21,12 +23,18 @@ export default function LessonPager({
   lesson,
   onComplete,
   onPractice,
+  onSlideChange,
 }: LessonPagerProps) {
   const { position, setPosition, reset } = useSlidePosition(lesson.id);
   const total = lesson.slides.length;
   const isFirst = position === 0;
   const isLast = position === total - 1;
   const progress = ((position + 1) / total) * 100;
+
+  useEffect(() => {
+    const slide = lesson.slides[position];
+    if (slide && onSlideChange) onSlideChange(slide);
+  }, [position, lesson.slides, onSlideChange]);
 
   const goNext = useCallback(() => {
     if (isLast) {

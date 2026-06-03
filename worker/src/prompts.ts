@@ -94,3 +94,57 @@ The student now asks: ${input.followup}
 
 Answer clearly at a Grade 11 level. Use examples if helpful. Keep your response under 200 words.`;
 }
+
+/* ------------------------------------------------------------------ */
+/* M5.4 — "Ask Anything" slide-aware chat                             */
+/* ------------------------------------------------------------------ */
+
+export interface AskSlideInput {
+  lessonName: string;
+  moduleName: string;
+  slide: {
+    title: string;
+    body: string;
+    formula?: { label: string; expression: string };
+  };
+  history: ChatMessage[];
+  question: string;
+}
+
+export function askSlidePrompt(input: AskSlideInput): string {
+  const formulaBlock = input.slide.formula
+    ? `\nKey formula on the slide: ${input.slide.formula.label} — ${input.slide.formula.expression}`
+    : "";
+
+  const cleanBody = input.slide.body.replace(/\*\*/g, "");
+
+  const historyBlock =
+    input.history.length > 0
+      ? `\nConversation so far:\n${input.history
+          .map(
+            (m) =>
+              `${m.role === "student" ? "Student" : "Tutor"}: ${m.content}`
+          )
+          .join("\n")}\n`
+      : "";
+
+  return `You are a patient, encouraging Grade 11 physics tutor.
+
+The student is studying "${input.lessonName}" (${input.moduleName}) and is reading this slide right now:
+
+## ${input.slide.title}
+${cleanBody}${formulaBlock}
+
+Rules:
+- Help the student UNDERSTAND. Do not solve the lesson's graded questions for them.
+- If they ask about a graded question, ask a guiding question instead and point them back to the slide.
+- Build on the slide's vocabulary and examples. Do not introduce new topics that aren't on the slide.
+- Keep each response to 1-3 short paragraphs (max ~90 words). Be concise.
+- Use **bold** for key physics terms when you introduce them.
+- No emojis. No filler. No "Great question!" openers.
+- If the student asks something off-topic, gently redirect to the current slide.
+- The student is reading in English. Respond in English.${historyBlock}
+Student's latest question: ${input.question}
+
+Your reply:`;
+}

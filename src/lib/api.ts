@@ -5,6 +5,7 @@
  *   POST /check   — check a student answer
  *   POST /explain — get a lesson-level AI explanation (cached server-side)
  *   POST /chat    — Explain More follow-up (M4)
+ *   POST /ask     — slide-aware "Ask Anything" chat (M5.4)
  *   GET  /health  — health check
  *
  * If VITE_WORKER_URL is not set, calls return a structured "not configured"
@@ -63,6 +64,22 @@ export interface ChatResponse {
   reply: string;
 }
 
+export interface AskRequest {
+  lessonName: string;
+  moduleName: string;
+  slide: {
+    title: string;
+    body: string;
+    formula?: { label: string; expression: string };
+  };
+  history?: ChatMessage[];
+  question: string;
+}
+
+export interface AskResponse {
+  reply: string;
+}
+
 async function postJson<T>(path: string, body: unknown): Promise<T> {
   if (!isWorkerConfigured) {
     throw new Error(
@@ -85,4 +102,5 @@ export const api = {
   check: (req: CheckRequest) => postJson<CheckResponse>("/check", req),
   explain: (req: ExplainRequest) => postJson<ExplainResponse>("/explain", req),
   chat: (req: ChatRequest) => postJson<ChatResponse>("/chat", req),
+  askSlide: (req: AskRequest) => postJson<AskResponse>("/ask", req),
 };
