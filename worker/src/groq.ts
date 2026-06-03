@@ -5,8 +5,6 @@
  * Free tier: 14,400 req/day per key.
  */
 
-import { RateLimitError } from "./rotation";
-
 const ENDPOINT = "https://api.groq.com/openai/v1/chat/completions";
 const MODEL = "llama-3.3-70b-versatile";
 
@@ -30,9 +28,6 @@ export async function callGroq(
 
   if (!res.ok) {
     const body = await res.text();
-    if (res.status === 429) {
-      throw new RateLimitError(`Groq 429: ${body.slice(0, 200)}`);
-    }
     throw new Error(`Groq ${res.status}: ${body.slice(0, 200)}`);
   }
 

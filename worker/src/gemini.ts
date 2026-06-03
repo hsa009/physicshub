@@ -4,8 +4,6 @@
  * Free tier: 1500 req/day and 15 req/min per key.
  */
 
-import { RateLimitError } from "./rotation";
-
 const ENDPOINT =
   "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent";
 
@@ -28,9 +26,6 @@ export async function callGemini(
 
   if (!res.ok) {
     const body = await res.text();
-    if (res.status === 429 || res.status === 503) {
-      throw new RateLimitError(`Gemini ${res.status}: ${body.slice(0, 200)}`);
-    }
     throw new Error(`Gemini ${res.status}: ${body.slice(0, 200)}`);
   }
 
