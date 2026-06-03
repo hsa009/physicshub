@@ -12,6 +12,7 @@
 import { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { questionBank } from "../data/bank";
+import { getLessonIdByModuleName } from "../data/lessons";
 import { useAllAnswers } from "../hooks/useAllAnswers";
 import { useStudent } from "../hooks/useStudent";
 import Nav from "../components/Nav";
@@ -286,7 +287,10 @@ function LessonStatCard({ stat }: { stat: LessonStat }) {
           {last}
         </span>
         <Link
-          to={`/lesson/${encodeURIComponent(stat.module)}/${encodeURIComponent(stat.lesson)}`}
+          to={`/lesson/${encodeURIComponent(
+            getLessonIdByModuleName(stat.module, stat.lesson) ??
+              `${stat.module}::${stat.lesson}`,
+          )}`}
           className="btn-ghost text-[0.6rem]"
         >
           {cta}

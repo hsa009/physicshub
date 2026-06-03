@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import type { Lesson } from "../types";
+import { getLessonIdByModuleName } from "../data/lessons";
 
 interface LessonCardProps {
   lesson: Lesson;
@@ -22,8 +23,11 @@ function renderTitle(name: string) {
   );
 }
 
-function encodeLessonPath(lesson: { id: string } | Lesson): string {
-  const id = "id" in lesson ? lesson.id : `${lesson.module}::${lesson.name}`;
+function encodeLessonPath(lesson: Lesson): string {
+  const id = getLessonIdByModuleName(lesson.module, lesson.name);
+  if (!id) {
+    return `/lesson/${encodeURIComponent(`${lesson.module}::${lesson.name}`)}`;
+  }
   return `/lesson/${encodeURIComponent(id)}`;
 }
 

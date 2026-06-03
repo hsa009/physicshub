@@ -24,8 +24,19 @@ export const lessonById: Map<string, LessonWithSlides> = new Map(
   allLessons.map((l) => [l.id, l]),
 );
 
+export const lessonIdByModuleName: Map<string, string> = new Map(
+  allLessons.map((l) => [`${l.module}::${l.name}`, l.id]),
+);
+
 export function getLessonById(id: string): LessonWithSlides | undefined {
   return lessonById.get(id);
+}
+
+export function getLessonIdByModuleName(
+  module: string,
+  name: string,
+): string | undefined {
+  return lessonIdByModuleName.get(`${module}::${name}`);
 }
 
 export function getLessonsForModule(module: string): LessonWithSlides[] {
