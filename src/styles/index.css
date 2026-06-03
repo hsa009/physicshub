@@ -92,8 +92,9 @@ body::after {
     @apply text-[0.9rem] leading-[1.9] text-text-body;
   }
 
+  /* ─── BUTTONS ─── */
   .btn-primary {
-    @apply relative overflow-hidden border border-gold bg-transparent px-10 py-3.5 font-sans text-[0.65rem] uppercase tracking-btn text-gold cursor-pointer transition-all duration-300;
+    @apply relative inline-flex items-center justify-center gap-3 overflow-hidden border-2 border-gold bg-transparent px-12 py-4 font-sans text-[0.72rem] uppercase tracking-btn text-gold cursor-pointer transition-all duration-300;
   }
 
   .btn-primary::before {
@@ -102,25 +103,45 @@ body::after {
     inset: 0;
     background: var(--gold);
     transform: translateX(-101%);
-    transition: transform 0.3s ease;
+    transition: transform 0.35s ease;
+  }
+
+  .btn-primary > * {
+    position: relative;
+    z-index: 1;
+    transition: color 0.35s ease;
   }
 
   .btn-primary:hover::before {
     transform: translateX(0);
   }
 
-  .btn-primary span {
-    position: relative;
-    z-index: 1;
-    transition: color 0.3s ease;
-  }
-
-  .btn-primary:hover span {
+  .btn-primary:hover > * {
     color: var(--bg);
   }
 
+  .btn-primary:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+  }
+
+  /* Subtle attention pulse so the primary action is obviously the primary */
+  .btn-primary:not(:disabled) {
+    animation: btnPulse 3s ease-in-out infinite;
+  }
+
+  @keyframes btnPulse {
+    0%, 100% {
+      box-shadow: 0 0 0 0 rgba(201, 169, 110, 0);
+    }
+    50% {
+      box-shadow: 0 0 0 7px rgba(201, 169, 110, 0.12);
+    }
+  }
+
+  /* Secondary action — bordered, padded, clearly clickable, with a trailing arrow */
   .btn-ghost {
-    @apply flex items-center gap-2.5 bg-transparent border-0 font-sans text-[0.65rem] uppercase tracking-btn text-text-label cursor-pointer transition-colors duration-300;
+    @apply inline-flex items-center gap-2.5 border border-border-mid bg-bg-subtle px-5 py-2.5 font-sans text-[0.65rem] uppercase tracking-btn text-text-primary cursor-pointer transition-all duration-300;
   }
 
   .btn-ghost::after {
@@ -129,11 +150,26 @@ body::after {
   }
 
   .btn-ghost:hover {
-    @apply text-gold;
+    @apply border-gold text-gold bg-bg-card;
   }
 
   .btn-ghost:hover::after {
     transform: translateX(4px);
+  }
+
+  /* Tertiary action — for inline controls like "Try again", "Send", "Clear", "Close".
+     Padded and bordered, but quiet enough to sit inside a feedback block. */
+  .btn-soft {
+    @apply inline-flex items-center gap-2 border border-border-mid bg-transparent px-3.5 py-2 font-sans text-[0.6rem] uppercase tracking-btn text-text-body cursor-pointer transition-all duration-300;
+  }
+
+  .btn-soft:hover {
+    @apply border-gold text-gold;
+  }
+
+  .btn-soft:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
   }
 
   .gold-line {

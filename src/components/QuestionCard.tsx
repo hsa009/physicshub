@@ -184,18 +184,17 @@ function FeedbackBlock({
     <div className="mt-7 border border-border bg-bg-subtle p-6">
       <div className="flex items-center justify-between gap-4">
         <span className="eyebrow">AI Feedback</span>
-        <button
-          onClick={onTryAgain}
-          className="text-[0.6rem] uppercase tracking-eyebrow text-text-label transition-colors hover:text-gold"
-        >
+        <button onClick={onTryAgain} className="btn-soft" title="Clear and re-answer">
+          <span aria-hidden>↺</span>
           Try again
         </button>
       </div>
       <p className="mt-4 text-[0.9rem] leading-[1.8] text-text-body">
         {answer.ai_feedback}
       </p>
-      <div className="mt-5 flex items-center gap-4 border-t border-border pt-4">
+      <div className="mt-5 flex flex-wrap items-center gap-4 border-t border-border pt-4">
         <button className="btn-ghost" onClick={onExplain}>
+          <span aria-hidden className="text-gold">✦</span>
           Explain More
         </button>
         <span className="text-[0.6rem] uppercase tracking-eyebrow text-text-label">

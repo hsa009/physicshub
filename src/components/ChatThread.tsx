@@ -88,19 +88,13 @@ export default function ChatThread({
     >
       <div className="flex items-center justify-between border-b border-border px-5 py-3">
         <span className="eyebrow">AI Tutor</span>
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-2">
           {messages.length > 0 && (
-            <button
-              onClick={onClear}
-              className="text-[0.6rem] uppercase tracking-eyebrow text-text-label transition-colors duration-300 hover:text-gold"
-            >
+            <button onClick={onClear} className="btn-soft">
               Clear
             </button>
           )}
-          <button
-            onClick={onClose}
-            className="text-[0.6rem] uppercase tracking-eyebrow text-text-label transition-colors duration-300 hover:text-gold"
-          >
+          <button onClick={onClose} className="btn-soft">
             Close
           </button>
         </div>
@@ -178,9 +172,10 @@ export default function ChatThread({
           disabled={
             !isWorkerConfigured || busy || draft.trim().length === 0
           }
-          className="text-[0.6rem] uppercase tracking-eyebrow text-gold transition-opacity duration-300 disabled:opacity-30"
+          className="btn-soft"
         >
           Send
+          <span aria-hidden>→</span>
         </button>
       </form>
     </div>
