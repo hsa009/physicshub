@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   getLessonById,
@@ -7,9 +7,8 @@ import {
 } from "../data/lessons";
 import { useAnswers } from "../hooks/useAnswers";
 import Nav from "../components/Nav";
-import QuestionCard from "../components/QuestionCard";
-import Spinner from "../components/Spinner";
 import LessonPager from "../components/LessonPager";
+import QuestionsPager from "../components/QuestionsPager";
 import AskDrawer from "../components/AskDrawer";
 import AskToggleButton from "../components/AskToggleButton";
 import { renderAccentTitle } from "../lib/format";
@@ -34,17 +33,24 @@ export default function LessonView() {
   const questionsRef = useRef<HTMLElement>(null);
   const [currentSlide, setCurrentSlide] = useState<SlideType>(lesson.slides[0]);
   const [askOpen, setAskOpen] = useState(false);
+  const [showQuestions, setShowQuestions] = useState(false);
+  const [questionIndex, setQuestionIndex] = useState(0);
 
-  const scrollToQuestions = () => {
-    questionsRef.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
+  const goToQuestions = () => {
+    setShowQuestions(true);
+    setQuestionIndex(0);
   };
+  const goBackToSlides = () => setShowQuestions(false);
+  const goToPractice = () => navigate(`/lesson/${lesson.id}/practice`);
 
-  const goToPractice = () => {
-    navigate(`/lesson/${lesson.id}/practice`);
-  };
+  useEffect(() => {
+    if (showQuestions) {
+      questionsRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  }, [showQuestions]);
 
   const firstQid = legacyLesson?.questionIds[0];
   const lastQid = legacyLesson?.questionIds[legacyLesson.questionIds.length - 1];
@@ -88,60 +94,48 @@ export default function LessonView() {
           </p>
         </div>
 
-        {/* Paged slides */}
-        <section className="mx-auto mt-16 max-w-5xl">
-          <LessonPager
-            lesson={lesson}
-            onComplete={scrollToQuestions}
-            onPractice={goToPractice}
-            onSlideChange={setCurrentSlide}
-          />
-        </section>
-
-        {/* Questions */}
-        <section
-          ref={questionsRef}
-          className="mx-auto mt-24 max-w-4xl scroll-mt-[120px]"
-          aria-label="Questions"
-        >
-          <div className="mb-3 flex items-center gap-4">
-            <div className="gold-line" />
-            <span className="eyebrow">Questions</span>
-          </div>
-          <h2 className="section-title text-[2rem] md:text-[2.4rem]">
-            {questions.length} <em>Questions</em>
-          </h2>
-          <div className="mt-3 flex items-center justify-between gap-3 text-[0.65rem] uppercase tracking-eyebrow text-text-label">
-            <span>
-              {answersLoading ? (
-                <span className="flex items-center gap-2">
-                  <Spinner size={12} /> Loading prior answers…
-                </span>
-              ) : (
-                "Your saved answers appear on each card as you submit them."
-              )}
-            </span>
-            <button
-              type="button"
-              onClick={goToPractice}
-              className="text-text-label transition-colors hover:text-gold"
-            >
-              <span aria-hidden className="mr-1 text-gold">✦</span>
-              Practice Mode
-            </button>
-          </div>
-          <div className="mt-10 flex flex-col gap-px border border-border bg-border">
-            {questions.map((q) => (
-              <QuestionCard
-                key={q.id}
-                question={q}
+        {!showQuestions ? (
+          <section
+            aria-label="Slides"
+            className="mx-auto mt-16 max-w-5xl"
+          >
+            <LessonPager
+              lesson={lesson}
+              onComplete={goToQuestions}
+              onPractice={goToPractice}
+              onSlideChange={setCurrentSlide}
+            />
+          </section>
+        ) : (
+          <section
+            ref={questionsRef}
+            aria-label="Questions"
+            className="mx-auto mt-16 max-w-4xl scroll-mt-[120px]"
+          >
+            <div className="mb-3 flex items-center gap-4">
+              <div className="gold-line" />
+              <span className="eyebrow">Questions</span>
+            </div>
+            <h2 className="section-title text-[2rem] md:text-[2.4rem]">
+              {questions.length} <em>Questions</em>
+            </h2>
+            <div className="mt-10">
+              <QuestionsPager
+                questions={questions}
+                priorAnswers={priorAnswers}
                 module={lesson.module}
                 lesson={lesson.name}
-                priorAnswers={priorAnswers}
+                index={questionIndex}
+                onIndexChange={setQuestionIndex}
+                onBackToSlides={goBackToSlides}
+                onPractice={goToPractice}
+                firstQid={firstQid}
+                lastQid={lastQid}
+                answersLoading={answersLoading}
               />
-            ))}
-          </div>
-        </section>
+            </div>
+          </section>
+        )}
       </main>
 
       <AskToggleButton
