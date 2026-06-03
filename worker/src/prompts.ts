@@ -60,20 +60,36 @@ Constraints:
 - No extra keys. No commentary. JSON only.`;
 }
 
+export interface ChatMessage {
+  role: "student" | "tutor";
+  content: string;
+}
+
 export interface ChatInput {
   lesson: string;
   question: string;
   studentAnswer: string;
   previousFeedback: string;
+  history: ChatMessage[];
   followup: string;
 }
 
 export function chatPrompt(input: ChatInput): string {
+  const historyBlock =
+    input.history.length > 0
+      ? `\nConversation so far:\n${input.history
+          .map(
+            (m) =>
+              `${m.role === "student" ? "Student" : "Tutor"}: ${m.content}`
+          )
+          .join("\n")}\n`
+      : "";
+
   return `You are a physics tutor. The student is studying ${input.lesson} in Grade 11 Physics.
 The question was: ${input.question}
 The student's answer was: ${input.studentAnswer}
 Your previous feedback was: ${input.previousFeedback}
-
+${historyBlock}
 The student now asks: ${input.followup}
 
 Answer clearly at a Grade 11 level. Use examples if helpful. Keep your response under 200 words.`;

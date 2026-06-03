@@ -283,6 +283,8 @@ Per-key cooldown of 60s tracked in a Worker in-memory map.
 
 | Date | Milestone | Change / Fix | By |
 |---|---|---|---|
+| 2026-06-03 | Deploy | **GitHub push complete.** Repo: `reghaith/physicshub` (private, https://github.com/reghaith/physicshub). 54 files / 1 commit on `main` (d30d84c — "Initial commit: M1–M3 scaffold"). Removed stray `.DS_Store`. Set local git identity to `reghaith <198034675+reghaith@users.noreply.github.com>`. Initial push failed with HTTP 400 due to 14MB docx exceeding default `http.postBuffer`; fixed by setting `http.postBuffer=524288000` and retrying. | deploy |
+| 2026-06-03 | Deploy | **Security note:** GitHub PAT was provided in chat. It is now stored in `.git/config` (remote URL) in plain text. User should revoke the token at https://github.com/settings/tokens and switch to a credential helper (`gh auth login` or `osxkeychain`) for future operations. | deploy |
 | 2026-06-03 | M3 | Wrote top nav: fixed 72px, backdrop-blur, Cormorant "Physics *Hub*" logo, NavLink with active-gold, ESIS + sign-out inline, mobile hamburger, theme toggle. Created reusable `Logo`, `ThemeToggle`, `SearchBar`, `LessonCard`, `Spinner` components — all on-theme. | build |
 | 2026-06-03 | M3 | Wrote `src/lib/api.ts` (typed Worker client: `check`, `explain`, `chat`) and `src/hooks/useAnsweredCounts.ts` + `useAnswers.ts` (TanStack Query wrappers around Supabase with cache invalidation on save). | build |
 | 2026-06-03 | M3 | **Search feature per user request** — the Home search bar filters the 9-card grid by lesson name, module name, AND question prompts in real time; shows match count and an empty-state with a "try 'momentum'" hint. | build |

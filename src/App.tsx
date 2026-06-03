@@ -5,6 +5,7 @@ import { StudentProvider, useStudent } from "./hooks/useStudent";
 import Welcome from "./pages/Welcome";
 import Home from "./pages/Home";
 import LessonView from "./pages/LessonView";
+import Progress from "./pages/Progress";
 
 export default function App() {
   return (
@@ -18,7 +19,7 @@ export default function App() {
           />
           <Route
             path="/progress"
-            element={<RequireStudent><ProgressStub /></RequireStudent>}
+            element={<RequireStudent><Progress /></RequireStudent>}
           />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
@@ -42,26 +43,6 @@ function BootScreen() {
   return (
     <main className="flex min-h-screen items-center justify-center">
       <span className="eyebrow">Loading…</span>
-    </main>
-  );
-}
-
-function ProgressStub() {
-  return (
-    <main className="flex min-h-screen items-center justify-center px-6">
-      <div className="max-w-md text-center">
-        <div className="mb-6 flex items-center justify-center gap-4">
-          <div className="gold-line" />
-          <span className="eyebrow">Coming soon</span>
-          <div className="gold-line" />
-        </div>
-        <h1 className="section-title">
-          Your <em>Progress</em>
-        </h1>
-        <p className="body-text mt-6">
-          The progress page lands in Milestone 4.
-        </p>
-      </div>
     </main>
   );
 }

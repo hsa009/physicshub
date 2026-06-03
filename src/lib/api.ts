@@ -45,11 +45,17 @@ export interface ExplainResponse {
   cached: boolean;
 }
 
+export interface ChatMessage {
+  role: "student" | "tutor";
+  content: string;
+}
+
 export interface ChatRequest {
   lesson: string;
   question: string;
   studentAnswer: string;
   previousFeedback: string;
+  history?: ChatMessage[];
   followup: string;
 }
 

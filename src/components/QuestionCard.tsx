@@ -3,6 +3,7 @@ import type { Answer, Question, Verdict } from "../types";
 import { api, isWorkerConfigured } from "../lib/api";
 import { useSaveAnswer, latestFor } from "../hooks/useAnswers";
 import Spinner from "./Spinner";
+import ChatThread from "./ChatThread";
 
 interface QuestionCardProps {
   question: Question;
@@ -34,6 +35,7 @@ export default function QuestionCard({
   const [checking, setChecking] = useState(false);
   const [current, setCurrent] = useState<Answer | undefined>(prior);
   const [error, setError] = useState<string | null>(null);
+  const [chatOpen, setChatOpen] = useState(false);
   const saveAnswer = useSaveAnswer();
 
   const onCheck = async (e: FormEvent) => {
@@ -127,7 +129,24 @@ export default function QuestionCard({
       )}
 
       {current && (
-        <FeedbackBlock answer={current} onTryAgain={() => setCurrent(undefined)} />
+        <FeedbackBlock
+          answer={current}
+          onTryAgain={() => {
+            setCurrent(undefined);
+            setChatOpen(false);
+          }}
+          onExplain={() => setChatOpen((o) => !o)}
+        />
+      )}
+
+      {current && (
+        <ChatThread
+          lesson={lesson}
+          question={question.prompt}
+          answer={current}
+          open={chatOpen}
+          onClose={() => setChatOpen(false)}
+        />
       )}
 
       {/* Gold underline (mirrors .feature-item::after) */}
@@ -155,9 +174,11 @@ function VerdictBadge({ verdict }: { verdict: Verdict }) {
 function FeedbackBlock({
   answer,
   onTryAgain,
+  onExplain,
 }: {
   answer: Answer;
   onTryAgain: () => void;
+  onExplain: () => void;
 }) {
   return (
     <div className="mt-7 border border-border bg-bg-subtle p-6">
@@ -174,11 +195,11 @@ function FeedbackBlock({
         {answer.ai_feedback}
       </p>
       <div className="mt-5 flex items-center gap-4 border-t border-border pt-4">
-        <button className="btn-ghost" disabled title="Coming in Milestone 4">
+        <button className="btn-ghost" onClick={onExplain}>
           Explain More
         </button>
         <span className="text-[0.6rem] uppercase tracking-eyebrow text-text-label">
-          Follow-up chat lands in M4
+          Ask the AI tutor to clarify
         </span>
       </div>
     </div>

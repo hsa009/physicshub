@@ -175,6 +175,7 @@ interface ChatBody {
   question: string;
   studentAnswer: string;
   previousFeedback: string;
+  history?: { role: "student" | "tutor"; content: string }[];
   followup: string;
 }
 
@@ -196,6 +197,7 @@ async function handleChat(request: Request, env: Env): Promise<Response> {
         question: body.question,
         studentAnswer: body.studentAnswer,
         previousFeedback: body.previousFeedback,
+        history: body.history ?? [],
         followup: body.followup,
       }),
       env
