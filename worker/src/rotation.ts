@@ -1,34 +1,71 @@
 /**
  * Key rotation logic.
  *
- * Tries each Gemini key in order, then falls through to each Groq key.
- * If a key fails, immediately tries the next one — no cooldown. With
- * per-isolate memory and small per-key free tiers, hammering a key
- * for a few seconds is fine; the user shouldn't wait 60s before retry.
+ * Two providers: Groq (primary) and OpenRouter (fallback).
+ * Each provider can have 1+ keys; we iterate them in order.
+ *
+ * Cooldown policy:
+ *   - 429 (rate-limited) or 403 (quota denied / forbidden) marks the key
+ *     as cooling down for 60s, in-memory per Worker isolate.
+ *   - Other errors (400, 500, parse) do NOT mark cooldown — they're
+ *     likely our fault, not the provider's.
+ *   - During cooldown, the key is skipped. After 60s it is retried.
+ *
+ * Net effect: if one provider is rate-limited, we fall through to the
+ * other provider immediately (no 60s wait), and we don't hammer the
+ * rate-limited key for the next minute.
  */
 
-import { callGemini } from "./gemini";
 import { callGroq } from "./groq";
+import { callOpenRouter } from "./openrouter";
+
+const COOLDOWN_MS = 60_000;
 
 export interface KeyProvider {
-  GEMINI_KEY_1?: string;
-  GEMINI_KEY_2?: string;
-  GEMINI_KEY_3?: string;
-  GEMINI_KEY_4?: string;
-  GEMINI_KEY_5?: string;
   GROQ_KEY_1?: string;
   GROQ_KEY_2?: string;
+  GROQ_KEY_3?: string;
+  OPENROUTER_KEY_1?: string;
+  OPENROUTER_KEY_2?: string;
+  OPENROUTER_KEY_3?: string;
 }
 
-function getGeminiKeys(env: KeyProvider): string[] {
-  return [1, 2, 3, 4, 5]
-    .map((i) => env[`GEMINI_KEY_${i}` as keyof KeyProvider] as string | undefined)
-    .filter((k): k is string => Boolean(k));
+type CallFn = (prompt: string, key: string) => Promise<string>;
+
+interface Provider {
+  name: "Groq" | "OpenRouter";
+  keys: string[];
+  call: CallFn;
+}
+
+const cooldowns = new Map<string, number>();
+
+function isCoolingDown(key: string): boolean {
+  const until = cooldowns.get(key);
+  if (!until) return false;
+  if (Date.now() > until) {
+    cooldowns.delete(key);
+    return false;
+  }
+  return true;
+}
+
+function markRateLimited(key: string): void {
+  cooldowns.set(key, Date.now() + COOLDOWN_MS);
 }
 
 function getGroqKeys(env: KeyProvider): string[] {
-  return [1, 2]
+  return [1, 2, 3]
     .map((i) => env[`GROQ_KEY_${i}` as keyof KeyProvider] as string | undefined)
+    .filter((k): k is string => Boolean(k));
+}
+
+function getOpenRouterKeys(env: KeyProvider): string[] {
+  return [1, 2, 3]
+    .map(
+      (i) =>
+        env[`OPENROUTER_KEY_${i}` as keyof KeyProvider] as string | undefined
+    )
     .filter((k): k is string => Boolean(k));
 }
 
@@ -36,33 +73,39 @@ export async function callWithRotation(
   prompt: string,
   env: KeyProvider
 ): Promise<string> {
+  const providers: Provider[] = [
+    { name: "Groq", keys: getGroqKeys(env), call: callGroq },
+    { name: "OpenRouter", keys: getOpenRouterKeys(env), call: callOpenRouter },
+  ];
+
   const errors: string[] = [];
 
-  for (const key of getGeminiKeys(env)) {
-    try {
-      return await callGemini(prompt, key);
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : String(err);
-      errors.push(`Gemini …${key.slice(-4)}: ${msg}`);
-    }
-  }
-
-  for (const key of getGroqKeys(env)) {
-    try {
-      return await callGroq(prompt, key);
-    } catch (err) {
-      const msg = err instanceof Error ? err.message : String(err);
-      errors.push(`Groq …${key.slice(-4)}: ${msg}`);
+  for (const provider of providers) {
+    for (const key of provider.keys) {
+      if (isCoolingDown(key)) {
+        errors.push(`${provider.name} …${key.slice(-4)}: cooling down`);
+        continue;
+      }
+      try {
+        return await provider.call(prompt, key);
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err);
+        errors.push(`${provider.name} …${key.slice(-4)}: ${msg}`);
+        // 429/403 → mark cooldown. Other errors → try next key.
+        if (/ 429:/.test(msg) || / 403:/.test(msg)) {
+          markRateLimited(key);
+        }
+      }
     }
   }
 
   throw new Error(
     `All AI keys exhausted. ${errors.length} attempt(s) failed. Last errors: ${errors
-      .slice(-3)
+      .slice(-4)
       .join(" | ")}`
   );
 }
 
 export function hasAnyKey(env: KeyProvider): boolean {
-  return getGeminiKeys(env).length + getGroqKeys(env).length > 0;
+  return getGroqKeys(env).length + getOpenRouterKeys(env).length > 0;
 }

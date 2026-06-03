@@ -3,15 +3,15 @@
  *
  * Routes:
  *   GET  /health       — health check
- *   POST /check        — check a student answer (Gemini → Groq rotation)
+ *   POST /check        — check a student answer (Groq → OpenRouter rotation)
  *   POST /explain      — generate / fetch cached lesson explanation
  *   POST /chat         — "Explain More" follow-up (used in M4)
  *
  * Env vars (set via `wrangler secret put`):
  *   ADMIN_PASSWORD
  *   SUPABASE_URL, SUPABASE_SERVICE_KEY
- *   GEMINI_KEY_1 .. GEMINI_KEY_5
- *   GROQ_KEY_1 .. GROQ_KEY_2
+ *   GROQ_KEY_1 .. GROQ_KEY_3
+ *   OPENROUTER_KEY_1 .. OPENROUTER_KEY_3
  */
 
 import { callWithRotation, hasAnyKey, type KeyProvider } from "./rotation";

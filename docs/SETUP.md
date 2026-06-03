@@ -30,40 +30,40 @@ Follow these in order. Each block is one account or secret.
 
 ---
 
-## 3. Google Gemini API keys (AI primary) — free tier
+## 3. Groq API keys (AI primary) — free tier
 
-Gemini 1.5 Flash free tier: **1,500 requests/day** and **15 requests/minute** per key.
+Llama 3.3 70B Versatile free tier: **14,400 requests/day** per key.
 
-1. Create 3–5 Google accounts. You can use a personal Gmail + 2 aliases, or ask friends/family to generate one each (each account is independent).
-2. For each account, go to https://aistudio.google.com/app/apikey.
-3. Click **Create API key** → **Create API key in new project** (or pick an existing one).
-4. Copy each key. Label them `GEMINI_KEY_1` through `GEMINI_KEY_5`.
-5. Set each as a Worker secret:
+1. Go to https://console.groq.com and sign up.
+2. **API Keys** → **Create API Key**. Copy and save it.
+3. Set as a Worker secret:
    ```bash
    cd worker
-   wrangler secret put GEMINI_KEY_1
+   wrangler secret put GROQ_KEY_1
    # paste key, press Enter
-   wrangler secret put GEMINI_KEY_2
-   # ...
    ```
+4. (Optional) Create additional Groq accounts for more keys. The Worker supports up to 3 (`GROQ_KEY_1` through `GROQ_KEY_3`).
 
-> The Worker rotates through these in order. 5 keys = ~7,500 free requests/day, which is more than enough for 500–1,000 students.
+> Groq is the primary provider. One key is enough for 500–1,000 students; add more if you expect traffic spikes.
 
 ---
 
-## 4. Groq API keys (AI fallback) — free tier
+## 4. OpenRouter API keys (AI fallback) — free tier
 
-Llama 3.1 70B free tier: **14,400 requests/day** per key.
+We use OpenRouter as the fallback when Groq is rate-limited. OpenRouter is an OpenAI-compatible aggregator that hosts many models on a free tier.
 
-1. Create 2 accounts at https://console.groq.com (sign up with separate emails).
-2. For each, go to **API Keys** → **Create API Key**.
-3. Copy both, set as Worker secrets:
+Model used: `meta-llama/llama-3.3-70b-instruct:free` (free tier, ~20 req/min, daily cap varies).
+
+1. Go to https://openrouter.ai and sign up.
+2. **Keys** → **Create Key**. Copy and save it.
+3. Set as a Worker secret:
    ```bash
-   wrangler secret put GROQ_KEY_1
-   wrangler secret put GROQ_KEY_2
+   wrangler secret put OPENROUTER_KEY_1
+   # paste key, press Enter
    ```
+4. (Optional) Create additional OpenRouter keys for redundancy. The Worker supports up to 3 (`OPENROUTER_KEY_1` through `OPENROUTER_KEY_3`).
 
-> The Worker falls through to Groq only when all Gemini keys are exhausted.
+> The Worker tries Groq first, falls through to OpenRouter on 429/403. Per-key cooldown is 60 seconds — if a key rate-limits, the next request skips it.
 
 ---
 
@@ -92,8 +92,8 @@ Your Worker should have these secrets set:
 - `ADMIN_PASSWORD`
 - `SUPABASE_URL`
 - `SUPABASE_SERVICE_KEY`
-- `GEMINI_KEY_1` … `GEMINI_KEY_5`
-- `GROQ_KEY_1`, `GROQ_KEY_2`
+- `GROQ_KEY_1` (optional: `GROQ_KEY_2`, `GROQ_KEY_3`)
+- `OPENROUTER_KEY_1` (optional: `OPENROUTER_KEY_2`, `OPENROUTER_KEY_3`)
 
 You can verify with:
 ```bash

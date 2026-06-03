@@ -2,8 +2,8 @@
  * Mock AI responses for local dev when no API keys are configured.
  *
  * Returns plausible-looking structured responses so the UI is fully
- * exercisable. Real responses come from Gemini/Groq once the user sets
- * secrets in the Worker.
+ * exercisable. Real responses come from Groq/OpenRouter once the user
+ * sets secrets in the Worker.
  */
 
 import type { ParsedCheck, ParsedExplain } from "./parse";
