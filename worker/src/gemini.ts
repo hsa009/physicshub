@@ -1,12 +1,13 @@
 /**
- * Google Gemini 1.5 Flash client.
+ * Google Gemini client.
+ * Model: gemini-flash-latest — the current free-tier Flash alias.
  * Free tier: 1500 req/day and 15 req/min per key.
  */
 
 import { RateLimitError } from "./rotation";
 
 const ENDPOINT =
-  "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent";
+  "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent";
 
 export async function callGemini(
   prompt: string,
