@@ -81,6 +81,12 @@ export interface LessonWithSlides {
   description: string;
   slides: Slide[];
   questionIds: string[];
+  /**
+   * Derived: `questionIds.length`. Set when the data is loaded by
+   * `lessons.ts` so consumers (LessonCard, useLearningPath) can read
+   * the count without re-computing.
+   */
+  questionCount: number;
 }
 
 export interface LessonsFile {

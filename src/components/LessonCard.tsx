@@ -5,6 +5,15 @@ import { getLessonIdByModuleName } from "../data/lessons";
 interface LessonCardProps {
   lesson: Lesson;
   answeredCount: number;
+  /** 1-based position in the learning path; omitted to hide the badge. */
+  pathPosition?: number;
+  /** Total lessons in the path; used for "n/total" labelling. */
+  pathTotal?: number;
+  /**
+   * True when this card is the next-incomplete lesson in the path.
+   * Renders a gold "Up next" pill in the top-right corner.
+   */
+  isUpNext?: boolean;
 }
 
 /**
@@ -31,7 +40,13 @@ function encodeLessonPath(lesson: Lesson): string {
   return `/lesson/${encodeURIComponent(id)}`;
 }
 
-export default function LessonCard({ lesson, answeredCount }: LessonCardProps) {
+export default function LessonCard({
+  lesson,
+  answeredCount,
+  pathPosition,
+  pathTotal,
+  isUpNext = false,
+}: LessonCardProps) {
   const complete = answeredCount >= lesson.questionCount;
   const progress = `${answeredCount}/${lesson.questionCount}`;
 
@@ -40,19 +55,43 @@ export default function LessonCard({ lesson, answeredCount }: LessonCardProps) {
       to={encodeLessonPath(lesson)}
       className="coll-item group relative flex min-h-[220px] flex-col justify-between overflow-hidden border border-border bg-bg-card p-10 transition-colors duration-300 hover:bg-bg-subtle"
     >
+      {/* Up-next gold border highlight (M5.9). Uses ring instead of border
+          so the card layout doesn't shift. */}
+      {isUpNext && (
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-0 ring-1 ring-gold/60"
+        />
+      )}
+
       <div className="flex items-center justify-between">
         <span className="text-[0.58rem] uppercase tracking-[0.45em] text-text-label transition-colors duration-300 group-hover:text-gold">
-          {lesson.module}
+          {pathPosition && pathTotal
+            ? `${pathPosition} of ${pathTotal} · ${lesson.module}`
+            : lesson.module}
         </span>
-        {complete ? (
-          <span className="text-[0.58rem] uppercase tracking-[0.3em] text-gold">
-            Complete
-          </span>
-        ) : answeredCount > 0 ? (
-          <span className="text-[0.58rem] uppercase tracking-[0.3em] text-text-body">
-            {progress}
-          </span>
-        ) : null}
+        <div className="flex items-center gap-3">
+          {isUpNext && !complete && (
+            <span
+              className="border border-gold px-2.5 py-1 text-[0.55rem] uppercase tracking-[0.3em] text-gold"
+              aria-label="This is the next lesson in your path"
+            >
+              <span aria-hidden className="mr-1">
+                ✦
+              </span>
+              Up next
+            </span>
+          )}
+          {complete ? (
+            <span className="text-[0.58rem] uppercase tracking-[0.3em] text-gold">
+              ✓ Complete
+            </span>
+          ) : answeredCount > 0 ? (
+            <span className="text-[0.58rem] uppercase tracking-[0.3em] text-text-body">
+              {progress}
+            </span>
+          ) : null}
+        </div>
       </div>
 
       <div>

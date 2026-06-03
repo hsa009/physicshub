@@ -6,6 +6,8 @@ import {
   getLesson,
 } from "../data/lessons";
 import { useAnswers } from "../hooks/useAnswers";
+import { useLearningPath, isLessonComplete } from "../hooks/useLearningPath";
+import { useAnsweredCounts } from "../hooks/useAnsweredCounts";
 import Nav from "../components/Nav";
 import LessonPager from "../components/LessonPager";
 import QuestionsPager from "../components/QuestionsPager";
@@ -29,6 +31,17 @@ export default function LessonView() {
     lesson.module,
     lesson.name,
   );
+  const { data: counts } = useAnsweredCounts();
+  const { getNextLessonId: getNext } = useLearningPath();
+
+  // M5.9: completion + next-lesson lookup
+  const isComplete = isLessonComplete(lesson, counts);
+  const nextLessonId = getNext(lesson.id);
+  const nextLesson = (() => {
+    if (!nextLessonId) return undefined;
+    const nl = getLessonById(nextLessonId);
+    return nl ? { id: nl.id, name: nl.name, accentWord: nl.accentWord } : undefined;
+  })();
 
   const questionsRef = useRef<HTMLElement>(null);
   const [currentSlide, setCurrentSlide] = useState<SlideType>(lesson.slides[0]);
@@ -42,6 +55,13 @@ export default function LessonView() {
   };
   const goBackToSlides = () => setShowQuestions(false);
   const goToPractice = () => navigate(`/lesson/${lesson.id}/practice`);
+  const goToNextLesson = () => {
+    if (nextLessonId) {
+      navigate(`/lesson/${nextLessonId}`);
+      // Reset the slide position so the next lesson starts at slide 1.
+      // useSlidePosition is keyed by lesson id, so no manual reset needed.
+    }
+  };
 
   useEffect(() => {
     if (showQuestions) {
@@ -79,6 +99,15 @@ export default function LessonView() {
           <div className="mt-6 mb-3 flex items-center gap-4">
             <div className="gold-line" />
             <span className="eyebrow">{lesson.module}</span>
+            {isComplete && (
+              <span
+                className="ml-2 inline-flex items-center gap-2 border border-gold px-3 py-1 text-[0.55rem] uppercase tracking-[0.3em] text-gold"
+                aria-label="This lesson is complete"
+              >
+                <span aria-hidden>✓</span>
+                Completed
+              </span>
+            )}
           </div>
           <h1 className="section-title">
             {renderAccentTitle(lesson.name, lesson.accentWord)}
@@ -132,6 +161,9 @@ export default function LessonView() {
                 firstQid={firstQid}
                 lastQid={lastQid}
                 answersLoading={answersLoading}
+                isComplete={isComplete}
+                nextLesson={nextLesson}
+                onNextLesson={goToNextLesson}
               />
             </div>
           </section>

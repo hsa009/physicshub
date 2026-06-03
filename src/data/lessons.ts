@@ -18,7 +18,16 @@ import type {
 
 export const lessonsFile: LessonsFile = data as LessonsFile;
 
-export const allLessons: LessonWithSlides[] = lessonsFile.lessons;
+/**
+ * Enrich every lesson with `questionCount` (derived from `questionIds.length`)
+ * so consumers like `LessonCard` and `useLearningPath` can read the count
+ * without re-computing. The shape matches the legacy `Lesson` type's
+ * `questionCount` field for backward compat.
+ */
+export const allLessons: LessonWithSlides[] = lessonsFile.lessons.map((l) => ({
+  ...l,
+  questionCount: l.questionIds.length,
+}));
 
 export const lessonById: Map<string, LessonWithSlides> = new Map(
   allLessons.map((l) => [l.id, l]),
