@@ -1,0 +1,491 @@
+{
+  "lessons": [
+    {
+      "id": "gravitation",
+      "module": "Module 7",
+      "name": "Universal Gravitation",
+      "accentWord": "Gravitation",
+      "description": "Every mass pulls on every other mass — the force that keeps your feet on the ground also holds satellites in orbit.",
+      "slides": [
+        {
+          "id": "gravitation-1",
+          "title": "The Universal Pull",
+          "body": "In 1687, **Isaac Newton** proposed that every object in the universe attracts every other object with a force called **gravity**. The pull depends on how massive each object is, and how far apart their centers are. A bigger mass pulls harder; a bigger distance weakens the pull — and the weakening is dramatic.",
+          "formula": {
+            "label": "Newton's Law of Universal Gravitation",
+            "expression": "F = G · m₁m₂ / r²"
+          },
+          "image": {
+            "src": "/images/lessons/image3.png",
+            "alt": "Two masses separated by a distance r, with attractive force arrows along the line joining their centers",
+            "caption": "Two masses attract each other along the line joining their centers."
+          },
+          "source": "manual"
+        },
+        {
+          "id": "gravitation-2",
+          "title": "The Inverse-Square Law",
+          "body": "Because of the **r²** in the denominator, doubling the distance makes the force **four times weaker**. Tripling the distance makes it **nine times weaker**. This inverse-square behaviour appears throughout physics — in gravity, in light, in electric and magnetic fields — and it is one of the most important patterns you will meet.",
+          "formula": {
+            "label": "If distance is multiplied by k, force is divided by k²",
+            "expression": "F(r) ∝ 1 / r²"
+          },
+          "image": {
+            "src": "/images/lessons/image4.png",
+            "alt": "Diagram showing field lines around a massive object weakening with distance",
+            "caption": "Field lines spread out as you move away — the field strength drops as 1/r²."
+          },
+          "source": "manual"
+        },
+        {
+          "id": "gravitation-3",
+          "title": "Holding Up Satellites",
+          "body": "A satellite stays in orbit because gravity continuously bends its straight-line path into a curve around Earth. The satellite's speed and its distance from Earth's center are linked by a single equation. Move the satellite farther out and it must travel **slower** to stay in orbit — not faster.",
+          "formula": {
+            "label": "Orbital speed of a circular orbit",
+            "expression": "v = √(GM / r)"
+          },
+          "image": {
+            "src": "/images/lessons/image25.png",
+            "alt": "A satellite orbiting Earth in a circular path, with the radius r marked from Earth's center",
+            "caption": "The farther the orbit, the slower the satellite moves."
+          },
+          "source": "manual"
+        }
+      ],
+      "questionIds": ["q1", "q2", "q3", "q4", "q5", "q6", "q7"]
+    },
+    {
+      "id": "projectile-motion",
+      "module": "Module 6",
+      "name": "Projectile Motion",
+      "accentWord": "Motion",
+      "description": "Once an object is in the air, only gravity acts on it — and the horizontal and vertical parts of its motion are completely independent.",
+      "slides": [
+        {
+          "id": "projectile-motion-1",
+          "title": "What is a Projectile?",
+          "body": "A **projectile** is any object that is moving through the air and is acted on only by **gravity** (we ignore air resistance in this course). A thrown basketball, a launched rocket in early flight, a ball rolling off a table — all are projectiles. The path they follow is a **parabola**.",
+          "formula": {
+            "label": "The path of a projectile (no air resistance)",
+            "expression": "y(x) = x·tan(θ) − g·x² / (2·v²·cos²(θ))"
+          },
+          "image": {
+            "src": "/images/lessons/image37.png",
+            "alt": "A basketball following a parabolic arc toward a hoop",
+            "caption": "The trajectory of a projectile is a parabola under gravity alone."
+          },
+          "source": "manual"
+        },
+        {
+          "id": "projectile-motion-2",
+          "title": "Free Fall First",
+          "body": "A ball **dropped** from rest is the simplest projectile. Its horizontal speed is zero; only its vertical speed grows, because gravity pulls it down. In time t it falls a distance of ½gt² and reaches a speed of gt — completely independent of how heavy the ball is.",
+          "formula": {
+            "label": "Free fall from rest",
+            "expression": "v_y = g·t  |  y = ½·g·t²"
+          },
+          "image": {
+            "src": "/images/lessons/image41.png",
+            "alt": "A ball falling straight down with velocity vectors shown at equal time intervals",
+            "caption": "Equal time steps — the distance between snapshots grows because v_y grows."
+          },
+          "source": "manual"
+        },
+        {
+          "id": "projectile-motion-3",
+          "title": "Launched at an Angle",
+          "body": "When a projectile is launched at speed v at an angle θ above the horizontal, its initial velocity splits into two independent parts. **Horizontal** speed stays constant for the whole flight. **Vertical** speed decreases on the way up, hits zero at the peak, then increases on the way down. The range is maximum at **45°** when launch and landing heights are equal.",
+          "formula": {
+            "label": "Components of launch velocity",
+            "expression": "v_x = v·cos(θ)  |  v_y = v·sin(θ)"
+          },
+          "image": {
+            "src": "/images/lessons/image29.png",
+            "alt": "A projectile launched at an angle with its velocity vector split into horizontal and vertical components",
+            "caption": "Horizontal and vertical motion are independent but share the same flight time."
+          },
+          "source": "manual"
+        }
+      ],
+      "questionIds": ["q8", "q9", "q10", "q11", "q12", "q13"]
+    },
+    {
+      "id": "relative-velocity",
+      "module": "Module 6",
+      "name": "Relative Velocity",
+      "accentWord": "Velocity",
+      "description": "Your speed is not just one number — it depends on who is measuring. Walk forward on a moving bus and you are faster than the bus itself.",
+      "slides": [
+        {
+          "id": "relative-velocity-1",
+          "title": "Frames of Reference",
+          "body": "A **frame of reference** is the point of view from which you measure motion. To a friend sitting on a bus, you are walking slowly forward. To a person on the side of the road, you are moving much faster, because the bus's motion adds to yours. Neither is wrong — the answer depends on the frame.",
+          "image": {
+            "src": "/images/lessons/image39.png",
+            "alt": "A person walking forward on a moving bus, with velocity arrows shown from two different observers",
+            "caption": "Two observers, two different answers — both correct, in their own frame."
+          },
+          "source": "manual"
+        },
+        {
+          "id": "relative-velocity-2",
+          "title": "Same Direction, Opposite Direction",
+          "body": "To find the velocity of object A **relative to** frame B, you add the velocities if they point the same way, and subtract if they point opposite. Walk **toward the front** of a 6 m/s bus at 2 m/s and your road speed is 6 + 2 = 8 m/s. Walk **toward the back** and it is 6 − 2 = 4 m/s.",
+          "formula": {
+            "label": "Relative velocity (one dimension)",
+            "expression": "v_A/B = v_A − v_B"
+          },
+          "image": {
+            "src": "/images/lessons/image50.png",
+            "alt": "A student walking on a bus with velocity arrows for the bus and the student",
+            "caption": "Same direction → add. Opposite direction → subtract."
+          },
+          "source": "manual"
+        },
+        {
+          "id": "relative-velocity-3",
+          "title": "On Water and on the Road",
+          "body": "The same rule applies to a boat on a river: the boat's velocity **relative to the water** plus the water's velocity **relative to the ground** gives the boat's velocity **relative to the ground**. A 15 m/s boat on a 3 m/s current moves at 18 m/s downstream and only 12 m/s upstream.",
+          "formula": {
+            "label": "Velocity addition (vectors)",
+            "expression": "v_boat/ground = v_boat/water + v_water/ground"
+          },
+          "image": {
+            "src": "/images/lessons/image48.png",
+            "alt": "A boat crossing a river with the current shown as a separate vector",
+            "caption": "Boat velocity and current velocity add as vectors, not as plain numbers."
+          },
+          "source": "manual"
+        }
+      ],
+      "questionIds": ["q14", "q15", "q16", "q17", "q18"]
+    },
+    {
+      "id": "describing-rotation",
+      "module": "Module 8",
+      "name": "Describing Rotational Motion",
+      "accentWord": "Motion",
+      "description": "Rotation has its own language: radians, angular velocity, angular acceleration — and a simple bridge to the linear motion you already know.",
+      "slides": [
+        {
+          "id": "describing-rotation-1",
+          "title": "Angles in Radians",
+          "body": "For rotation, we measure angles in **radians** rather than degrees. One radian is the angle for which the arc length s equals the radius r. A full turn is **2π radians**, half a turn is π, and a quarter turn is π/2.",
+          "formula": {
+            "label": "Definition of an angle in radians",
+            "expression": "θ = s / r"
+          },
+          "image": {
+            "src": "/images/lessons/image66.png",
+            "alt": "A circle with the radius r, arc length s, and angle θ marked at the center",
+            "caption": "θ = s / r — the radius and the arc it sweeps define the angle."
+          },
+          "source": "manual"
+        },
+        {
+          "id": "describing-rotation-2",
+          "title": "Angular Velocity and Acceleration",
+          "body": "**Angular velocity** ω (omega) measures how fast the angle changes: ω = Δθ / Δt, in rad/s. **Angular acceleration** α (alpha) measures how fast ω itself changes: α = Δω / Δt, in rad/s². They are the rotational twins of linear velocity and linear acceleration.",
+          "formula": {
+            "label": "Angular quantities",
+            "expression": "ω = Δθ / Δt  |  α = Δω / Δt"
+          },
+          "image": {
+            "src": "/images/lessons/image57.png",
+            "alt": "A spinning disc with angular velocity and angular acceleration arrows at the center",
+            "caption": "ω tells you how fast it spins; α tells you how fast that spin rate is changing."
+          },
+          "source": "manual"
+        },
+        {
+          "id": "describing-rotation-3",
+          "title": "Linear Meets Angular",
+          "body": "Every point on a spinning object has a **linear speed** v that depends on how far it is from the axis. The farther out you are, the faster you move, even though the angular speed ω is the same. The link is one of the cleanest equations in the unit: **v = ω · r**.",
+          "formula": {
+            "label": "Linear speed of a point at radius r",
+            "expression": "v = ω · r"
+          },
+          "image": {
+            "src": "/images/lessons/image59.png",
+            "alt": "A rotating wheel with two marked points — one near the center, one on the rim",
+            "caption": "Same angular speed, very different linear speeds at different radii."
+          },
+          "source": "manual"
+        }
+      ],
+      "questionIds": ["q19", "q20", "q21", "q22", "q23", "q24", "q25"]
+    },
+    {
+      "id": "rotational-dynamics",
+      "module": "Module 8",
+      "name": "Rotational Dynamics",
+      "accentWord": "Dynamics",
+      "description": "What makes something spin faster, slower, or not at all — torque, moment of inertia, and conservation of angular momentum.",
+      "slides": [
+        {
+          "id": "rotational-dynamics-1",
+          "title": "Torque and Lever Arm",
+          "body": "**Torque** is the rotational equivalent of force: it is what causes angular acceleration. The magnitude depends on the **force** and the **lever arm** — the perpendicular distance from the axis to the line of action of the force. Push on a door near the handle and it swings easily. Push near the hinge and it barely moves.",
+          "formula": {
+            "label": "Magnitude of torque",
+            "expression": "τ = r · F · sin(θ)"
+          },
+          "image": {
+            "src": "/images/lessons/image16.png",
+            "alt": "A door with a force vector applied at the edge, perpendicular to the door, with the lever arm r marked",
+            "caption": "The longer the lever arm, the greater the torque for the same push."
+          },
+          "source": "manual"
+        },
+        {
+          "id": "rotational-dynamics-2",
+          "title": "Moment of Inertia",
+          "body": "**Moment of inertia** I is the rotational equivalent of mass: it tells you how hard it is to change an object's rotation. Unlike mass, I depends on **where** the mass is. A long rod is much harder to spin than a compact disk of the same mass, because more of the mass sits far from the axis.",
+          "formula": {
+            "label": "Moment of inertia (discrete masses)",
+            "expression": "I = Σ mᵢ · rᵢ²"
+          },
+          "image": {
+            "src": "/images/lessons/image42.png",
+            "alt": "Two objects of equal mass — a long rod and a compact disk — about different axes of rotation",
+            "caption": "Same mass, different moment of inertia — it is the distribution that matters."
+          },
+          "source": "manual"
+        },
+        {
+          "id": "rotational-dynamics-3",
+          "title": "Skater Pulls Her Arms In",
+          "body": "An ice skater spinning with her arms extended has a large moment of inertia. When she pulls her arms in, her mass moves closer to the axis, so I drops. Because **angular momentum L = I · ω** is conserved (no external torque), a smaller I must give a **larger ω** — and she spins faster.",
+          "formula": {
+            "label": "Conservation of angular momentum",
+            "expression": "I_initial · ω_initial = I_final · ω_final"
+          },
+          "image": {
+            "src": "/images/lessons/image43.png",
+            "alt": "An ice skater in two positions — arms extended and arms pulled in",
+            "caption": "Pulling mass inward drops I, so ω must rise to keep L constant."
+          },
+          "source": "manual"
+        }
+      ],
+      "questionIds": ["q26", "q27", "q28", "q29", "q30", "q31", "q32"]
+    },
+    {
+      "id": "impulse-momentum",
+      "module": "Module 9",
+      "name": "Impulse and Momentum",
+      "accentWord": "Momentum",
+      "description": "Momentum is mass-times-velocity, and impulse is force-times-time. The two are linked by one of the most useful theorems in physics.",
+      "slides": [
+        {
+          "id": "impulse-momentum-1",
+          "title": "Linear Momentum",
+          "body": "**Linear momentum** p is the product of an object's mass and its velocity. It is a **vector** (points the same way as v), measured in kg·m/s. A heavy truck moving slowly can have more momentum than a light car moving fast — momentum is not the same as speed, and it is conserved in the right circumstances.",
+          "formula": {
+            "label": "Linear momentum",
+            "expression": "p = m · v"
+          },
+          "image": {
+            "src": "/images/lessons/image22.jpg",
+            "alt": "Two moving objects with different masses and velocities, momentum vectors shown",
+            "caption": "Momentum points the same way as velocity — it is a vector quantity."
+          },
+          "source": "manual"
+        },
+        {
+          "id": "impulse-momentum-2",
+          "title": "Impulse: Force × Time",
+          "body": "**Impulse** J is what happens when a force acts on an object for a time. The same change in momentum can come from a small force over a long time, or a huge force for an instant. The impulse–momentum theorem is the bridge between the two descriptions: **J = Δp**.",
+          "formula": {
+            "label": "Impulse–momentum theorem",
+            "expression": "J = F · Δt = Δp"
+          },
+          "image": {
+            "src": "/images/lessons/image52.jpg",
+            "alt": "A baseball being struck by a bat, with the contact force and contact time indicated",
+            "caption": "The bat delivers a large impulse over a very short contact time."
+          },
+          "source": "manual"
+        },
+        {
+          "id": "impulse-momentum-3",
+          "title": "Reading Force-Time Graphs",
+          "body": "Plot force against time during a collision and the **area under the curve** equals the impulse — and therefore the change in momentum. The peak of the curve is the **maximum force**; the wider the curve, the larger the impulse. This is why an airbag works: it spreads the same impulse over a longer time, lowering the peak force on your body.",
+          "formula": {
+            "label": "Impulse from a force-time graph",
+            "expression": "J = ∫ F dt  =  area under the F–t curve"
+          },
+          "image": {
+            "src": "/images/lessons/image56.jpg",
+            "alt": "A force-time graph with a clear peak, the area under the curve shaded",
+            "caption": "The shaded area under an F–t graph is the impulse delivered."
+          },
+          "source": "manual"
+        }
+      ],
+      "questionIds": ["q33", "q34", "q35", "q36", "q37", "q38", "q39", "q40"]
+    },
+    {
+      "id": "conservation-momentum",
+      "module": "Module 9",
+      "name": "Conservation of Momentum",
+      "accentWord": "Momentum",
+      "description": "When no external force acts on a system, its total momentum cannot change — even though the pieces inside it may collide, stick, or fly apart.",
+      "slides": [
+        {
+          "id": "conservation-momentum-1",
+          "title": "When is Momentum Conserved?",
+          "body": "Total momentum is conserved when the system is **closed** (no mass enters or leaves) and **isolated** (no external forces act, or the net external force is zero). Inside the system the pieces can push on each other as hard as they like — those are internal forces, and they cancel in pairs by Newton's third law.",
+          "formula": {
+            "label": "Conservation of momentum",
+            "expression": "p_total (before) = p_total (after)"
+          },
+          "image": {
+            "src": "/images/lessons/image53.jpg",
+            "alt": "Two carts about to collide on a low-friction track, momentum vectors shown",
+            "caption": "Internal forces between the carts cannot change the total momentum."
+          },
+          "source": "manual"
+        },
+        {
+          "id": "conservation-momentum-2",
+          "title": "Inelastic Collisions",
+          "body": "In a **perfectly inelastic** collision the objects stick together and move off as one. Momentum is still conserved, but some kinetic energy is lost — usually to heat, sound, or permanent deformation of the materials. Set up the equation with one combined mass moving at a single final velocity.",
+          "formula": {
+            "label": "Perfectly inelastic collision (1D)",
+            "expression": "m₁v₁ + m₂v₂ = (m₁ + m₂) · v_f"
+          },
+          "image": {
+            "src": "/images/lessons/image54.jpg",
+            "alt": "Two carts colliding and sticking together, before and after the collision",
+            "caption": "Momentum is conserved; kinetic energy is not."
+          },
+          "source": "manual"
+        },
+        {
+          "id": "conservation-momentum-3",
+          "title": "Recoil",
+          "body": "Fire a gun and the bullet moves forward; the gun must move **backward** so that total momentum stays zero. The same physics drives rockets: they push exhaust gases out the back at high speed, and the rocket recoils forward. In both cases the lighter, faster-moving piece carries the same momentum as the heavier, slower-moving piece.",
+          "formula": {
+            "label": "Two-piece recoil (initially at rest)",
+            "expression": "0 = m₁v₁ + m₂v₂  →  v₂ = − m₁v₁ / m₂"
+          },
+          "image": {
+            "src": "/images/lessons/image78.jpg",
+            "alt": "A rifle firing a bullet, with the bullet moving forward and the rifle recoiling backward",
+            "caption": "Equal and opposite momenta — the gun kicks back as the bullet flies forward."
+          },
+          "source": "manual"
+        }
+      ],
+      "questionIds": ["q41", "q42", "q43", "q44", "q45", "q46"]
+    },
+    {
+      "id": "work-energy",
+      "module": "Module 10",
+      "name": "Work and Energy",
+      "accentWord": "Energy",
+      "description": "Work is what a force does when it acts through a distance; energy is what gets transferred. Power tells you how fast the transfer happens.",
+      "slides": [
+        {
+          "id": "work-energy-1",
+          "title": "What is Work?",
+          "body": "In physics, **work** is done when a force causes (or would cause) a displacement. Only the component of the force **along the direction of motion** does work. A force perpendicular to the motion does **zero** work. A force opposite to the motion does **negative** work.",
+          "formula": {
+            "label": "Work done by a constant force",
+            "expression": "W = F · d · cos(θ)"
+          },
+          "image": {
+            "src": "/images/lessons/image73.jpg",
+            "alt": "A person pushing a crate along the floor with the force vector at an angle to the displacement",
+            "caption": "Only the component of F along d contributes to the work."
+          },
+          "source": "manual"
+        },
+        {
+          "id": "work-energy-2",
+          "title": "Kinetic Energy",
+          "body": "An object in motion has **kinetic energy** — energy of movement. The faster it goes or the heavier it is, the more kinetic energy it carries. Double the speed and the kinetic energy **quadruples** (because of the v²). This is why high-speed crashes are so much more destructive than low-speed ones.",
+          "formula": {
+            "label": "Translational kinetic energy",
+            "expression": "KE = ½ · m · v²"
+          },
+          "image": {
+            "src": "/images/lessons/image75.jpg",
+            "alt": "A moving vehicle with its kinetic energy indicated as dependent on mass and speed squared",
+            "caption": "Energy grows with v² — small speed changes make a big difference."
+          },
+          "source": "manual"
+        },
+        {
+          "id": "work-energy-3",
+          "title": "Power",
+          "body": "**Power** is the rate of doing work — how fast energy is transferred. A motor that does 400 J of work in 4 s delivers 100 W of power. The same 400 J in 2 s would mean 200 W. Power is what we pay for in electricity, what engines produce, and what limits how quickly a given machine can do a job.",
+          "formula": {
+            "label": "Average power",
+            "expression": "P = W / Δt"
+          },
+          "image": {
+            "src": "/images/lessons/image77.jpg",
+            "alt": "Two light bulbs with different wattages, illustrating different power ratings",
+            "caption": "Higher wattage means the same energy in less time."
+          },
+          "source": "manual"
+        }
+      ],
+      "questionIds": ["q47", "q48", "q49", "q50", "q51", "q52", "q53"]
+    },
+    {
+      "id": "energy-conservation",
+      "module": "Module 10",
+      "name": "Energy Forms and Conservation",
+      "accentWord": "Conservation",
+      "description": "Energy cannot be created or destroyed — only converted from one form to another. That single rule explains everything from roller coasters to power plants.",
+      "slides": [
+        {
+          "id": "energy-conservation-1",
+          "title": "Many Forms of Energy",
+          "body": "Energy appears in many forms: **kinetic** (movement), **gravitational potential** (height), **elastic potential** (stretched spring), **thermal** (heat), **chemical** (batteries, fuel), **electrical**, **light**, **sound**, and **nuclear**. Every change you see in the physical world is energy moving from one of these forms into another.",
+          "image": {
+            "src": "/images/lessons/image12.jpg",
+            "alt": "A collage of energy forms — motion, heat, light, electricity, sound",
+            "caption": "All these everyday phenomena are energy transforming from one form to another."
+          },
+          "source": "manual"
+        },
+        {
+          "id": "energy-conservation-2",
+          "title": "Gravitational Potential Energy",
+          "body": "An object lifted off the ground stores **gravitational potential energy** equal to its weight times the height it was raised. The reference level (where h = 0) is your choice — only **differences** in PE matter physically. Doubling the height doubles the stored energy.",
+          "formula": {
+            "label": "Gravitational potential energy near Earth's surface",
+            "expression": "PE = m · g · h"
+          },
+          "image": {
+            "src": "/images/lessons/image11.jpg",
+            "alt": "A ball held at height h above the ground, with gravitational potential energy indicated",
+            "caption": "PE depends on height above your chosen reference level."
+          },
+          "source": "manual"
+        },
+        {
+          "id": "energy-conservation-3",
+          "title": "Mechanical Energy is Conserved",
+          "body": "When only gravity does work, the total of KE + PE — the **mechanical energy** — stays constant. A pendulum swings: at the top of its arc it is all PE; at the bottom it is all KE; somewhere in between it is a mix. A roller coaster works the same way. With friction, some mechanical energy leaks into heat, but the **total** energy of the universe is still constant.",
+          "formula": {
+            "label": "Conservation of mechanical energy (no friction)",
+            "expression": "KE₁ + PE₁ = KE₂ + PE₂"
+          },
+          "image": {
+            "src": "/images/lessons/image14.jpg",
+            "alt": "A roller coaster with positions marked where gravitational PE is high and where KE is high",
+            "caption": "High point → mostly PE. Low point → mostly KE. Total stays the same."
+          },
+          "source": "manual"
+        }
+      ],
+      "questionIds": ["q54", "q55", "q56", "q57", "q58", "q59", "q60"]
+    }
+  ]
+}

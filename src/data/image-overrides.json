@@ -1,0 +1,160 @@
+{
+  "_meta": {
+    "purpose": "Manual override surface for slide images. Edit a value here, re-run npm run build:lessons (TODO: implement), and the new image will appear in the slide.",
+    "generated_at": "2026-06-03T17:55:00Z",
+    "schema": "lesson_id -> slide_id -> { src, alt, caption? }"
+  },
+  "gravitation": {
+    "gravitation-1": {
+      "src": "/images/lessons/image3.png",
+      "alt": "Two masses separated by a distance r, with attractive force arrows along the line joining their centers",
+      "caption": "Two masses attract each other along the line joining their centers."
+    },
+    "gravitation-2": {
+      "src": "/images/lessons/image4.png",
+      "alt": "Diagram showing field lines around a massive object weakening with distance",
+      "caption": "Field lines spread out as you move away — the field strength drops as 1/r²."
+    },
+    "gravitation-3": {
+      "src": "/images/lessons/image25.png",
+      "alt": "A satellite orbiting Earth in a circular path, with the radius r marked from Earth's center",
+      "caption": "The farther the orbit, the slower the satellite moves."
+    }
+  },
+  "projectile-motion": {
+    "projectile-motion-1": {
+      "src": "/images/lessons/image37.png",
+      "alt": "A basketball following a parabolic arc toward a hoop",
+      "caption": "The trajectory of a projectile is a parabola under gravity alone."
+    },
+    "projectile-motion-2": {
+      "src": "/images/lessons/image41.png",
+      "alt": "A ball falling straight down with velocity vectors shown at equal time intervals",
+      "caption": "Equal time steps — the distance between snapshots grows because v_y grows."
+    },
+    "projectile-motion-3": {
+      "src": "/images/lessons/image29.png",
+      "alt": "A projectile launched at an angle with its velocity vector split into horizontal and vertical components",
+      "caption": "Horizontal and vertical motion are independent but share the same flight time."
+    }
+  },
+  "relative-velocity": {
+    "relative-velocity-1": {
+      "src": "/images/lessons/image39.png",
+      "alt": "A person walking forward on a moving bus, with velocity arrows shown from two different observers",
+      "caption": "Two observers, two different answers — both correct, in their own frame."
+    },
+    "relative-velocity-2": {
+      "src": "/images/lessons/image50.png",
+      "alt": "A student walking on a bus with velocity arrows for the bus and the student",
+      "caption": "Same direction → add. Opposite direction → subtract."
+    },
+    "relative-velocity-3": {
+      "src": "/images/lessons/image48.png",
+      "alt": "A boat crossing a river with the current shown as a separate vector",
+      "caption": "Boat velocity and current velocity add as vectors, not as plain numbers."
+    }
+  },
+  "describing-rotation": {
+    "describing-rotation-1": {
+      "src": "/images/lessons/image66.png",
+      "alt": "A circle with the radius r, arc length s, and angle θ marked at the center",
+      "caption": "θ = s / r — the radius and the arc it sweeps define the angle."
+    },
+    "describing-rotation-2": {
+      "src": "/images/lessons/image57.png",
+      "alt": "A spinning disc with angular velocity and angular acceleration arrows at the center",
+      "caption": "ω tells you how fast it spins; α tells you how fast that spin rate is changing."
+    },
+    "describing-rotation-3": {
+      "src": "/images/lessons/image59.png",
+      "alt": "A rotating wheel with two marked points — one near the center, one on the rim",
+      "caption": "Same angular speed, very different linear speeds at different radii."
+    }
+  },
+  "rotational-dynamics": {
+    "rotational-dynamics-1": {
+      "src": "/images/lessons/image16.png",
+      "alt": "A door with a force vector applied at the edge, perpendicular to the door, with the lever arm r marked",
+      "caption": "The longer the lever arm, the greater the torque for the same push."
+    },
+    "rotational-dynamics-2": {
+      "src": "/images/lessons/image42.png",
+      "alt": "Two objects of equal mass — a long rod and a compact disk — about different axes of rotation",
+      "caption": "Same mass, different moment of inertia — it is the distribution that matters."
+    },
+    "rotational-dynamics-3": {
+      "src": "/images/lessons/image43.png",
+      "alt": "An ice skater in two positions — arms extended and arms pulled in",
+      "caption": "Pulling mass inward drops I, so ω must rise to keep L constant."
+    }
+  },
+  "impulse-momentum": {
+    "impulse-momentum-1": {
+      "src": "/images/lessons/image22.jpg",
+      "alt": "Two moving objects with different masses and velocities, momentum vectors shown",
+      "caption": "Momentum points the same way as velocity — it is a vector quantity."
+    },
+    "impulse-momentum-2": {
+      "src": "/images/lessons/image52.jpg",
+      "alt": "A baseball being struck by a bat, with the contact force and contact time indicated",
+      "caption": "The bat delivers a large impulse over a very short contact time."
+    },
+    "impulse-momentum-3": {
+      "src": "/images/lessons/image56.jpg",
+      "alt": "A force-time graph with a clear peak, the area under the curve shaded",
+      "caption": "The shaded area under an F–t graph is the impulse delivered."
+    }
+  },
+  "conservation-momentum": {
+    "conservation-momentum-1": {
+      "src": "/images/lessons/image53.jpg",
+      "alt": "Two carts about to collide on a low-friction track, momentum vectors shown",
+      "caption": "Internal forces between the carts cannot change the total momentum."
+    },
+    "conservation-momentum-2": {
+      "src": "/images/lessons/image54.jpg",
+      "alt": "Two carts colliding and sticking together, before and after the collision",
+      "caption": "Momentum is conserved; kinetic energy is not."
+    },
+    "conservation-momentum-3": {
+      "src": "/images/lessons/image78.jpg",
+      "alt": "A rifle firing a bullet, with the bullet moving forward and the rifle recoiling backward",
+      "caption": "Equal and opposite momenta — the gun kicks back as the bullet flies forward."
+    }
+  },
+  "work-energy": {
+    "work-energy-1": {
+      "src": "/images/lessons/image73.jpg",
+      "alt": "A person pushing a crate along the floor with the force vector at an angle to the displacement",
+      "caption": "Only the component of F along d contributes to the work."
+    },
+    "work-energy-2": {
+      "src": "/images/lessons/image75.jpg",
+      "alt": "A moving vehicle with its kinetic energy indicated as dependent on mass and speed squared",
+      "caption": "Energy grows with v² — small speed changes make a big difference."
+    },
+    "work-energy-3": {
+      "src": "/images/lessons/image77.jpg",
+      "alt": "Two light bulbs with different wattages, illustrating different power ratings",
+      "caption": "Higher wattage means the same energy in less time."
+    }
+  },
+  "energy-conservation": {
+    "energy-conservation-1": {
+      "src": "/images/lessons/image12.jpg",
+      "alt": "A collage of energy forms — motion, heat, light, electricity, sound",
+      "caption": "All these everyday phenomena are energy transforming from one form to another."
+    },
+    "energy-conservation-2": {
+      "src": "/images/lessons/image11.jpg",
+      "alt": "A ball held at height h above the ground, with gravitational potential energy indicated",
+      "caption": "PE depends on height above your chosen reference level."
+    },
+    "energy-conservation-3": {
+      "src": "/images/lessons/image14.jpg",
+      "alt": "A roller coaster with positions marked where gravitational PE is high and where KE is high",
+      "caption": "High point → mostly PE. Low point → mostly KE. Total stays the same."
+    }
+  }
+}
