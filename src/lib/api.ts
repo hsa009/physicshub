@@ -2,11 +2,12 @@
  * API client for the Cloudflare Worker.
  *
  * Endpoints:
- *   POST /check   — check a student answer
- *   POST /explain — get a lesson-level AI explanation (cached server-side)
- *   POST /chat    — Explain More follow-up (M4)
- *   POST /ask     — slide-aware "Ask Anything" chat (M5.4)
- *   GET  /health  — health check
+ *   POST /check    — check a student answer
+ *   POST /explain  — get a lesson-level AI explanation (cached server-side)
+ *   POST /chat     — Explain More follow-up (M4)
+ *   POST /ask      — slide-aware "Ask Anything" chat (M5.4)
+ *   POST /practice — generate 3 fresh practice questions (M5.5)
+ *   GET  /health   — health check
  *
  * If VITE_WORKER_URL is not set, calls return a structured "not configured"
  * response so the UI can degrade gracefully.
@@ -80,6 +81,24 @@ export interface AskResponse {
   reply: string;
 }
 
+export type PracticeType = "conceptual" | "numerical";
+
+export interface PracticeQuestion {
+  type: PracticeType;
+  prompt: string;
+}
+
+export interface PracticeRequest {
+  lessonName: string;
+  moduleName: string;
+  slideTitles?: string[];
+  sampleQuestionPrompts?: string[];
+}
+
+export interface PracticeResponse {
+  questions: PracticeQuestion[];
+}
+
 async function postJson<T>(path: string, body: unknown): Promise<T> {
   if (!isWorkerConfigured) {
     throw new Error(
@@ -103,4 +122,6 @@ export const api = {
   explain: (req: ExplainRequest) => postJson<ExplainResponse>("/explain", req),
   chat: (req: ChatRequest) => postJson<ChatResponse>("/chat", req),
   askSlide: (req: AskRequest) => postJson<AskResponse>("/ask", req),
+  generatePractice: (req: PracticeRequest) =>
+    postJson<PracticeResponse>("/practice", req),
 };

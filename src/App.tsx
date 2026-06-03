@@ -5,6 +5,7 @@ import { StudentProvider, useStudent } from "./hooks/useStudent";
 import Welcome from "./pages/Welcome";
 import Home from "./pages/Home";
 import LessonView from "./pages/LessonView";
+import PracticePage from "./pages/PracticePage";
 import Progress from "./pages/Progress";
 
 export default function App() {
@@ -16,6 +17,10 @@ export default function App() {
           <Route
             path="/lesson/:lessonId"
             element={<RequireStudent><LessonView /></RequireStudent>}
+          />
+          <Route
+            path="/lesson/:lessonId/practice"
+            element={<RequireStudent><PracticePage /></RequireStudent>}
           />
           <Route
             path="/progress"

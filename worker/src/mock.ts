@@ -6,7 +6,7 @@
  * sets secrets in the Worker.
  */
 
-import type { ParsedCheck, ParsedExplain } from "./parse";
+import type { ParsedCheck, ParsedExplain, ParsedPractice } from "./parse";
 
 export function mockCheck(answer: string, question: string): ParsedCheck {
   const a = answer.trim();
@@ -62,5 +62,31 @@ export function mockExplain(lesson: string, _module: string): ParsedExplain {
     ],
     example: `Imagine a real-life example involving ${lesson.toLowerCase()}. ` +
       "The full AI-generated explanation will appear once you set Worker secrets.",
+  };
+}
+
+export function mockPractice(lesson: string, _module: string): ParsedPractice {
+  return {
+    questions: [
+      {
+        type: "conceptual",
+        prompt:
+          `[Mock] Explain in your own words the single most important idea in ${lesson}. ` +
+          "Why does it matter in real life?",
+      },
+      {
+        type: "numerical",
+        prompt:
+          `[Mock] A 2.0 kg object experiences a 10 N force for 3.0 s starting from rest. ` +
+          "Calculate its final speed. (Realistic numbers — solve with the formula from " +
+          `${lesson}.)`,
+      },
+      {
+        type: "conceptual",
+        prompt:
+          `[Mock] Describe a household or outdoor example that demonstrates ${lesson}. ` +
+          "What would change if one of the variables doubled?",
+      },
+    ],
   };
 }

@@ -7,6 +7,7 @@
  *   POST /explain      — generate / fetch cached lesson explanation
  *   POST /chat         — "Explain More" follow-up (used in M4)
  *   POST /ask          — slide-aware "Ask Anything" chat (M5.4)
+ *   POST /practice     — generate 3 fresh practice questions (M5.5)
  *
  * Env vars (set via `wrangler secret put`):
  *   ADMIN_PASSWORD
@@ -16,9 +17,19 @@
  */
 
 import { callWithRotation, hasAnyKey, type KeyProvider } from "./rotation";
-import { checkPrompt, explainPrompt, chatPrompt, askSlidePrompt } from "./prompts";
-import { parseCheckResponse, parseExplainResponse } from "./parse";
-import { mockCheck, mockExplain } from "./mock";
+import {
+  checkPrompt,
+  explainPrompt,
+  chatPrompt,
+  askSlidePrompt,
+  practicePrompt,
+} from "./prompts";
+import {
+  parseCheckResponse,
+  parseExplainResponse,
+  parsePracticeResponse,
+} from "./parse";
+import { mockCheck, mockExplain, mockPractice } from "./mock";
 import type { Verdict } from "./parse";
 
 export interface Env extends KeyProvider {
@@ -93,6 +104,9 @@ export default {
       }
       if (path === "/ask" && method === "POST") {
         return await handleAsk(request, env);
+      }
+      if (path === "/practice" && method === "POST") {
+        return await handlePractice(request, env);
       }
       return notFound();
     } catch (err) {
@@ -256,4 +270,40 @@ async function handleAsk(request: Request, env: Env): Promise<Response> {
   }
 
   return json({ reply });
+}
+
+interface PracticeBody {
+  lessonName: string;
+  moduleName: string;
+  slideTitles?: string[];
+  sampleQuestionPrompts?: string[];
+}
+
+async function handlePractice(request: Request, env: Env): Promise<Response> {
+  const body = await readJson<PracticeBody>(request);
+  if (!body.lessonName) {
+    return badRequest("Missing lessonName.");
+  }
+
+  if (!hasAnyKey(env)) {
+    const mock = mockPractice(body.lessonName, body.moduleName ?? "");
+    return json(mock);
+  }
+
+  const text = await callWithRotation(
+    practicePrompt({
+      lessonName: body.lessonName,
+      moduleName: body.moduleName ?? "",
+      slideTitles: body.slideTitles ?? [],
+      sampleQuestionPrompts: body.sampleQuestionPrompts ?? [],
+    }),
+    env,
+  );
+  const parsed = parsePracticeResponse(text);
+  if (parsed.questions.length === 0) {
+    return badRequest(
+      "AI returned no usable practice questions. Try Regenerate.",
+    );
+  }
+  return json(parsed);
 }

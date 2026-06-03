@@ -148,3 +148,57 @@ Student's latest question: ${input.question}
 
 Your reply:`;
 }
+
+/* ------------------------------------------------------------------ */
+/* M5.5 — Practice question generation                                */
+/* ------------------------------------------------------------------ */
+
+export interface PracticeInput {
+  lessonName: string;
+  moduleName: string;
+  slideTitles: string[];
+  sampleQuestionPrompts: string[];
+}
+
+export function practicePrompt(input: PracticeInput): string {
+  const slidesBlock = input.slideTitles.length
+    ? input.slideTitles.map((t, i) => `${i + 1}. ${t}`).join("\n")
+    : "(no slides on file)";
+
+  const samplesBlock = input.sampleQuestionPrompts.length
+    ? input.sampleQuestionPrompts
+        .slice(0, 2)
+        .map((q, i) => `${i + 1}. ${q}`)
+        .join("\n")
+    : "(no sample questions on file)";
+
+  return `You are a Grade 11 physics teacher writing brand-new practice questions for a student.
+
+Lesson: ${input.lessonName} (${input.moduleName})
+
+The student has just read these slides:
+${slidesBlock}
+
+For STYLE and DIFFICULTY reference, here are 2 existing questions from this lesson:
+${samplesBlock}
+
+Write 3 NEW practice questions that:
+- Are DIFFERENT from the reference questions above.
+- Match the Grade 11 NGSS / McGraw-Hill style (concrete, real-world, answerable in 2-4 sentences).
+- Mix types: at least 1 conceptual AND at least 1 numerical.
+- Numerical questions must be solvable with the formulas taught on the slides.
+- Use realistic numbers (masses in kg, distances in m, times in s, etc.).
+- Never reference images, tables, or figures ("the picture above", "as shown", etc.).
+
+Return ONLY a JSON object (no markdown fences, no prose):
+{
+  "questions": [
+    { "type": "conceptual" | "numerical", "prompt": "<the question text>" }
+  ]
+}
+
+Constraints:
+- Exactly 3 questions.
+- \`type\` must be "conceptual" or "numerical".
+- No extra keys. No commentary. JSON only.`;
+}

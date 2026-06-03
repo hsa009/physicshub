@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   getLessonById,
   getQuestionsForLesson,
@@ -17,6 +17,7 @@ import type { Slide as SlideType } from "../types";
 
 export default function LessonView() {
   const { lessonId = "" } = useParams<{ lessonId: string }>();
+  const navigate = useNavigate();
   const lesson = getLessonById(lessonId);
 
   if (!lesson) {
@@ -41,13 +42,8 @@ export default function LessonView() {
     });
   };
 
-  const handlePractice = () => {
-    scrollToQuestions();
-    setTimeout(() => {
-      window.alert(
-        "Practice Mode ships in M5.5 — for now, the 60 curated questions below cover the same ground.",
-      );
-    }, 400);
+  const goToPractice = () => {
+    navigate(`/lesson/${lesson.id}/practice`);
   };
 
   const firstQid = legacyLesson?.questionIds[0];
@@ -97,7 +93,7 @@ export default function LessonView() {
           <LessonPager
             lesson={lesson}
             onComplete={scrollToQuestions}
-            onPractice={handlePractice}
+            onPractice={goToPractice}
             onSlideChange={setCurrentSlide}
           />
         </section>
@@ -115,16 +111,24 @@ export default function LessonView() {
           <h2 className="section-title text-[2rem] md:text-[2.4rem]">
             {questions.length} <em>Questions</em>
           </h2>
-          <div className="mt-3 flex items-center gap-3 text-[0.65rem] uppercase tracking-eyebrow text-text-label">
-            {answersLoading ? (
-              <span className="flex items-center gap-2">
-                <Spinner size={12} /> Loading prior answers…
-              </span>
-            ) : (
-              <span>
-                Your saved answers appear on each card as you submit them.
-              </span>
-            )}
+          <div className="mt-3 flex items-center justify-between gap-3 text-[0.65rem] uppercase tracking-eyebrow text-text-label">
+            <span>
+              {answersLoading ? (
+                <span className="flex items-center gap-2">
+                  <Spinner size={12} /> Loading prior answers…
+                </span>
+              ) : (
+                "Your saved answers appear on each card as you submit them."
+              )}
+            </span>
+            <button
+              type="button"
+              onClick={goToPractice}
+              className="text-text-label transition-colors hover:text-gold"
+            >
+              <span aria-hidden className="mr-1 text-gold">✦</span>
+              Practice Mode
+            </button>
           </div>
           <div className="mt-10 flex flex-col gap-px border border-border bg-border">
             {questions.map((q) => (
