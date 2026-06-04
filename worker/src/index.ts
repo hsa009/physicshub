@@ -2,12 +2,17 @@
  * PhysicsHub AI proxy + admin Worker.
  *
  * Routes:
- *   GET  /health       — health check
- *   POST /check        — check a student answer (Groq → OpenRouter rotation)
- *   POST /explain      — generate / fetch cached lesson explanation
- *   POST /chat         — "Explain More" follow-up (used in M4)
- *   POST /ask          — slide-aware "Ask Anything" chat (M5.4)
- *   POST /practice     — generate 3 fresh practice questions (M5.5)
+ *   GET  /health            — health check
+ *   POST /check             — check a student answer (Groq → OpenRouter rotation)
+ *   POST /explain           — generate / fetch cached lesson explanation
+ *   POST /chat              — "Explain More" follow-up (used in M4)
+ *   POST /ask               — slide-aware "Ask Anything" chat (M5.4)
+ *   POST /practice          — generate 3 fresh practice questions (M5.5)
+ *   POST /admin/login       — exchange ADMIN_PASSWORD for a bearer token (M5.A)
+ *   GET  /admin/verify      — verify a bearer token (M5.A)
+ *   GET  /admin/stats       — overview stats for the admin dashboard (M5.A)
+ *   GET  /admin/students    — list students with summary (M5.A)
+ *   GET  /admin/student/:esis — per-student detail with every answer (M5.A)
  *
  * Env vars (set via `wrangler secret put`):
  *   ADMIN_PASSWORD
@@ -30,6 +35,7 @@ import {
   parsePracticeResponse,
 } from "./parse";
 import { mockCheck, mockExplain, mockPractice } from "./mock";
+import { signAdminToken, verifyAdminToken } from "./admin";
 import type { Verdict } from "./parse";
 
 export interface Env extends KeyProvider {
@@ -37,6 +43,7 @@ export interface Env extends KeyProvider {
   ADMIN_PASSWORD?: string;
   SUPABASE_URL?: string;
   SUPABASE_SERVICE_KEY?: string;
+  ADMIN_TOKENS?: KVNamespace;
 }
 
 const CORS = {
@@ -107,6 +114,22 @@ export default {
       }
       if (path === "/practice" && method === "POST") {
         return await handlePractice(request, env);
+      }
+      if (path === "/admin/login" && method === "POST") {
+        return await handleAdminLogin(request, env);
+      }
+      if (path === "/admin/verify" && method === "GET") {
+        return await handleAdminVerify(request, env);
+      }
+      if (path === "/admin/stats" && method === "GET") {
+        return await handleAdminStats(request, env);
+      }
+      if (path === "/admin/students" && method === "GET") {
+        return await handleAdminStudents(request, env);
+      }
+      if (path.startsWith("/admin/student/") && method === "GET") {
+        const esis = decodeURIComponent(path.slice("/admin/student/".length));
+        return await handleAdminStudentDetail(request, env, esis);
       }
       return notFound();
     } catch (err) {
@@ -306,4 +329,231 @@ async function handlePractice(request: Request, env: Env): Promise<Response> {
     );
   }
   return json(parsed);
+}
+
+/* ─── M5.A: Admin dashboard ─── */
+
+function adminUnauthorized(): Response {
+  return json({ error: "Unauthorized" }, { status: 401 });
+}
+
+interface AdminLoginBody {
+  password: string;
+}
+
+async function handleAdminLogin(request: Request, env: Env): Promise<Response> {
+  const body = await readJson<AdminLoginBody>(request);
+  if (!body.password || typeof body.password !== "string") {
+    return badRequest("Missing password.");
+  }
+  if (!env.ADMIN_PASSWORD) {
+    // Don't leak that the secret is missing; treat as wrong password.
+    return adminUnauthorized();
+  }
+  const token = await signAdminToken(env, body.password);
+  if (!token) return adminUnauthorized();
+  return json({ token, expiresInMs: 24 * 60 * 60 * 1000 });
+}
+
+async function handleAdminVerify(request: Request, env: Env): Promise<Response> {
+  if (!(await verifyAdminToken(request, env))) return adminUnauthorized();
+  return json({ ok: true });
+}
+
+interface SupabaseStudent {
+  esis: string;
+  first_seen: string;
+  last_active: string;
+}
+
+interface SupabaseAnswer {
+  esis: string;
+  question_id: string;
+  module: string;
+  lesson: string;
+  student_answer: string;
+  ai_verdict: Verdict;
+  ai_feedback: string;
+  submitted_at: string;
+}
+
+function requireSupabase(env: Env): { url: string; key: string } | Response {
+  if (!env.SUPABASE_URL || !env.SUPABASE_SERVICE_KEY) {
+    return json(
+      { error: "Supabase is not configured on the Worker." },
+      { status: 503 },
+    );
+  }
+  return { url: env.SUPABASE_URL, key: env.SUPABASE_SERVICE_KEY };
+}
+
+async function sbFetchAllStudents(
+  supa: { url: string; key: string },
+): Promise<SupabaseStudent[]> {
+  const res = await fetch(
+    `${supa.url}/rest/v1/students?select=esis,first_seen,last_active&order=last_active.desc`,
+    {
+      headers: {
+        apikey: supa.key,
+        authorization: `Bearer ${supa.key}`,
+      },
+    },
+  );
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Supabase students fetch failed (${res.status}): ${text}`);
+  }
+  return (await res.json()) as SupabaseStudent[];
+}
+
+async function sbFetchAllAnswers(
+  supa: { url: string; key: string },
+): Promise<SupabaseAnswer[]> {
+  const res = await fetch(
+    `${supa.url}/rest/v1/answers?select=esis,question_id,module,lesson,student_answer,ai_verdict,ai_feedback,submitted_at&order=submitted_at.desc&limit=2000`,
+    {
+      headers: {
+        apikey: supa.key,
+        authorization: `Bearer ${supa.key}`,
+      },
+    },
+  );
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Supabase answers fetch failed (${res.status}): ${text}`);
+  }
+  return (await res.json()) as SupabaseAnswer[];
+}
+
+function countByVerdict(answers: SupabaseAnswer[]): {
+  correct: number;
+  partial: number;
+  incorrect: number;
+} {
+  const out = { correct: 0, partial: 0, incorrect: 0 };
+  for (const a of answers) {
+    if (a.ai_verdict === "correct") out.correct += 1;
+    else if (a.ai_verdict === "partial") out.partial += 1;
+    else if (a.ai_verdict === "incorrect") out.incorrect += 1;
+  }
+  return out;
+}
+
+async function handleAdminStats(
+  request: Request,
+  env: Env,
+): Promise<Response> {
+  if (!(await verifyAdminToken(request, env))) return adminUnauthorized();
+  const supa = requireSupabase(env);
+  if (supa instanceof Response) return supa;
+  const [students, answers] = await Promise.all([
+    sbFetchAllStudents(supa),
+    sbFetchAllAnswers(supa),
+  ]);
+  const counts = countByVerdict(answers);
+  const score = counts.correct + counts.partial * 0.5;
+  const total = counts.correct + counts.partial + counts.incorrect;
+  const accuracy = total > 0 ? score / total : 0;
+
+  const byLesson = new Map<string, number>();
+  for (const a of answers) {
+    byLesson.set(a.lesson, (byLesson.get(a.lesson) ?? 0) + 1);
+  }
+  const perLesson = [...byLesson.entries()]
+    .map(([lesson, count]) => ({ lesson, count }))
+    .sort((a, b) => b.count - a.count);
+
+  return json({
+    studentCount: students.length,
+    answerCount: answers.length,
+    accuracy,
+    verdictCounts: counts,
+    perLesson,
+  });
+}
+
+async function handleAdminStudents(
+  request: Request,
+  env: Env,
+): Promise<Response> {
+  if (!(await verifyAdminToken(request, env))) return adminUnauthorized();
+  const supa = requireSupabase(env);
+  if (supa instanceof Response) return supa;
+  const [students, answers] = await Promise.all([
+    sbFetchAllStudents(supa),
+    sbFetchAllAnswers(supa),
+  ]);
+  const q = (new URL(request.url).searchParams.get("q") ?? "")
+    .toLowerCase()
+    .trim();
+  const byEsis = new Map<string, SupabaseAnswer[]>();
+  for (const a of answers) {
+    const arr = byEsis.get(a.esis) ?? [];
+    arr.push(a);
+    byEsis.set(a.esis, arr);
+  }
+  const rows = students
+    .filter((s) => (q ? s.esis.toLowerCase().includes(q) : true))
+    .map((s) => {
+      const list = byEsis.get(s.esis) ?? [];
+      const counts = countByVerdict(list);
+      const total = counts.correct + counts.partial + counts.incorrect;
+      const score = counts.correct + counts.partial * 0.5;
+      const accuracy = total > 0 ? score / total : 0;
+      return {
+        esis: s.esis,
+        firstSeen: s.first_seen,
+        lastActive: s.last_active,
+        answerCount: list.length,
+        accuracy,
+        verdictCounts: counts,
+      };
+    });
+  return json({ students: rows });
+}
+
+async function handleAdminStudentDetail(
+  request: Request,
+  env: Env,
+  esis: string,
+): Promise<Response> {
+  if (!(await verifyAdminToken(request, env))) return adminUnauthorized();
+  const supa = requireSupabase(env);
+  if (supa instanceof Response) return supa;
+  const [students, answers] = await Promise.all([
+    sbFetchAllStudents(supa),
+    sbFetchAllAnswers(supa),
+  ]);
+  const student = students.find((s) => s.esis === esis);
+  if (!student) {
+    return json({ error: `No student with ESIS "${esis}".` }, { status: 404 });
+  }
+  const myAnswers = answers.filter((a) => a.esis === esis);
+  const counts = countByVerdict(myAnswers);
+  const total = counts.correct + counts.partial + counts.incorrect;
+  const score = counts.correct + counts.partial * 0.5;
+  const accuracy = total > 0 ? score / total : 0;
+
+  const byLesson = new Map<string, number>();
+  for (const a of myAnswers) {
+    byLesson.set(a.lesson, (byLesson.get(a.lesson) ?? 0) + 1);
+  }
+  return json({
+    student,
+    answerCount: myAnswers.length,
+    accuracy,
+    verdictCounts: counts,
+    perLesson: [...byLesson.entries()]
+      .map(([lesson, count]) => ({ lesson, count }))
+      .sort((a, b) => b.count - a.count),
+    answers: myAnswers.map((a) => ({
+      questionId: a.question_id,
+      module: a.module,
+      lesson: a.lesson,
+      studentAnswer: a.student_answer,
+      verdict: a.ai_verdict,
+      feedback: a.ai_feedback,
+      submittedAt: a.submitted_at,
+    })),
+  });
 }

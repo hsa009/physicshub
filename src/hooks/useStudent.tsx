@@ -25,6 +25,11 @@ import {
   type ReactNode,
 } from "react";
 import { isSupabaseConfigured, supabase } from "../lib/supabase";
+import {
+  adminApi,
+  clearAdminToken,
+  getAdminToken,
+} from "../lib/api";
 
 export interface Student {
   esis: string;
@@ -36,6 +41,7 @@ export type StudentStatus =
   | "loading"
   | "needs-entry"
   | "ready"
+  | "admin"
   | "error";
 
 interface StudentContextValue {
@@ -43,6 +49,7 @@ interface StudentContextValue {
   student: Student | null;
   error: string | null;
   signIn: (esis: string) => Promise<void>;
+  adminSignIn: (password: string) => Promise<void>;
   signOut: () => void;
   refresh: () => Promise<void>;
   isSupabaseReady: boolean;
@@ -122,6 +129,39 @@ export function StudentProvider({ children }: { children: ReactNode }) {
 
   // On mount, hydrate from localStorage.
   useEffect(() => {
+    // If we have a stored admin token, verify it. If verify fails
+    // (expired, Worker config changed, etc.) we just clear it and fall
+    // through to the student path below.
+    const token = getAdminToken();
+    if (token) {
+      adminApi
+        .verify()
+        .then(() => {
+          setStatus("admin");
+        })
+        .catch(() => {
+          clearAdminToken();
+          // Fall through to ESIS hydration.
+          if (!isSupabaseConfigured) {
+            setError(
+              "Supabase is not configured yet. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your .env to enable sign-in."
+            );
+            setStatus("error");
+            return;
+          }
+          const stored = window.localStorage.getItem(STORAGE_KEY);
+          if (!stored) {
+            setStatus("needs-entry");
+            return;
+          }
+          loadStudent(stored).catch((e) => {
+            setError(String(e));
+            setStatus("error");
+          });
+        });
+      return;
+    }
+
     if (!isSupabaseConfigured) {
       setError(
         "Supabase is not configured yet. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your .env to enable sign-in."
@@ -150,6 +190,8 @@ export function StudentProvider({ children }: { children: ReactNode }) {
       }
       setError(null);
       setStatus("loading");
+      // Make sure we don't leave an admin session lying around.
+      clearAdminToken();
       await loadStudent(esis);
       // If we got here without throwing, persist locally.
       window.localStorage.setItem(STORAGE_KEY, esis);
@@ -157,8 +199,22 @@ export function StudentProvider({ children }: { children: ReactNode }) {
     [loadStudent]
   );
 
+  const adminSignIn = useCallback(async (password: string) => {
+    setError(null);
+    setStatus("loading");
+    try {
+      await adminApi.login(password);
+      setStatus("admin");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
+      setStatus("needs-entry");
+      throw err;
+    }
+  }, []);
+
   const signOut = useCallback(() => {
     window.localStorage.removeItem(STORAGE_KEY);
+    clearAdminToken();
     setStudent(null);
     setError(null);
     setStatus("needs-entry");
@@ -174,11 +230,12 @@ export function StudentProvider({ children }: { children: ReactNode }) {
       student,
       error,
       signIn,
+      adminSignIn,
       signOut,
       refresh,
       isSupabaseReady: isSupabaseConfigured,
     }),
-    [status, student, error, signIn, signOut, refresh]
+    [status, student, error, signIn, adminSignIn, signOut, refresh]
   );
 
   return (

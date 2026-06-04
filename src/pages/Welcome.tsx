@@ -1,8 +1,14 @@
 import { useState, type FormEvent } from "react";
 import { useStudent } from "../hooks/useStudent";
 
+const ESIS_RE = /^[A-Za-z0-9-]{3,20}$/;
+
+function looksLikeEsis(value: string): boolean {
+  return ESIS_RE.test(value.trim());
+}
+
 export default function Welcome() {
-  const { status, error, signIn } = useStudent();
+  const { status, error, signIn, adminSignIn } = useStudent();
   const [esis, setEsis] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
@@ -12,7 +18,22 @@ export default function Welcome() {
     setLocalError(null);
     setSubmitting(true);
     try {
-      await signIn(esis);
+      if (looksLikeEsis(esis)) {
+        // Plain ESIS-shaped input — go straight to student sign-in.
+        await signIn(esis);
+        return;
+      }
+      // Anything else (spaces, longer than 20, special chars) is more
+      // likely an admin password. Try admin first, fall back to ESIS
+      // validation so the user gets a clear "invalid ESIS" message if
+      // both fail.
+      try {
+        await adminSignIn(esis);
+        return;
+      } catch {
+        // Admin login failed — try as ESIS for a more useful error.
+        await signIn(esis);
+      }
     } catch (err) {
       setLocalError(err instanceof Error ? err.message : String(err));
     } finally {

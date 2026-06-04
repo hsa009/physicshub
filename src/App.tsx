@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import LessonView from "./pages/LessonView";
 import PracticePage from "./pages/PracticePage";
 import Progress from "./pages/Progress";
+import Admin from "./pages/Admin";
 
 export default function App() {
   return (
@@ -26,6 +27,10 @@ export default function App() {
             path="/progress"
             element={<RequireStudent><Progress /></RequireStudent>}
           />
+          <Route
+            path="/admin"
+            element={<RequireAdmin><Admin /></RequireAdmin>}
+          />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </StudentProvider>
@@ -40,6 +45,17 @@ export default function App() {
 function RequireStudent({ children }: { children: ReactNode }) {
   const { status } = useStudent();
   if (status === "ready") return <>{children}</>;
+  if (status === "loading") return <BootScreen />;
+  return <Welcome />;
+}
+
+/**
+ * Gates the admin dashboard: shows Welcome (which will redirect to admin
+ * sign-in on success) until the student context is in "admin" status.
+ */
+function RequireAdmin({ children }: { children: ReactNode }) {
+  const { status } = useStudent();
+  if (status === "admin") return <>{children}</>;
   if (status === "loading") return <BootScreen />;
   return <Welcome />;
 }
