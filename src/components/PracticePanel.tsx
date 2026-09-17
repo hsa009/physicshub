@@ -1,10 +1,4 @@
-/**
- * PracticePanel — the session UI for a single set of 3 AI-generated
- * practice questions (M5.5). Owns the practice state for one lesson:
- * the current set of questions, the per-question skip set, and the
- * loading / error state for generation. Re-render-free between sets:
- * a fresh set is generated on user click.
- */
+
 
 import { useCallback, useState } from "react";
 import {

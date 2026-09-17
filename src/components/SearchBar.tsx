@@ -4,10 +4,6 @@ interface SearchBarProps {
   placeholder?: string;
 }
 
-/**
- * A thin search input with a gold underline that brightens on focus.
- * Mirrors the reference's editorial feel: serif placeholder, gold accent.
- */
 export default function SearchBar({
   value,
   onChange,

@@ -4,17 +4,11 @@ import { renderBody } from "../lib/format";
 interface SlideProps {
   slide: SlideType;
   lessonName: string;
-  /** 1-indexed position in the lesson (for the "Slide 2 of 3" eyebrow). */
+  
   slideNumber: number;
   totalSlides: number;
 }
 
-/**
- * One slide. Renders the eyebrow, the title, the body, an optional
- * formula card, and an optional image. Always uses the lesson's key as
- * its outer React key so it remounts on slide change and re-runs the
- * fade-in animation.
- */
 export default function Slide({
   slide,
   lessonName,

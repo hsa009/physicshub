@@ -20,39 +20,14 @@ interface QuestionsPagerProps {
   firstQid?: string;
   lastQid?: string;
   answersLoading: boolean;
-  /**
-   * M5.9: True when every question in the lesson has at least one saved
-   * answer. Used to swap the last question's "Next →" button for a
-   * "Continue to [Next Lesson] →" CTA.
-   */
+  
   isComplete: boolean;
-  /**
-   * M5.9: The next lesson in the learning path (or undefined if this is
-   * the last lesson). The pager renders an "All lessons complete"
-   * celebration block when isComplete is true AND this is undefined.
-   */
+  
   nextLesson?: NextLessonMeta;
-  /**
-   * M5.9: Navigates to the next lesson. Passed in by LessonView so the
-   * pager stays a pure presentation component.
-   */
+  
   onNextLesson?: () => void;
 }
 
-/**
- * Paged UI for a lesson's questions. Renders ONE question at a time with
- * explicit Previous / Next buttons. The questions section never auto-scrolls
- * between cards — the student navigates manually, just like the slide pager.
- *
- * Replaces the old "all questions stacked, auto-scroll on Complete" flow:
- * the questions section is only revealed when the student explicitly asks
- * for it (Go to Questions, Skip to questions, or finishing the last slide).
- *
- * M5.9: When the student is on the last question AND every question in
- * the lesson has been answered, the Next button transforms into a
- * "Continue to [Next Lesson] →" CTA. If there's no next lesson, the
- * pager renders an All-Done celebration block.
- */
 export default function QuestionsPager({
   questions,
   priorAnswers,
@@ -75,8 +50,6 @@ export default function QuestionsPager({
   const progress = total > 0 ? ((index + 1) / total) * 100 : 0;
   const current = questions[index];
 
-  // M5.9: on the last question, when complete, "Next" becomes
-  // "Continue to [Next Lesson] →" (or an all-done block when no next).
   const showContinueCta = isLast && isComplete && Boolean(nextLesson) && Boolean(onNextLesson);
   const showAllDone = isLast && isComplete && !nextLesson;
 

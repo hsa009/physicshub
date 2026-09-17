@@ -1,10 +1,4 @@
-/**
- * Prompt templates for the AI calls.
- *
- * The "check" prompt asks for a structured response (Verdict / Feedback).
- * The "explain" prompt asks for a JSON object so the Worker can pass it
- * through to the frontend without re-parsing.
- */
+
 
 export interface CheckInput {
   lesson: string;
@@ -95,10 +89,6 @@ The student now asks: ${input.followup}
 Answer clearly at a Grade 11 level. Use examples if helpful. Keep your response under 200 words.`;
 }
 
-/* ------------------------------------------------------------------ */
-/* M5.4 — "Ask Anything" slide-aware chat                             */
-/* ------------------------------------------------------------------ */
-
 export interface AskSlideInput {
   lessonName: string;
   moduleName: string;
@@ -148,10 +138,6 @@ Student's latest question: ${input.question}
 
 Your reply:`;
 }
-
-/* ------------------------------------------------------------------ */
-/* M5.5 — Practice question generation                                */
-/* ------------------------------------------------------------------ */
 
 export interface PracticeInput {
   lessonName: string;

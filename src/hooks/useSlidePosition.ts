@@ -1,15 +1,4 @@
-/**
- * useSlidePosition — persist a student's place inside a lesson's slides.
- *
- * Storage key: "physicshub.slidePosition"
- * Shape: { lessonId: string, index: number, updatedAt: number }
- *
- * We only ever store one lesson's position at a time — switching to a
- * new lesson overwrites the previous one. That's fine because students
- * move linearly through one lesson before starting another.
- *
- * If the saved lessonId doesn't match the current lesson, we start at 0.
- */
+
 
 import { useCallback, useEffect, useState } from "react";
 
@@ -37,7 +26,7 @@ function readPosition(lessonId: string): number {
       return Math.floor(parsed.index);
     }
   } catch {
-    /* corrupted JSON — ignore and start at 0 */
+    
   }
   return 0;
 }
@@ -52,7 +41,7 @@ function writePosition(lessonId: string, index: number): void {
     };
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   } catch {
-    /* quota / private-mode errors — silently ignore */
+    
   }
 }
 

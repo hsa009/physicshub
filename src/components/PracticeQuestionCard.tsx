@@ -1,10 +1,4 @@
-/**
- * PracticeQuestionCard — one ephemeral AI-generated question (M5.5).
- *
- * Mirrors QuestionCard's visual style but: no DB save, no ChatThread,
- * no prior-answer concept. Each card has a "Skip" affordance and
- * shows the AI verdict + feedback inline.
- */
+
 
 import { useState, type FormEvent } from "react";
 import type { Verdict } from "../types";

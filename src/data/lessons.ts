@@ -1,12 +1,4 @@
-/**
- * lessons — typed access to the curated lessons data (M5.2).
- *
- * Each lesson has a stable `id` (URL slug), the legacy `module` / `name`
- * fields from questions.json, an `accentWord` for italic-gold styling, a
- * short description for the home card, an ordered list of `slides` that
- * the M5.3 LessonPager walks through, and the question IDs that the
- * original LessonView renders afterwards.
- */
+
 
 import data from "../data/lessons.json";
 import questionsData from "../data/questions.json";
@@ -18,12 +10,6 @@ import type {
 
 export const lessonsFile: LessonsFile = data as LessonsFile;
 
-/**
- * Enrich every lesson with `questionCount` (derived from `questionIds.length`)
- * so consumers like `LessonCard` and `useLearningPath` can read the count
- * without re-computing. The shape matches the legacy `Lesson` type's
- * `questionCount` field for backward compat.
- */
 export const allLessons: LessonWithSlides[] = lessonsFile.lessons.map((l) => ({
   ...l,
   questionCount: l.questionIds.length,
@@ -59,10 +45,6 @@ export function getSlideById(
   return getLessonById(lessonId)?.slides.find((s) => s.id === slideId);
 }
 
-/* ------------------------------------------------------------------ */
-/* Question-image map (M5.6 input)                                     */
-/* ------------------------------------------------------------------ */
-
 import questionImagesRaw from "../data/question-images.json";
 
 const questionImagesData = questionImagesRaw as {
@@ -96,10 +78,6 @@ export function getQuestionImage(
 ): { src: string; alt: string } | null {
   return questionImageMap[questionId] ?? null;
 }
-
-/* ------------------------------------------------------------------ */
-/* Re-export the question bank for backward compat                    */
-/* ------------------------------------------------------------------ */
 
 import type { Question, Lesson as LegacyLesson, QuestionBank } from "../types";
 export const questionBank: QuestionBank = questionsData as QuestionBank;

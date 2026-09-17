@@ -1,25 +1,4 @@
-/**
- * PhysicsHub AI proxy + admin Worker.
- *
- * Routes:
- *   GET  /health            — health check
- *   POST /check             — check a student answer (Groq → OpenRouter rotation)
- *   POST /explain           — generate / fetch cached lesson explanation
- *   POST /chat              — "Explain More" follow-up (used in M4)
- *   POST /ask               — slide-aware "Ask Anything" chat (M5.4)
- *   POST /practice          — generate 3 fresh practice questions (M5.5)
- *   POST /admin/login       — exchange ADMIN_PASSWORD for a bearer token (M5.A)
- *   GET  /admin/verify      — verify a bearer token (M5.A)
- *   GET  /admin/stats       — overview stats for the admin dashboard (M5.A)
- *   GET  /admin/students    — list students with summary (M5.A)
- *   GET  /admin/student/:esis — per-student detail with every answer (M5.A)
- *
- * Env vars (set via `wrangler secret put`):
- *   ADMIN_PASSWORD
- *   SUPABASE_URL, SUPABASE_SERVICE_KEY
- *   GROQ_KEY_1 .. GROQ_KEY_3
- *   OPENROUTER_KEY_1 .. OPENROUTER_KEY_3
- */
+
 
 import { callWithRotation, hasAnyKey, type KeyProvider } from "./rotation";
 import {
@@ -331,8 +310,6 @@ async function handlePractice(request: Request, env: Env): Promise<Response> {
   return json(parsed);
 }
 
-/* ─── M5.A: Admin dashboard ─── */
-
 function adminUnauthorized(): Response {
   return json({ error: "Unauthorized" }, { status: 401 });
 }
@@ -347,7 +324,6 @@ async function handleAdminLogin(request: Request, env: Env): Promise<Response> {
     return badRequest("Missing password.");
   }
   if (!env.ADMIN_PASSWORD) {
-    // Don't leak that the secret is missing; treat as wrong password.
     return adminUnauthorized();
   }
   const token = await signAdminToken(env, body.password);

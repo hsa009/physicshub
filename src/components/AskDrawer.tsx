@@ -1,17 +1,4 @@
-/**
- * AskDrawer — slide-aware "Ask AI" chat panel (M5.4).
- *
- * Rendered as a fixed right-side drawer on desktop and a bottom sheet on
- * mobile. Owns the chat history for the current lesson. The Worker is
- * given the current slide's title + body + formula so it can answer in
- * the context of what the student is reading right now.
- *
- * The parent (LessonView) passes the current slide via `currentSlide`
- * and we capture a fresh reference on every send — that way, if the
- * student advances slides between questions, the next message goes with
- * the slide they were on when they hit Send, not the slide they were
- * on when they opened the drawer.
- */
+
 
 import {
   useCallback,
@@ -121,7 +108,7 @@ export default function AskDrawer({
 
   return (
     <>
-      {/* Backdrop (mobile only) */}
+      {}
       <div
         aria-hidden={!open}
         onClick={onClose}

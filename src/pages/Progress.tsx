@@ -1,13 +1,4 @@
-/**
- * Progress — per-student stats page.
- *
- * Sections:
- *   1. Top stat tiles (answered / accuracy / last active)
- *   2. Per-lesson breakdown (progress bar + verdict counts)
- *   3. Recent activity (last 5 answers)
- *
- * Empty state directs the student to the lessons grid.
- */
+
 
 import { useMemo } from "react";
 import { Link } from "react-router-dom";

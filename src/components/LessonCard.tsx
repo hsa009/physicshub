@@ -5,21 +5,14 @@ import { getLessonIdByModuleName } from "../data/lessons";
 interface LessonCardProps {
   lesson: Lesson;
   answeredCount: number;
-  /** 1-based position in the learning path; omitted to hide the badge. */
+  
   pathPosition?: number;
-  /** Total lessons in the path; used for "n/total" labelling. */
+  
   pathTotal?: number;
-  /**
-   * True when this card is the next-incomplete lesson in the path.
-   * Renders a gold "Up next" pill in the top-right corner.
-   */
+  
   isUpNext?: boolean;
 }
 
-/**
- * Italicizes the last word of a lesson name for the gold-accent trick.
- * e.g. "Projectile Motion" → Projectile *Motion*
- */
 function renderTitle(name: string) {
   const words = name.split(" ");
   if (words.length < 2) return <>{name}</>;
@@ -55,8 +48,7 @@ export default function LessonCard({
       to={encodeLessonPath(lesson)}
       className="coll-item group relative flex min-h-[220px] flex-col justify-between overflow-hidden border border-border bg-bg-card p-10 transition-colors duration-300 hover:bg-bg-subtle"
     >
-      {/* Up-next gold border highlight (M5.9). Uses ring instead of border
-          so the card layout doesn't shift. */}
+      {}
       {isUpNext && (
         <span
           aria-hidden
@@ -103,7 +95,7 @@ export default function LessonCard({
         </div>
       </div>
 
-      {/* Gold underline that fades in on hover */}
+      {}
       <span
         aria-hidden
         className="pointer-events-none absolute bottom-0 left-10 right-10 h-px opacity-0 transition-opacity duration-300 group-hover:opacity-100"

@@ -19,19 +19,13 @@ export default function Welcome() {
     setSubmitting(true);
     try {
       if (looksLikeEsis(esis)) {
-        // Plain ESIS-shaped input — go straight to student sign-in.
         await signIn(esis);
         return;
       }
-      // Anything else (spaces, longer than 20, special chars) is more
-      // likely an admin password. Try admin first, fall back to ESIS
-      // validation so the user gets a clear "invalid ESIS" message if
-      // both fail.
       try {
         await adminSignIn(esis);
         return;
       } catch {
-        // Admin login failed — try as ESIS for a more useful error.
         await signIn(esis);
       }
     } catch (err) {
@@ -75,7 +69,7 @@ export default function Welcome() {
 
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-center px-6 py-20">
-      {/* Radial gold glow in the corner */}
+      {}
       <div
         aria-hidden
         className="pointer-events-none absolute -right-40 -top-40 h-[600px] w-[600px] rounded-full"
@@ -85,7 +79,7 @@ export default function Welcome() {
         }}
       />
 
-      {/* Decorative gold vertical accent line */}
+      {}
       <div
         aria-hidden
         className="pointer-events-none absolute left-1/2 top-20 bottom-20 hidden w-px -translate-x-1/2 md:block"
@@ -96,7 +90,7 @@ export default function Welcome() {
         }}
       />
 
-      {/* Rotating ornament */}
+      {}
       <div
         aria-hidden
         className="slow-rotate mb-12 flex h-20 w-20 items-center justify-center rounded-full border border-border-mid"

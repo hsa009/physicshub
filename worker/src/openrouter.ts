@@ -1,18 +1,4 @@
-/**
- * OpenRouter client.
- *
- * OpenRouter is an OpenAI-compatible aggregator. We use the free
- * Llama 3.3 70B model as a fallback when Groq is rate-limited.
- *
- * Required headers (per OpenRouter docs):
- *   - Authorization: Bearer <key>
- *   - HTTP-Referer: helps OpenRouter attribute traffic (good citizenship)
- *   - X-Title:       same
- *
- * Free tier notes:
- *   - `:free` models may queue during peak hours
- *   - Per-key daily limits depend on the model
- */
+
 
 const ENDPOINT = "https://openrouter.ai/api/v1/chat/completions";
 const MODEL = "meta-llama/llama-3.3-70b-instruct:free";

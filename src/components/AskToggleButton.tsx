@@ -1,10 +1,4 @@
-/**
- * AskToggleButton — floating ✦ button that opens the AskDrawer (M5.4).
- *
- * Fixed bottom-right on desktop, fixed bottom-center on mobile. Pulses
- * gently so students notice it. When the drawer is open, the button
- * stays but rotates 45° (becomes ✕).
- */
+
 
 interface AskToggleButtonProps {
   open: boolean;

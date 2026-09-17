@@ -1,19 +1,4 @@
-/**
- * useStudent — the student's identity (ESIS) and persistence helpers.
- *
- * State machine:
- *   "loading"     — checking localStorage + Supabase
- *   "needs-entry" — no ESIS found, show Welcome page
- *   "ready"       — ESIS is set and the student row is loaded
- *   "error"       — something failed (e.g. Supabase not configured)
- *
- * On signIn(esis):
- *   1. Validate the input.
- *   2. Query the `students` table for that ESIS.
- *   3. If not found, insert a new row.
- *   4. Save ESIS to localStorage.
- *   5. Transition to "ready".
- */
+
 
 import {
   createContext,
@@ -79,7 +64,6 @@ export function StudentProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    // 1. Look up existing row.
     const { data: existing, error: selectErr } = await supabase
       .from("students")
       .select("*")
@@ -93,7 +77,6 @@ export function StudentProvider({ children }: { children: ReactNode }) {
     }
 
     if (existing) {
-      // 2a. Bump last_active.
       const { data: updated, error: updateErr } = await supabase
         .from("students")
         .update({ last_active: new Date().toISOString() })
@@ -101,7 +84,6 @@ export function StudentProvider({ children }: { children: ReactNode }) {
         .select()
         .single();
       if (updateErr) {
-        // Non-fatal — keep the existing record.
         setStudent(existing as Student);
       } else {
         setStudent(updated as Student);
@@ -110,7 +92,6 @@ export function StudentProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    // 2b. Create a new row.
     const { data: created, error: insertErr } = await supabase
       .from("students")
       .insert({ esis })
@@ -127,11 +108,7 @@ export function StudentProvider({ children }: { children: ReactNode }) {
     setStatus("ready");
   }, []);
 
-  // On mount, hydrate from localStorage.
   useEffect(() => {
-    // If we have a stored admin token, verify it. If verify fails
-    // (expired, Worker config changed, etc.) we just clear it and fall
-    // through to the student path below.
     const token = getAdminToken();
     if (token) {
       adminApi
@@ -141,7 +118,6 @@ export function StudentProvider({ children }: { children: ReactNode }) {
         })
         .catch(() => {
           clearAdminToken();
-          // Fall through to ESIS hydration.
           if (!isSupabaseConfigured) {
             setError(
               "Supabase is not configured yet. Set VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY in your .env to enable sign-in."
@@ -190,10 +166,8 @@ export function StudentProvider({ children }: { children: ReactNode }) {
       }
       setError(null);
       setStatus("loading");
-      // Make sure we don't leave an admin session lying around.
       clearAdminToken();
       await loadStudent(esis);
-      // If we got here without throwing, persist locally.
       window.localStorage.setItem(STORAGE_KEY, esis);
     },
     [loadStudent]

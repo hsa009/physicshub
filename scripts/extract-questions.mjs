@@ -1,17 +1,4 @@
 #!/usr/bin/env node
-/**
- * extract-questions.mjs
- *
- * Reads the Grade 11 Physics revision docx and produces src/data/questions.json
- * with all 60 questions, their module + lesson assignment, and a conceptual /
- * numerical type classification.
- *
- * Usage:  npm run extract:questions
- *
- * Source:    Grade11_Physics_Final_Revision.docx
- * Output:    src/data/questions.json
- * Blueprint: PhysicsHub_Blueprint.text
- */
 
 import mammoth from "mammoth";
 import { writeFileSync, mkdirSync } from "node:fs";
@@ -24,8 +11,6 @@ const __dirname = dirname(__filename);
 const DOCX = resolve(__dirname, "..", "Grade11_Physics_Final_Revision.docx");
 const OUT = resolve(__dirname, "..", "src", "data", "questions.json");
 
-// Blueprint mapping (locked in PHYSICSHUB_PLAN.md §2).
-// Each entry: question number range → { module, lesson }
 const LESSON_MAP = {
   "1-7":   { module: "Module 7",  lesson: "Universal Gravitation" },
   "8-13":  { module: "Module 6",  lesson: "Projectile Motion" },
@@ -61,7 +46,6 @@ const NUMERICAL_VERBS = [
 ];
 
 function classifyType(prompt) {
-  // Look at the first 300 chars (the question stem usually fits there).
   const head = prompt.slice(0, 300);
   for (const v of NUMERICAL_VERBS) {
     if (new RegExp(`\\b${v}\\b`, "i").test(head)) return "numerical";
@@ -71,25 +55,13 @@ function classifyType(prompt) {
 
 function cleanText(raw) {
   return raw
-    // Strip the leading "<n>. " marker
     .replace(/^\d+\.\s+/, "")
-    // Remove the long dotted "answer line" filler
     .replace(/[…\.]{20,}/g, "")
-    // Drop the "Q<n> / Question <n>" echoes if any
     .replace(/\bQ\s*\d+\b\.?/gi, "")
-    // Collapse whitespace
     .replace(/\s+/g, " ")
     .trim();
 }
 
-/**
- * A "header-like" line is a short standalone line that appears between
- * questions in the docx. Examples: "Projectile Motion", "Rotational Motion"
- * (shortened), "Many Forms and Conservation of Energy". These are section
- * dividers, not part of any question prompt.
- *
- * Heuristic: length 3–60, no leading "<n>. ", no sentence-ending punctuation.
- */
 function isHeaderLine(line) {
   const t = line.trim();
   if (t.length < 3 || t.length > 60) return false;
@@ -103,8 +75,7 @@ async function extract() {
   const { value } = await mammoth.extractRawText({ path: DOCX });
   const lines = value.split("\n");
 
-  // Find the line index of each "<n>. " question start.
-  const starts = new Map(); // n → line index
+  const starts = new Map();
   const re = /^(\d+)\.\s+/;
   for (let i = 0; i < lines.length; i++) {
     const m = lines[i].match(re);
@@ -127,8 +98,6 @@ async function extract() {
   for (let n = 1; n <= 60; n++) {
     const start = starts.get(n);
     const end = starts.has(n + 1) ? starts.get(n + 1) : lines.length;
-    // Drop header-like lines (section dividers in the docx) and exact
-    // matches to known lesson names.
     const block = lines.slice(start, end).filter(
       (l) => !LESSON_HEADERS.has(l.trim()) && !isHeaderLine(l)
     );
@@ -146,7 +115,6 @@ async function extract() {
     });
   }
 
-  // Build lessons aggregate (unique, in blueprint order).
   const lessonOrder = [
     ["Module 6",  "Projectile Motion"],
     ["Module 6",  "Relative Velocity"],
@@ -173,7 +141,6 @@ async function extract() {
   mkdirSync(dirname(OUT), { recursive: true });
   writeFileSync(OUT, JSON.stringify(out, null, 2) + "\n", "utf8");
 
-  // Summary
   const counts = { conceptual: 0, numerical: 0 };
   for (const q of questions) counts[q.type]++;
   console.log(`\nWrote ${OUT}`);

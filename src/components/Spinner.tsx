@@ -1,6 +1,4 @@
-/**
- * Thin gold ring spinner used across the app for AI-in-flight states.
- */
+
 export default function Spinner({ size = 16 }: { size?: number }) {
   return (
     <span

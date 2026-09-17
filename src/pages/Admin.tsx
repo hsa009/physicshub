@@ -13,7 +13,6 @@ export default function Admin() {
   const [selected, setSelected] = useState<string | null>(null);
   const [detail, setDetail] = useState<DetailState | null>(null);
 
-  // Initial load
   useEffect(() => {
     let cancelled = false;
     (async () => {
@@ -37,7 +36,6 @@ export default function Admin() {
     };
   }, []);
 
-  // Debounced search
   useEffect(() => {
     if (status !== "ready") return;
     const handle = setTimeout(async () => {
@@ -51,7 +49,6 @@ export default function Admin() {
     return () => clearTimeout(handle);
   }, [query, status]);
 
-  // Per-student detail
   useEffect(() => {
     if (!selected) {
       setDetail(null);

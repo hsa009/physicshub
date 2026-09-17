@@ -38,10 +38,6 @@ export default function App() {
   );
 }
 
-/**
- * Gates the inner app: shows Welcome until the student has a verified ESIS.
- * Once the student is "ready", renders the requested page.
- */
 function RequireStudent({ children }: { children: ReactNode }) {
   const { status } = useStudent();
   if (status === "ready") return <>{children}</>;
@@ -49,10 +45,6 @@ function RequireStudent({ children }: { children: ReactNode }) {
   return <Welcome />;
 }
 
-/**
- * Gates the admin dashboard: shows Welcome (which will redirect to admin
- * sign-in on success) until the student context is in "admin" status.
- */
 function RequireAdmin({ children }: { children: ReactNode }) {
   const { status } = useStudent();
   if (status === "admin") return <>{children}</>;

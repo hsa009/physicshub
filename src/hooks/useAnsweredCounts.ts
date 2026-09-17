@@ -1,10 +1,4 @@
-/**
- * useAnsweredCounts — for the current student, how many questions in each
- * lesson have at least one answer saved.
- *
- * The lesson browser shows the X/Y progress on each card. We group by
- * `lesson` and count distinct `question_id`.
- */
+
 
 import { useQuery } from "@tanstack/react-query";
 import { useStudent } from "./useStudent";
@@ -30,9 +24,6 @@ async function fetchCounts(esis: string): Promise<LessonCount[]> {
     const key = `${row.module}::${row.lesson}`;
     const existing = map.get(key);
     if (existing) {
-      // We can't tell distinct question_id in a single select without a
-      // second query; the count returned here is "answer rows", which is a
-      // reasonable proxy since each answer is one question attempt.
       existing.answered += 1;
     } else {
       map.set(key, {

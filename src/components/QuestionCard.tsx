@@ -172,7 +172,7 @@ export default function QuestionCard({
         />
       )}
 
-      {/* Gold underline (mirrors .feature-item::after) */}
+      {}
       <span
         aria-hidden
         className="pointer-events-none absolute bottom-0 left-10 right-10 h-px opacity-0 transition-opacity duration-300 group-hover:opacity-100"

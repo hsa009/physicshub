@@ -8,19 +8,6 @@ interface ImageLightboxProps {
   onClose: () => void;
 }
 
-/**
- * Full-screen modal for a question image. Used by QuestionCard (M5.6)
- * when a student clicks a diagram to inspect it more closely.
- *
- * Closes on:
- *   - × button click
- *   - backdrop click (anywhere outside the image frame)
- *   - Esc key
- *
- * Uses the native <dialog> element so focus trapping and `aria-modal`
- * are handled by the browser. When reduced-motion is set, the fade-in
- * is disabled.
- */
 export default function ImageLightbox({
   src,
   alt,
@@ -55,8 +42,6 @@ export default function ImageLightbox({
   }, [open, onClose]);
 
   const onBackdropClick = (e: React.MouseEvent<HTMLDialogElement>) => {
-    // Only close if the click was on the dialog itself (backdrop), not the
-    // image or its container.
     if (e.target === dialogRef.current) {
       onClose();
     }

@@ -1,9 +1,5 @@
 import { useTheme } from "../hooks/useTheme";
 
-/**
- * Theme toggle — a 52×26 track with a gold thumb that slides 26px when
- * light mode is active. Mirrors the reference theme exactly.
- */
 export default function ThemeToggle() {
   const { mode, toggle } = useTheme();
   const isLight = mode === "light";

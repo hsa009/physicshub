@@ -1,13 +1,4 @@
-/**
- * ChatThread — "Explain More" inline chat for a single answered question.
- *
- * Renders only when `open` is true. Owns its own message history; messages
- * reset when the panel is closed and reopened (intentional for v1; future
- * versions may persist to localStorage keyed by answer id).
- *
- * Each follow-up is sent to the Worker with the full prior history so the
- * AI tutor has context.
- */
+
 
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { api, isWorkerConfigured, type ChatMessage } from "../lib/api";

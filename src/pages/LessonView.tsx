@@ -34,7 +34,6 @@ export default function LessonView() {
   const { data: counts } = useAnsweredCounts();
   const { getNextLessonId: getNext } = useLearningPath();
 
-  // M5.9: completion + next-lesson lookup
   const isComplete = isLessonComplete(lesson, counts);
   const nextLessonId = getNext(lesson.id);
   const nextLesson = (() => {
@@ -58,8 +57,6 @@ export default function LessonView() {
   const goToNextLesson = () => {
     if (nextLessonId) {
       navigate(`/lesson/${nextLessonId}`);
-      // Reset the slide position so the next lesson starts at slide 1.
-      // useSlidePosition is keyed by lesson id, so no manual reset needed.
     }
   };
 

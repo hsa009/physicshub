@@ -1,10 +1,4 @@
-/**
- * Parsers for the AI responses.
- *
- * The check prompt asks for "Verdict: <x>" and "Feedback: ..." lines.
- * The explain prompt asks for a JSON object.
- * If parsing fails, we return safe fallbacks so the UI still gets data.
- */
+
 
 export type Verdict = "correct" | "partial" | "incorrect";
 
@@ -38,13 +32,11 @@ export function parseCheckResponse(text: string): ParsedCheck {
   const feedbackMatch = text.match(FEEDBACK_RE);
 
   const verdict = (verdictMatch?.[1]?.toLowerCase() ?? "partial") as Verdict;
-  // If the AI wrapped feedback with extra text, keep only after "Feedback:".
   const feedback = (feedbackMatch?.[1] ?? text).trim();
   return { verdict, feedback };
 }
 
 export function parseExplainResponse(text: string): ParsedExplain {
-  // Try to extract a JSON object. The model may include markdown fences.
   const fenced = text.match(/```(?:json)?\s*([\s\S]+?)\s*```/i);
   const candidate = fenced?.[1] ?? text;
   const firstBrace = candidate.indexOf("{");
@@ -65,10 +57,8 @@ export function parseExplainResponse(text: string): ParsedExplain {
         example: String(parsed.example ?? ""),
       };
     } catch {
-      // fall through
     }
   }
-  // Fallback: pull a few lines out of freeform text.
   const lines = text
     .split("\n")
     .map((l) => l.replace(/^[-*•\s]+/, "").trim())
@@ -102,10 +92,8 @@ export function parsePracticeResponse(text: string): ParsedPractice {
         .filter((q): q is PracticeQuestion => q !== null);
       if (questions.length > 0) return { questions };
     } catch {
-      // fall through to numbered-list fallback
     }
   }
-  // Fallback: parse a numbered list of questions out of freeform text.
   const lines = text
     .split("\n")
     .map((l) => l.replace(/^\s*\d+[.)]\s*/, "").trim())

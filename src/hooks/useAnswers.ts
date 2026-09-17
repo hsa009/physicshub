@@ -1,9 +1,4 @@
-/**
- * useAnswers — fetch and save answers for the current student.
- *
- * The lesson view calls useAnswers(module, lesson) to load prior verdicts.
- * Saving happens via saveAnswer() which invalidates the matching queries.
- */
+
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useStudent } from "./useStudent";
@@ -86,7 +81,6 @@ export function useSaveAnswer() {
   });
 }
 
-/** Most recent answer for a given question_id in the loaded list. */
 export function latestFor(
   answers: Answer[] | undefined,
   questionId: string

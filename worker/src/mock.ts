@@ -1,10 +1,4 @@
-/**
- * Mock AI responses for local dev when no API keys are configured.
- *
- * Returns plausible-looking structured responses so the UI is fully
- * exercisable. Real responses come from Groq/OpenRouter once the user
- * sets secrets in the Worker.
- */
+
 
 import type { ParsedCheck, ParsedExplain, ParsedPractice } from "./parse";
 
@@ -18,8 +12,6 @@ export function mockCheck(answer: string, question: string): ParsedCheck {
         "You didn't write an answer yet. Try again once you've thought it through.",
     };
   }
-  // Very loose "correctness" heuristic for demo: if the answer mentions
-  // numbers or units, treat it as partial; otherwise plausible.
   const hasNumeric = /\d/.test(a);
   const asksForCalculation = /calculate|compute|find the/i.test(q);
   if (asksForCalculation && hasNumeric) {

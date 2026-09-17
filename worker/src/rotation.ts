@@ -1,20 +1,4 @@
-/**
- * Key rotation logic.
- *
- * Two providers: Groq (primary) and OpenRouter (fallback).
- * Each provider can have 1+ keys; we iterate them in order.
- *
- * Cooldown policy:
- *   - 429 (rate-limited) or 403 (quota denied / forbidden) marks the key
- *     as cooling down for 60s, in-memory per Worker isolate.
- *   - Other errors (400, 500, parse) do NOT mark cooldown — they're
- *     likely our fault, not the provider's.
- *   - During cooldown, the key is skipped. After 60s it is retried.
- *
- * Net effect: if one provider is rate-limited, we fall through to the
- * other provider immediately (no 60s wait), and we don't hammer the
- * rate-limited key for the next minute.
- */
+
 
 import { callGroq } from "./groq";
 import { callOpenRouter } from "./openrouter";
@@ -91,7 +75,6 @@ export async function callWithRotation(
       } catch (err) {
         const msg = err instanceof Error ? err.message : String(err);
         errors.push(`${provider.name} …${key.slice(-4)}: ${msg}`);
-        // 429/403 → mark cooldown. Other errors → try next key.
         if (/ 429:/.test(msg) || / 403:/.test(msg)) {
           markRateLimited(key);
         }

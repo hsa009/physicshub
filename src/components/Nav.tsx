@@ -21,7 +21,7 @@ export default function Nav() {
         <Logo />
       </Link>
 
-      {/* Desktop links */}
+      {}
       <ul className="hidden items-center gap-10 md:flex">
         {navLinks.map((l) => (
           <li key={l.to}>
@@ -89,7 +89,7 @@ export default function Nav() {
         <ThemeToggle />
       </div>
 
-      {/* Mobile: hamburger + theme toggle */}
+      {}
       <div className="flex items-center gap-4 md:hidden">
         <ThemeToggle />
         <button
@@ -102,7 +102,7 @@ export default function Nav() {
         </button>
       </div>
 
-      {/* Mobile menu */}
+      {}
       {menuOpen && (
         <div className="absolute inset-x-0 top-[72px] z-40 border-b border-border bg-nav-bg px-6 py-6 backdrop-blur md:hidden">
           <ul className="flex flex-col gap-5">
@@ -161,7 +161,7 @@ export default function Nav() {
         </div>
       )}
 
-      {/* Hidden state to keep `useLocation` referenced (avoids tree-shake warnings). */}
+      {}
       <span className="hidden">{location.pathname}</span>
     </nav>
   );

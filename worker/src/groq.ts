@@ -1,9 +1,4 @@
-/**
- * Groq Llama client.
- * Model: llama-3.3-70b-versatile (current stable replacement for the
- * decommissioned llama-3.1-70b-versatile).
- * Free tier: 14,400 req/day per key.
- */
+
 
 const ENDPOINT = "https://api.groq.com/openai/v1/chat/completions";
 const MODEL = "llama-3.3-70b-versatile";

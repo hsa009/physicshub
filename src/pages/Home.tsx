@@ -12,7 +12,6 @@ export default function Home() {
   const { data: counts, isLoading } = useAnsweredCounts();
   const { path, completedCount, total } = useLearningPath();
 
-  // Build a lookup: lessonId → answeredCount (from the path-augmented data)
   const answeredById = useMemo(() => {
     const out: Record<string, number> = {};
     for (const entry of path) {
@@ -21,7 +20,6 @@ export default function Home() {
     return out;
   }, [path]);
 
-  // Filter by search text, then preserve the path order.
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return path;
@@ -34,7 +32,6 @@ export default function Home() {
       ) {
         return true;
       }
-      // Search the actual question prompts too.
       const ids = new Set(lesson.questionIds);
       return questionBank.questions.some(
         (qq) =>
@@ -52,7 +49,7 @@ export default function Home() {
     <>
       <Nav />
       <main className="relative min-h-screen px-6 pb-24 pt-[120px] md:px-12 md:pt-[140px]">
-        {/* Radial gold glow */}
+        {}
         <div
           aria-hidden
           className="pointer-events-none absolute -right-40 -top-40 h-[600px] w-[600px] rounded-full"
@@ -62,7 +59,7 @@ export default function Home() {
           }}
         />
 
-        {/* Hero header */}
+        {}
         <header className="mx-auto max-w-6xl">
           <div className="mb-6 flex items-center justify-center gap-4 md:justify-start">
             <div className="gold-line" />
@@ -83,7 +80,7 @@ export default function Home() {
           <div className="rule" />
         </div>
 
-        {/* Search */}
+        {}
         <section className="mx-auto max-w-6xl">
           <SearchBar value={query} onChange={setQuery} />
           <div className="mt-3 flex items-center justify-between text-[0.7rem] text-text-label">
@@ -104,7 +101,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* M5.9 — Learning Path hero */}
+        {}
         <section className="mx-auto mt-10 max-w-6xl">
           <div className="mb-3 flex items-center gap-4">
             <div className="gold-line" />
@@ -136,7 +133,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Lesson grid (sorted by learning path) */}
+        {}
         <section className="mx-auto mt-10 max-w-6xl">
           {filtered.length === 0 ? (
             <EmptyState query={query} />

@@ -1,34 +1,4 @@
 #!/usr/bin/env node
-/**
- * verify-question-images.mjs
- *
- * Reads the Grade 11 Physics revision docx and produces a new
- * src/data/question-images.json keyed by question_id (q1..q60), where
- * each entry is either { src, alt } (the first image attached to the
- * question in the docx) or null (the docx has no image for that question).
- *
- * This is the source of truth for M5.6 — the previous hand-curated
- * mapping was best-effort; this script reads the actual docx so we
- * never disagree with the original.
- *
- * Approach:
- *   1. Use adm-zip to read word/document.xml and word/_rels/document.xml.rels
- *   2. Build rId -> media filename map from the rels
- *   3. Walk <w:p> paragraphs in document.xml in order
- *   4. For each paragraph, extract the visible text (concatenate <w:t> contents)
- *      and the first <a:blip r:embed="rIdN"/> it contains (if any)
- *   5. Find paragraphs that begin with "<n>. " — these mark the start of
- *      question n. The first image in any paragraph from that start up
- *      until the next "<m>. " marker is associated with question n.
- *   6. If no image is found before the next question, the entry is null.
- *   7. Use the pic:cNvPr @descr attribute as the alt text if available.
- *
- * Usage:  npm run verify:question-images
- *
- * Output: src/data/question-images.json (overwrites the existing file).
- *   Also writes a corrections report to stdout comparing with the
- *   previous file.
- */
 
 import AdmZip from "adm-zip";
 import { writeFileSync, readFileSync, mkdirSync } from "node:fs";
@@ -41,44 +11,26 @@ const __dirname = dirname(__filename);
 const DOCX = resolve(__dirname, "..", "Grade11_Physics_Final_Revision.docx");
 const OUT = resolve(__dirname, "..", "src", "data", "question-images.json");
 
-/* ----------------------------------------------------------------- */
-/* 1. Load the docx as XML                                           */
-/* ----------------------------------------------------------------- */
-
 const zip = new AdmZip(DOCX);
 const docXml = zip.readAsText("word/document.xml");
 const relsXml = zip.readAsText("word/_rels/document.xml.rels");
-
-/* ----------------------------------------------------------------- */
-/* 2. Build rId -> image filename map                                */
-/* ----------------------------------------------------------------- */
 
 const rIdToFile = new Map();
 const relMatches = relsXml.matchAll(
   /<Relationship\s+Id="([^"]+)"\s+Type="[^"]*image"\s+Target="([^"]+)"\s*\/>/g,
 );
 for (const m of relMatches) {
-  // The docx rels use .jpeg for some JPGs; the extraction script
-  // (scripts/extract-images.mjs) normalises them to .jpg, so mirror that.
   const file = m[2]
-    .replace(/^media\//, "")
+    .replace(/^media\
     .replace(/\.jpeg$/i, ".jpg");
   rIdToFile.set(m[1], file);
 }
 
-/* ----------------------------------------------------------------- */
-/* 3. Walk paragraphs                                                */
-/* ----------------------------------------------------------------- */
-
-// Split on </w:p> to get paragraph chunks. Each chunk contains all the
-// text, drawings, etc. for one paragraph. We re-attach the close tag
-// so regex matching is simpler.
 const paraChunks = docXml.split(/<\/w:p>/g);
 
 const paragraphs = [];
 for (const chunk of paraChunks) {
   if (!chunk.includes("<w:p ")) continue;
-  // Visible text: concatenate <w:t>...</w:t> contents
   const textParts = [];
   const textRe = /<w:t(?:\s[^>]*)?>([^<]*)<\/w:t>/g;
   let tm;
@@ -87,11 +39,9 @@ for (const chunk of paraChunks) {
   }
   const text = textParts.join("").trim();
 
-  // First blip embed (image rId)
   const blipMatch = chunk.match(/<a:blip\s+r:embed="([^"]+)"/);
   const rId = blipMatch?.[1];
 
-  // Alt text: prefer pic:cNvPr @descr, fall back to wp:docPr @descr
   const altMatch =
     chunk.match(/<pic:cNvPr[^>]+descr="([^"]+)"/) ||
     chunk.match(/<wp:docPr[^>]+descr="([^"]+)"/);
@@ -100,12 +50,8 @@ for (const chunk of paraChunks) {
   paragraphs.push({ text, rId, alt });
 }
 
-/* ----------------------------------------------------------------- */
-/* 4. Associate images with questions                                */
-/* ----------------------------------------------------------------- */
-
 const QUESTION_RE = /^(\d+)\.\s+/;
-const questionMap = new Map(); // n -> { src, alt } | null
+const questionMap = new Map();
 
 let currentN = null;
 let currentImage = null;
@@ -115,13 +61,11 @@ for (const p of paragraphs) {
   if (m) {
     const n = Number(m[1]);
     if (n >= 1 && n <= 60) {
-      // Close out the previous question
       if (currentN !== null) {
         questionMap.set(currentN, currentImage);
       }
       currentN = n;
       currentImage = null;
-      // Edge case: image is in the SAME paragraph as the "N. " marker
       if (p.rId) {
         const file = rIdToFile.get(p.rId);
         if (file) currentImage = { src: `/images/lessons/${file}`, alt: p.alt || "" };
@@ -130,7 +74,6 @@ for (const p of paragraphs) {
     }
   }
 
-  // Track the first image encountered in the question's chunk
   if (currentN !== null && !currentImage && p.rId) {
     const file = rIdToFile.get(p.rId);
     if (file) {
@@ -139,14 +82,9 @@ for (const p of paragraphs) {
   }
 }
 
-// Close out the final question
 if (currentN !== null) {
   questionMap.set(currentN, currentImage);
 }
-
-/* ----------------------------------------------------------------- */
-/* 5. Build the output JSON                                          */
-/* ----------------------------------------------------------------- */
 
 const out = {
   _meta: {
@@ -161,15 +99,10 @@ for (let n = 1; n <= 60; n++) {
   out[`q${n}`] = questionMap.get(n) ?? null;
 }
 
-/* ----------------------------------------------------------------- */
-/* 6. Compare with the previous file and print a report              */
-/* ----------------------------------------------------------------- */
-
 let previous = {};
 try {
   previous = JSON.parse(readFileSync(OUT, "utf8"));
 } catch {
-  // No previous file
 }
 
 const corrections = [];
@@ -213,17 +146,9 @@ for (const r of removals) {
   console.log(`    ${r.id}: removed ${r.was}`);
 }
 
-/* ----------------------------------------------------------------- */
-/* 7. Write                                                           */
-/* ----------------------------------------------------------------- */
-
 mkdirSync(dirname(OUT), { recursive: true });
 writeFileSync(OUT, JSON.stringify(out, null, 2) + "\n", "utf8");
 console.log(`\nWrote ${OUT}`);
-
-/* ----------------------------------------------------------------- */
-/* Helpers                                                            */
-/* ----------------------------------------------------------------- */
 
 function decodeXml(s) {
   return s

@@ -5,20 +5,14 @@ import { useSlidePosition } from "../hooks/useSlidePosition";
 
 interface LessonPagerProps {
   lesson: LessonWithSlides;
-  /** Called when the student clicks "Go to Questions" on the last slide. */
+  
   onComplete: () => void;
-  /** Called when the student clicks "Practice Mode" on the last slide. */
+  
   onPractice: () => void;
-  /** Called whenever the active slide changes. Used by AskDrawer (M5.4). */
+  
   onSlideChange?: (slide: LessonWithSlides["slides"][number]) => void;
 }
 
-/**
- * Paged UI for a lesson's slides. Owns the current slide index,
- * the progress bar, the back / next buttons, and the keyboard nav.
- * Persists `position` to localStorage via `useSlidePosition` so the
- * student can leave and resume on the same slide.
- */
 export default function LessonPager({
   lesson,
   onComplete,

@@ -1,17 +1,4 @@
-/**
- * API client for the Cloudflare Worker.
- *
- * Endpoints:
- *   POST /check    — check a student answer
- *   POST /explain  — get a lesson-level AI explanation (cached server-side)
- *   POST /chat     — Explain More follow-up (M4)
- *   POST /ask      — slide-aware "Ask Anything" chat (M5.4)
- *   POST /practice — generate 3 fresh practice questions (M5.5)
- *   GET  /health   — health check
- *
- * If VITE_WORKER_URL is not set, calls return a structured "not configured"
- * response so the UI can degrade gracefully.
- */
+
 
 import type { Verdict } from "../types";
 
@@ -99,8 +86,6 @@ export interface PracticeResponse {
   questions: PracticeQuestion[];
 }
 
-/* ─── M5.A: Admin dashboard ─── */
-
 export interface AdminLoginResponse {
   token: string;
   expiresInMs: number;
@@ -164,7 +149,7 @@ export function setAdminToken(token: string): void {
   try {
     window.localStorage.setItem(ADMIN_TOKEN_KEY, token);
   } catch {
-    /* ignore quota / private-mode */
+    
   }
 }
 
@@ -172,7 +157,7 @@ export function clearAdminToken(): void {
   try {
     window.localStorage.removeItem(ADMIN_TOKEN_KEY);
   } catch {
-    /* ignore */
+    
   }
 }
 
@@ -191,7 +176,6 @@ async function adminGet<T>(path: string): Promise<T> {
     },
   });
   if (res.status === 401) {
-    // Token is bad or expired; clear it.
     clearAdminToken();
     throw new Error("Admin session expired. Please sign in again.");
   }

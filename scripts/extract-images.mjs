@@ -1,18 +1,4 @@
 #!/usr/bin/env node
-/**
- * extract-images.mjs
- *
- * Extracts the ~78 embedded images from the Grade 11 Physics revision
- * docx, compresses rasters with sharp, and writes them to
- * public/images/lessons/ along with a machine-readable manifest.
- *
- * Run:  npm run extract:images
- *
- * Idempotent: re-running overwrites the output directory.
- * Skips entries smaller than 1 KB (likely inline icons / spacers).
- * Compresses any raster whose long side exceeds MAX_DIMENSION px.
- * Preserves original format (PNG stays PNG, JPG stays JPG, SVG stays SVG).
- */
 
 import AdmZip from "adm-zip";
 import sharp from "sharp";

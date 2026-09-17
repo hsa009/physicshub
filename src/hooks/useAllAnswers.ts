@@ -1,9 +1,4 @@
-/**
- * useAllAnswers — fetch every answer the current student has saved.
- *
- * Powers the Progress page. Sorted newest-first so the "recent activity"
- * section can simply take the first N rows.
- */
+
 
 import { useQuery } from "@tanstack/react-query";
 import { useStudent } from "./useStudent";
